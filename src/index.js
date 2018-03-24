@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
-import TimeLogging from './TimeLogging';
+
+import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<TimeLogging />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

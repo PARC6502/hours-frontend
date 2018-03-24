@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './TimeLogging.css';
+import './TimeLoggingForm.css';
 import { Form, Button } from 'semantic-ui-react';
 
-class TimeLogging extends Component {
+class TimeLoggingForm extends Component {
   state = {
     fields: {
       task: '',
@@ -55,4 +55,4 @@ class TimeLogging extends Component {
   }
 }
 
-export default TimeLogging;
+export default TimeLoggingForm;
