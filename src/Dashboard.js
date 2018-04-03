@@ -24,7 +24,7 @@ class Dashboard extends Component {
 					<Image circular src={this.user.img} className="Image" />
 					{' '}{this.user.name}
 				</Menu.Item>
-				<Menu.Item as={NavLink} to='/log-activity'>Log Activity</Menu.Item>
+				<Menu.Item as={NavLink} to='/add-hrs'>Add Hrs</Menu.Item>
 				<Menu.Item>Send Hrs</Menu.Item>
 			</Menu>
 		);
