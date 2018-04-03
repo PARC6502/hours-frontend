@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Header, Image } from 'semantic-ui-react';
+import { Header, Image, Menu } from 'semantic-ui-react';
 import userImage from './user_image.jpg';
 import './Dashboard.css';
 
@@ -18,13 +18,14 @@ class Dashboard extends Component {
 
 	render() {
 		return (
-			<Fragment>
-				<Header as="h1" className="Header">
+			<Menu>
+				<Menu.Item header as="h1" className="Header">
 					<Image circular src={this.user.img} />
 					{' '}{this.user.name}
-				</Header>
-				{this.props.children}
-			</Fragment>
+				</Menu.Item>
+				<Menu.Item>Log Activity</Menu.Item>
+				<Menu.Item>Send Hrs</Menu.Item>
+			</Menu>
 		);
 	}
 }
