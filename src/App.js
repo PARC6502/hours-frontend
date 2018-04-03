@@ -9,6 +9,7 @@ import {
 
 import Dashboard from './Dashboard';
 import TimeLoggingForm from './TimeLoggingForm';
+import SendHrsForm from './SendHrsForm';
 import HomePage from './HomePage';
 
 const App = function(props) {
@@ -19,6 +20,7 @@ const App = function(props) {
 				<Switch>
 					<Route exact path='/' component={HomePage} />
 					<Route exact path='/add-hrs' component={TimeLoggingForm} />
+					<Route exact path='/send-hrs' component={SendHrsForm} />
 					<Route render={({ location }) => (
 			          <div className='ui inverted red segment'>
 			            <h3>

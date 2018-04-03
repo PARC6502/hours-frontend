@@ -20,12 +20,12 @@ class Dashboard extends Component {
 	render() {
 		return (
 			<Menu className="Menu">
-				<Menu.Item header className='Header'>
-					<Image circular src={this.user.img} className="Image" />
-					{' '}{this.user.name}
-				</Menu.Item>
 				<Menu.Item as={NavLink} to='/add-hrs'>Add Hrs</Menu.Item>
-				<Menu.Item>Send Hrs</Menu.Item>
+				<Menu.Item as={NavLink} to='/send-hrs'>Send Hrs</Menu.Item>
+				<Menu.Item header className='Header' position='right'>
+					{' '}{this.user.name}
+					<Image circular src={this.user.img} className="Image" />
+				</Menu.Item>
 			</Menu>
 		);
 	}
