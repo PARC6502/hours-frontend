@@ -1,6 +1,6 @@
 // Mock database controller, will provide mock data to the app until real database is implememted
 
-function databaseController() {
+function createDatabase() {
 	var usersDb = [
 		{id:0, name:"Louis Koseda", hours: 10}, 
 		{id:1, name:"James Rogers", hours: 5}, 
@@ -52,7 +52,7 @@ function databaseController() {
 			generatedHours: oldProject.hours + hours,
 		};
 		projectsDb[projectIndex] = newProject;
-		sendHourToUser(userId, hours);
+		sendHoursToUser(userId, hours);
 	}
 
 	return {
@@ -63,5 +63,7 @@ function databaseController() {
 		logHours,
 	}
 }
+
+const databaseController = createDatabase();
 
 export default databaseController;
