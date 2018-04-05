@@ -11,6 +11,7 @@ import Dashboard from './Dashboard';
 import TimeLoggingForm from './TimeLoggingForm';
 import SendHrsForm from './SendHrsForm';
 import HomePage from './HomePage';
+import UserPage from './UserPage';
 
 const App = function(props) {
 	return (
@@ -21,13 +22,13 @@ const App = function(props) {
 					<Route exact path='/' component={HomePage} />
 					<Route exact path='/add-hrs' component={TimeLoggingForm} />
 					<Route exact path='/send-hrs' component={SendHrsForm} />
-					<Route render={({ location }) => (
-			          <div className='ui inverted red segment'>
-			            <h3>
-			              Error! No matches for <code>{location.pathname}</code>
-			            </h3>
-			          </div>
-			        )} />
+					<Route path='/user/:userId' component={UserPage} />
+					<Route render={({ location }) => {
+						// console.log(location);
+						return (
+				          <h1>404! {location.pathname} not found!</h1>
+				        );
+			        }} />
 				</Switch>
 			</Fragment>
 		</Router>

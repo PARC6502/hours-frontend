@@ -2,11 +2,12 @@
 
 function createDatabase() {
 	var usersDb = [
-		{id:0, name:"Louis Koseda", hours: 10}, 
-		{id:1, name:"James Rogers", hours: 5}, 
-		{id:2, name:"Luke Cornwell", hours: 7}, 
-		{id:3, name:"Ibby Serafy", hours: 2}, 
-		{id:4, name:"Louise Delmege", hours: 9},
+		{id:"louis.koseda", name:"Louis Koseda", hours: 21}, 
+		{id:"james.rogers", name:"James Rogers", hours: 5}, 
+		{id:"luke.cornwell", name:"Luke Cornwell", hours: 7}, 
+		{id:"ibby.serafy", name:"Ibby Serafy", hours: 2}, 
+		{id:"louise.delmege", name:"Louise Delmege", hours: 9},
+		{id:"isaac.tendler", name:"Isaac Tendler", hours: 15},
 	];
 
 	var projectsDb = [
@@ -24,6 +25,10 @@ function createDatabase() {
 
 	function getUsers() {
 		return usersDb;
+	}
+
+	function getUser(id) {
+		return usersDb.find(user => user.id === id);
 	}
 
 	function getProjects() {
@@ -57,6 +62,7 @@ function createDatabase() {
 
 	return {
 		getUsers,
+		getUser,
 		getProjects,
 		getServices,
 		sendHoursToUser,

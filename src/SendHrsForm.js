@@ -13,7 +13,6 @@ class SendHrsForm extends Component {
 
   validate = () => {
     // return true if form is valid
-    // console.log("validating...");
     if (this.state.sendingType && this.state.fields.user) return true;
     if (this.state.sendingType && this.state.fields.service) return true;
     return false;     
