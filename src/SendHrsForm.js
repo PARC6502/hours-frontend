@@ -4,20 +4,39 @@ import databaseController from './databaseController';
 
 class SendHrsForm extends Component {
   state = {
+    sendingType: '',
     fields: {
-      sendingType: '',
       user: '',
       service: '',
     },
+  };
+
+  validate = () => {
+    // return true if form is valid
+    // console.log("validating...");
+    if (this.state.sendingType && this.state.fields.user) return true;
+    if (this.state.sendingType && this.state.fields.service) return true;
+    return false;     
+    // return (this.state.sendingType && (this.state.fields.user || this.state.fields.service));
   };
 
   handleSubmit = () => {
     console.log("form submitted");
     console.log(this.state.fields);
     const fields = {
+      user: '',
       service: '',
     };
     this.setState({ fields });
+  };
+
+  onSendingTypeSelect = (evt, {value}) => {
+    const sendingType = value;
+    const fields = {
+      user: '',
+      service: '',
+    };
+    this.setState({ sendingType, fields });
   };
 
   onFormChange = (evt, {name, value}) => {
@@ -34,19 +53,19 @@ class SendHrsForm extends Component {
             name="sendingType"
             label='Spend on service or product' 
             value='service' 
-            checked={this.state.fields.sendingType === 'service'} 
-            onChange={this.onFormChange} />
+            checked={this.state.sendingType === 'service'} 
+            onChange={this.onSendingTypeSelect} />
           <Form.Radio
             name="sendingType" 
             label='Send to other user' 
             value='user' 
-            checked={this.state.fields.sendingType === 'user'} 
-            onChange={this.onFormChange} />
+            checked={this.state.sendingType === 'user'} 
+            onChange={this.onSendingTypeSelect} />
 
         </Form.Group>
-        {this.state.fields.sendingType==='user' ? <UsersDropdown onChange={this.onFormChange} value={this.state.fields.user} /> : <Fragment />}
-        {this.state.fields.sendingType==='service' ? <ServicesDropdown onChange={this.onFormChange} value={this.state.fields.service} /> : <Fragment />}
-        <Button className="ui basic fluid red button">Send Hrs</Button>
+        {this.state.sendingType==='user' ? <UsersDropdown onChange={this.onFormChange} value={this.state.fields.user} /> : <Fragment />}
+        {this.state.sendingType==='service' ? <ServicesDropdown onChange={this.onFormChange} value={this.state.fields.service} /> : <Fragment />}
+        <Button className="ui basic fluid red button" disabled={!this.validate()}>Send Hrs</Button>
       </Form>
     );
   }
