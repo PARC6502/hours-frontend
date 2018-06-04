@@ -20,8 +20,10 @@ class SendHrsForm extends Component {
   };
 
   handleSubmit = () => {
-    console.log("form submitted");
     console.log(this.state.fields);
+    if (this.state.fields.user) {
+      databaseController.sendHoursToUser(this.state.fields.user, 1);
+    }
     const fields = {
       user: '',
       service: '',

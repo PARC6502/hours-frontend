@@ -2,8 +2,6 @@ import React, { Fragment } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Redirect,
   Switch,
 } from 'react-router-dom';
 

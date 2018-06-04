@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Header, Image, Menu } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import { Image, Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import userImage from './user_image.jpg';
 import './Dashboard.css';

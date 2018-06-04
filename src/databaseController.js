@@ -1,14 +1,39 @@
 // Mock database controller, will provide mock data to the app until real database is implememted
+import fire from './fire';
 
 function createDatabase() {
-	var usersDb = [
-		{id:"louis.koseda", name:"Louis Koseda", hours: 21}, 
-		{id:"james.rogers", name:"James Rogers", hours: 5}, 
-		{id:"luke.cornwell", name:"Luke Cornwell", hours: 7}, 
-		{id:"ibby.serafy", name:"Ibby Serafy", hours: 2}, 
-		{id:"louise.delmege", name:"Louise Delmege", hours: 9},
-		{id:"isaac.tendler", name:"Isaac Tendler", hours: 15},
-	];
+	const db = fire.firestore();
+	var settings = {timestampsInSnapshots: true};
+	db.settings(settings);
+	
+	// var usersDb = [
+	// 	{id:"louis.koseda", name:"Louis Koseda", hours: 21}, 
+	// 	{id:"james.rogers", name:"James Rogers", hours: 5}, 
+	// 	{id:"luke.cornwell", name:"Luke Cornwell", hours: 7}, 
+	// 	{id:"ibby.serafy", name:"Ibby Serafy", hours: 2}, 
+	// 	{id:"louise.delmege", name:"Louise Delmege", hours: 9},
+	// 	{id:"isaac.tendler", name:"Isaac Tendler", hours: 15},
+	// ];
+
+	var usersDb = [];
+
+	// db.collection("users")
+	// .get()
+	// .then((querySnapshot) => {
+	// 	querySnapshot.forEach((doc) => {
+	// 		var {hours, name} = doc.data();
+	// 		usersDb.push({
+	// 			id: doc.id,
+	// 			name,
+	// 			hours,
+	// 		});
+	// 	});
+	// 	console.log(usersDb);
+	// });
+
+	// var usersRef = fire.database().ref('users').orderByKey().limitToLast(100);
+	// console.log(fire.firestore());
+
 
 	var projectsDb = [
 		{id: 'project-0', name: "Foodhall: Cafe", recievedHours: 20, generatedHours: 218},
@@ -28,7 +53,13 @@ function createDatabase() {
 	}
 
 	function getUser(id) {
-		return usersDb.find(user => user.id === id);
+		// return usersDb.find(user => user.id === id);
+		var docRef = db.collection("users").doc(id);
+		return docRef.get()
+		.then(doc => {
+			if (doc.exists) return doc.data();
+			else return null;
+		});
 	}
 
 	function getProjects() {
@@ -42,10 +73,12 @@ function createDatabase() {
 	function sendHoursToUser(id, hours) {
 		const userIndex = usersDb.findIndex(u => u.id === id);
 		const oldUser = usersDb[userIndex];
+		console.log(oldUser);
 		const newUser = {
 			...oldUser,
 			hours: oldUser.hours + hours,
 		};
+		console.log(newUser);
 		usersDb[userIndex] = newUser;
 	}
 
