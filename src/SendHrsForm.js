@@ -8,13 +8,14 @@ class SendHrsForm extends Component {
     fields: {
       user: '',
       service: '',
+      amount: 0,
     },
   };
 
   validate = () => {
     // return true if form is valid
-    if (this.state.sendingType && this.state.fields.user) return true;
-    if (this.state.sendingType && this.state.fields.service) return true;
+    if (this.state.sendingType && this.state.fields.user && this.state.fields.amount) return true;
+    if (this.state.sendingType && this.state.fields.service && this.state.fields.amount) return true;
     return false;     
     // return (this.state.sendingType && (this.state.fields.user || this.state.fields.service));
   };
@@ -22,11 +23,12 @@ class SendHrsForm extends Component {
   handleSubmit = () => {
     console.log(this.state.fields);
     if (this.state.fields.user) {
-      databaseController.sendHoursToUser(this.state.fields.user, 1);
+      databaseController.sendHoursToUser(this.state.fields.user, this.state.fields.amount);
     }
     const fields = {
       user: '',
       service: '',
+      amount: 0,
     };
     this.setState({ fields });
   };
@@ -36,6 +38,7 @@ class SendHrsForm extends Component {
     const fields = {
       user: '',
       service: '',
+      amount: 0,
     };
     this.setState({ sendingType, fields });
   };
@@ -64,8 +67,24 @@ class SendHrsForm extends Component {
             onChange={this.onSendingTypeSelect} />
 
         </Form.Group>
-        {this.state.sendingType==='user' ? <UsersDropdown onChange={this.onFormChange} value={this.state.fields.user} /> : <Fragment />}
-        {this.state.sendingType==='service' ? <ServicesDropdown onChange={this.onFormChange} value={this.state.fields.service} /> : <Fragment />}
+        {this.state.sendingType==='user' ? 
+          <UsersDropdown 
+            onChange={this.onFormChange} 
+            value={this.state.fields.user} /> : 
+          <Fragment />}
+        {this.state.sendingType==='service' ? 
+          <ServicesDropdown 
+            onChange={this.onFormChange} 
+            value={this.state.fields.service} /> : 
+          <Fragment />}
+        {this.state.sendingType ? 
+          <Form.Input 
+            name="amount" 
+            label="How much are you sending?" 
+            type="number"
+            value={this.state.fields.amount}
+            onChange={this.onFormChange} /> : 
+          <Fragment />}
         <Button className="ui basic fluid red button" disabled={!this.validate()}>Send Hrs</Button>
       </Form>
     );
@@ -73,10 +92,16 @@ class SendHrsForm extends Component {
 }
 
 class UsersDropdown extends Component {
-  state = {
-    value: this.props.value,
-    users: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: this.props.value,
+      users: [],
+    };
+    databaseController.getUsers()
+    .then(users => this.setState({ users }));
+  }
+  
 
   onChange = (evt, {name, value}) => {
     this.setState({ value });
@@ -87,9 +112,9 @@ class UsersDropdown extends Component {
     this.setState({ value: update.value });
   }
 
-  componentDidMount() {
-    this.setState({ users: databaseController.getUsers() });
-  }
+  // componentDidMount() {
+  //   this.setState({ users: databaseController.getUsers() });
+  // }
 
   render() {
     const userOptions = this.state.users.map(user => (

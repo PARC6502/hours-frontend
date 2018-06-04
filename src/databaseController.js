@@ -15,7 +15,7 @@ function createDatabase() {
 	// 	{id:"isaac.tendler", name:"Isaac Tendler", hours: 15},
 	// ];
 
-	var usersDb = [];
+	// var usersDb = [];
 
 	// db.collection("users")
 	// .get()
@@ -49,7 +49,20 @@ function createDatabase() {
 	];
 
 	function getUsers() {
-		return usersDb;
+		// return usersDb;
+		return db.collection("users").get()
+		.then(function(querySnapshot) {
+			var users = [];
+			querySnapshot.forEach(doc => {
+				var {hours, name} = doc.data();
+				users.push({
+					id: doc.id,
+					name,
+					hours,
+				});
+			});
+			return users;
+		})
 	}
 
 	function getUser(id) {
@@ -70,16 +83,35 @@ function createDatabase() {
 		return servicesDb;
 	}
 
-	function sendHoursToUser(id, hours) {
-		const userIndex = usersDb.findIndex(u => u.id === id);
-		const oldUser = usersDb[userIndex];
-		console.log(oldUser);
-		const newUser = {
-			...oldUser,
-			hours: oldUser.hours + hours,
-		};
-		console.log(newUser);
-		usersDb[userIndex] = newUser;
+	function sendHoursToUser(id, amount) {
+		var docRef = db.collection("users").doc(id);
+		db.runTransaction(function(transaction) {
+			// This code may get re-run multiple times if there are conflicts.
+			return transaction.get(docRef)
+			.then(function(userDoc) {
+				if (!userDoc.exists) {
+					throw "Document does not exist!";
+				}
+		
+				var newHours = userDoc.data().hours + Number(amount);
+				transaction.update(docRef, { hours: newHours });
+			});
+		})
+		.then(function() {
+			console.log("Transaction successfully committed!");
+		})
+		.catch(function(error) {
+			console.log("Transaction failed: ", error);
+		});
+		// const userIndex = usersDb.findIndex(u => u.id === id);
+		// const oldUser = usersDb[userIndex];
+		// console.log(oldUser);
+		// const newUser = {
+		// 	...oldUser,
+		// 	hours: oldUser.hours + hours,
+		// };
+		// console.log(newUser);
+		// usersDb[userIndex] = newUser;
 	}
 
 	function logHours(userId, projectId, hours) {
