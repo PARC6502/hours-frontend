@@ -3,6 +3,18 @@ import { db } from './firebase';
 const settings = {timestampsInSnapshots: true};
 db.settings(settings);
 
+function updateHoursTransaction(transaction, userRef, amount) {
+    return transaction.get(userRef)
+    .then(function(userDoc) {
+        if (!userDoc.exists) {
+            throw "Document does not exist!";
+        }
+
+        var newHours = userDoc.data().hours + Number(amount);
+        transaction.update(userRef, { hours: newHours });
+    })
+}
+
 export const getUsers = () =>
     db.collection("users").get()
     .then(function(querySnapshot) {
@@ -27,15 +39,17 @@ export const getUser = id =>
 
 export const sendHoursToUser = (id, amount) => {
     const userRef = db.collection("users").doc(id);
-    db.runTransaction(transaction => transaction.get(userRef)
-        .then(function(userDoc) {
-            if (!userDoc.exists) {
-                throw "Document does not exist!";
-            }
+    // db.runTransaction(transaction => transaction.get(userRef))
+    // .then(function(userDoc) {
+    //     console.log("potato")
+    //     if (!userDoc.exists) {
+    //         throw "Document does not exist!";
+    //     }
 
-            var newHours = userDoc.data().hours + Number(amount);
-            transaction.update(userRef, { hours: newHours });
-        }))
+    //     var newHours = userDoc.data().hours + Number(amount);
+    //     // transaction.update(userRef, { hours: newHours });
+    // })
+    db.runTransaction(transaction => updateHoursTransaction(transaction, userRef, amount))
     .then(function() {
         console.log("Transaction successfully committed!");
     })
@@ -43,3 +57,4 @@ export const sendHoursToUser = (id, amount) => {
         console.log("Transaction failed: ", error);
     })
 };
+
