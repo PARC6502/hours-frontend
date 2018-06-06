@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import databaseController from './databaseController';
+import databaseController from '../databaseController';
 
 class UserPage extends React.Component {
 	constructor(props) {

@@ -5,6 +5,14 @@ import userImage from './user_image.jpg';
 import './Dashboard.css';
 
 class Dashboard extends Component {
+	state = {
+		user: {
+			id: "edgar.cahn",
+			hours: 100,
+			name: "Edgar Cahn"
+		}
+	};
+	
 	user = {
 		name: "Edgar Cahn",
 		img: userImage,

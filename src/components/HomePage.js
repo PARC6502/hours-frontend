@@ -1,7 +1,8 @@
 import React from 'react';
+import {Button} from 'semantic-ui-react';
 
 const HomePage = props => {
-	return (<h2>Welcome to the home page!</h2>);
+	return (<Button>Hello</Button>);
 };
 
 export default HomePage;

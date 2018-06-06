@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Form, Button } from 'semantic-ui-react';
-import databaseController from './databaseController';
+import databaseController from '../databaseController';
 
 class SendHrsForm extends Component {
   state = {
