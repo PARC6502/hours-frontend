@@ -5,21 +5,27 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Dashboard from './Dashboard';
+// import Dashboard from './Dashboard';
+import Navigation from './Navigation'
 import TimeLoggingForm from './TimeLoggingForm';
 import SendHrsForm from './SendHrsForm';
 import HomePage from './HomePage';
 import UserPage from './UserPage';
+import SignInPage from './SignInPage';
+import SignUpPage from './SignUpPage';
+import withAuthentication from './Session/withAuthentication';
 
 import * as routes from '../constants/routes';
 
-const App = function(props) {
+const App = (props) => {
 	return (
 		<Router>
 			<Fragment>
-				<Dashboard />
+				<Navigation />
 				<Switch>
 					<Route exact path={routes.HOME_PAGE} component={HomePage} />
+					<Route exact path={routes.SIGN_IN} component={SignInPage} />
+					<Route exact path={routes.SIGN_UP} component={SignUpPage} />
 					<Route exact path={routes.ADD_HRS} component={TimeLoggingForm} />
 					<Route exact path={routes.SEND_HRS} component={SendHrsForm} />
 					<Route path={routes.USER_PAGE} component={UserPage} />
@@ -35,4 +41,4 @@ const App = function(props) {
 	);
 };
 
-export default App;
+export default withAuthentication(App);

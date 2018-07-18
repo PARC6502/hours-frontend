@@ -15,6 +15,15 @@ function updateHoursTransaction(transaction, userRef, amount) {
     })
 }
 
+export const createUser = (id, name, email) => {
+    return db.collection("users").doc(uid).set({
+        id,
+        name,
+        email,
+        hours: 0,
+    })
+}
+
 export const getUsers = () =>
     db.collection("users").get()
     .then(function(querySnapshot) {
