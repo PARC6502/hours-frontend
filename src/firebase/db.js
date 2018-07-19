@@ -28,8 +28,7 @@ function updateOrgsHoursGenerateTransaction(transaction, orgRef, amount) {
 }
 
 export const createUser = (id, name, email) => {
-    return db.collection("users").add({
-        id,
+    return db.collection("users").doc(id).set({
         name,
         email,
         hours: 0,
@@ -43,8 +42,7 @@ export const getUsers = () =>
         querySnapshot.forEach(doc => {
             var {hours, name, email, id} = doc.data();
             users.push({
-                docId: doc.id,
-                uid: id,
+                id: doc.id,
                 name,
                 email,
                 hours,
@@ -59,6 +57,7 @@ export const getUser = id =>
         if (doc.exists) return doc.data();
         else return null;
     });
+
 
 export const sendHoursToUser = (id, amount) => {
     const userRef = db.collection("users").doc(id);

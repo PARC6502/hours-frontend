@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Dimmer, Loader, Segment } from 'semantic-ui-react';
 
 import AuthUserContext from './Session/AuthUserContext';
@@ -19,7 +19,7 @@ class Profile extends React.Component {
 
 	componentDidUpdate(prevState,prevProps) {
 		
-		if (this.props.user.id && prevProps.user === null || prevProps.user.id !== this.props.user.id)
+		if (this.props.user.id && (prevProps.user === null || prevProps.user.id !== this.props.user.id))
 			db.getUser(this.props.user.id)
 			.then( (user) => this.setState({ user, loading: false }));
 	}

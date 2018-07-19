@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
+import SearchMembers from './SearchMembers'
 import AuthUserContext from './Session/AuthUserContext'
 import { auth } from '../firebase';
 import * as routes from '../constants/routes';
@@ -17,6 +18,7 @@ const NavigationAuth = () =>
         <Menu.Item as={NavLink} to={routes.SEND_HRS}>Send Hrs</Menu.Item>  
         <Menu.Item as={NavLink} to={routes.PROFILE}>Your Profile</Menu.Item>  
         <Menu.Item as={NavLink} to={routes.MANAGE_ACCOUNT}>Account</Menu.Item>  
+        <Menu.Item position='right'><SearchMembers /></Menu.Item>  
         <Menu.Item position='right'><Button onClick={auth.doSignOut}>Log out</Button></Menu.Item>  
     </Menu>
 
