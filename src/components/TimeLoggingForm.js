@@ -3,6 +3,7 @@ import './TimeLoggingForm.css';
 import { Form, Button } from 'semantic-ui-react';
 
 import { auth, db } from '../firebase';
+import withAuthorization from './Session/withAuthorization';
 
 class TimeLoggingForm extends Component {
   constructor(props) {
@@ -91,4 +92,5 @@ class TimeLoggingForm extends Component {
   }
 }
 
-export default TimeLoggingForm;
+const authCondition = (user) => user !== null;
+export default withAuthorization(authCondition)(TimeLoggingForm);

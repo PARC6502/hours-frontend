@@ -6,14 +6,22 @@ import withAuthorization from './Session/withAuthorization';
 import { db } from '../firebase';
 
 class Profile extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: true,
-			user: null
-		}
-		db.getUser(this.props.user.id)
-		.then( (user) => this.setState({ user, loading: false }))
+	state = {
+		loading: true,
+		user: null
+	}
+
+	componentDidMount() {
+		if (this.props.user.id)
+			db.getUser(this.props.user.id)
+			.then( (user) => this.setState({ user, loading: false }));
+	}
+
+	componentDidUpdate(prevState,prevProps) {
+		
+		if (this.props.user.id && prevProps.user === null || prevProps.user.id !== this.props.user.id)
+			db.getUser(this.props.user.id)
+			.then( (user) => this.setState({ user, loading: false }));
 	}
 	
 	render() {
@@ -26,14 +34,14 @@ class Profile extends React.Component {
 		}
 		return (
 			<Segment>
-			<Dimmer active={this.state.loading}>
-				<Loader content="loading" />
-			</Dimmer>
-			<h1> Profile Page</h1>
-			<h2>Name: {user.name}</h2>
-			<h2>Email: {user.email}</h2>
-			<h2>Hours: {user.hours}</h2> 
-		</Segment>
+				<Dimmer active={this.state.loading}>
+					<Loader content="loading" />
+				</Dimmer>
+				<h1> Profile Page</h1>
+				<h2>Name: {user.name}</h2>
+				<h2>Email: {user.email}</h2>
+				<h2>Hours: {user.hours}</h2> 
+			</Segment>
 		)
 	}	
 };
