@@ -3,14 +3,19 @@ import { Form, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 import withAuthorization from './Session/withAuthorization';
+import { auth } from '../firebase';
 import * as routes from '../constants/routes';
+
+const INITIAL_STATE = {
+  email: '',
+  password: '',
+  error: null,
+}
 
 class SignInForm extends Component {
 
   state = {
-    email: '',
-    password: '',
-    error: null,
+    ...INITIAL_STATE
   }
 
   handleChange = (e, { name, value }) => {  
@@ -21,9 +26,18 @@ class SignInForm extends Component {
     this.state.email.length 
     && this.state.password.length
 
+  onSubmit = (event) => {
+    event.preventDefault();
+
+    const { email, password } = this.state;
+
+    auth.doSignInWithEmailAndPassword(email, password)
+    .then(() => this.setState({...INITIAL_STATE}))
+  }
+
   render() {
     return (
-      <Form>
+      <Form onSubmit={this.onSubmit}>
         <Form.Input
           name="email" 
           label="Email"
@@ -37,7 +51,7 @@ class SignInForm extends Component {
           type="password" 
           value={this.state.password}
           onChange={this.handleChange} />
-        <Form.Button primary fluid disabled={!this.validate()}>Sign Up</Form.Button>
+        <Form.Button primary fluid disabled={!this.validate()}>Sign In</Form.Button>
         <Button as={NavLink} to={routes.SIGN_UP} fluid>Don't have an account? Sign Up</Button>
 
       </Form>
@@ -50,5 +64,5 @@ const SignInPage = () =>
     <SignInForm />
   </Fragment>
 
-const authCondition = (userId) => userId === null;
+const authCondition = (user) => user === null;
 export default withAuthorization(authCondition)(SignInPage);

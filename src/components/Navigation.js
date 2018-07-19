@@ -8,13 +8,15 @@ import * as routes from '../constants/routes';
 
 const Navigation = () => 
     <AuthUserContext.Consumer>
-        {userId => userId ? <NavigationAuth /> : <NavigationNonAuth />}
+        {user => user.id ? <NavigationAuth /> : <NavigationNonAuth />}
     </AuthUserContext.Consumer>
 
 const NavigationAuth = () =>
     <Menu className="Menu">
         <Menu.Item as={NavLink} to={routes.ADD_HRS}>Add Hrs</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SEND_HRS}>Send Hrs</Menu.Item>  
+        <Menu.Item as={NavLink} to={routes.PROFILE}>Your Profile</Menu.Item>  
+        <Menu.Item as={NavLink} to={routes.MANAGE_ACCOUNT}>Account</Menu.Item>  
         <Menu.Item position='right'><Button onClick={auth.doSignOut}>Log out</Button></Menu.Item>  
     </Menu>
 

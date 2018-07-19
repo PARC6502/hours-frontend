@@ -16,3 +16,10 @@ export const doCreateUserWithEmailAndPassword = (email, password) =>
     //     db.createUser(signUpResult.uid)
     //     return signUpResult
     // })    
+
+// Change email
+export const doUpdateEmail = (email) =>
+    auth.currentUser.updateEmail(email)
+    
+export const getCurrentUserId = () => 
+    auth.currentUser.uid

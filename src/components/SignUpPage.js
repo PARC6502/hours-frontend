@@ -39,7 +39,6 @@ class SignUpForm extends Component {
     auth.doCreateUserWithEmailAndPassword(email, password)
       .then(signUpResult => {
         this.setState({ ...INITIAL_STATE })
-        console.log(signUpResult.user);
         return db.createUser(signUpResult.user.uid, name, email)
       })
       .then(() => {
@@ -103,5 +102,5 @@ const SignUpPage = () =>
     <Button as={NavLink} to={routes.SIGN_IN} fluid>Already have an account? Sign In</Button>
   </Fragment>
 
-const authCondition = (userId) => userId === null;
+const authCondition = (user) => user === null;
 export default withAuthorization(authCondition)(SignUpPage);

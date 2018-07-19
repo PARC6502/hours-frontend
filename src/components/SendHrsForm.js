@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Form, Button } from 'semantic-ui-react';
+
 import databaseController from '../databaseController';
 
 class SendHrsForm extends Component {
@@ -72,11 +73,11 @@ class SendHrsForm extends Component {
             onChange={this.onFormChange} 
             value={this.state.fields.user} /> : 
           <Fragment />}
-        {this.state.sendingType==='service' ? 
-          <ServicesDropdown 
+        {this.state.sendingType==='service' 
+          ? <ServicesDropdown 
             onChange={this.onFormChange} 
-            value={this.state.fields.service} /> : 
-          <Fragment />}
+            value={this.state.fields.service} /> 
+          : <Fragment />}
         {this.state.sendingType ? 
           <Form.Input 
             name="amount" 

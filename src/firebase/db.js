@@ -11,12 +11,24 @@ function updateHoursTransaction(transaction, userRef, amount) {
         }
 
         var newHours = userDoc.data().hours + Number(amount);
-        transaction.update(userRef, { hours: newHours });
+        return transaction.update(userRef, { hours: newHours });
+    })
+}
+
+function updateOrgsHoursGenerateTransaction(transaction, orgRef, amount) {
+    return transaction.get(orgRef)
+    .then((orgDoc) => {
+        if (!orgDoc.exists) {
+            throw "Document does not exist!";
+        }
+
+        var newHours = orgDoc.data().hoursGenerated + Number(amount);
+        return transaction.update(orgRef, { hoursGenerated: newHours });
     })
 }
 
 export const createUser = (id, name, email) => {
-    return db.collection("users").doc(uid).set({
+    return db.collection("users").add({
         id,
         name,
         email,
@@ -29,10 +41,12 @@ export const getUsers = () =>
     .then(function(querySnapshot) {
         var users = [];
         querySnapshot.forEach(doc => {
-            var {hours, name} = doc.data();
+            var {hours, name, email, id} = doc.data();
             users.push({
-                id: doc.id,
+                docId: doc.id,
+                uid: id,
                 name,
+                email,
                 hours,
             });
         });
@@ -48,22 +62,38 @@ export const getUser = id =>
 
 export const sendHoursToUser = (id, amount) => {
     const userRef = db.collection("users").doc(id);
-    // db.runTransaction(transaction => transaction.get(userRef))
-    // .then(function(userDoc) {
-    //     console.log("potato")
-    //     if (!userDoc.exists) {
-    //         throw "Document does not exist!";
-    //     }
 
-    //     var newHours = userDoc.data().hours + Number(amount);
-    //     // transaction.update(userRef, { hours: newHours });
-    // })
-    db.runTransaction(transaction => updateHoursTransaction(transaction, userRef, amount))
-    .then(function() {
-        console.log("Transaction successfully committed!");
-    })
-    .catch(function(error) {
-        console.log("Transaction failed: ", error);
-    })
+    console.log(`userid: ${id}, amount: ${amount}, typeof amount: ${typeof amount}`);
+    return db.runTransaction(transaction => updateHoursTransaction(transaction, userRef, amount))
 };
 
+export const getOrganisations = () =>
+    db.collection("organisations").get()
+    .then(function(querySnapshot) {
+        var orgs = [];
+        querySnapshot.forEach(doc => {
+            var {name, hoursGenerated} = doc.data();
+            orgs.push({
+                id: doc.id,
+                name,
+                hoursGenerated,
+            });
+        });
+        return orgs;
+    });
+
+export const generateHoursFromOrg = (id, amount) => {
+    const orgRef = db.collection("organisations").doc(id);
+    return db.runTransaction(transaction => 
+        updateOrgsHoursGenerateTransaction(transaction, orgRef, amount));
+}
+
+export const createTransaction = (type, from, to, hours, description) => {
+    return db.collection("transactions").add({
+        type,
+        from,
+        to,
+        hours,
+        description
+    })
+}

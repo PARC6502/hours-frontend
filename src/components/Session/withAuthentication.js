@@ -8,22 +8,24 @@ const withAuthentication = (Component) =>
     class WithAuthentication extends React.Component {
         state = {
             id: null,
+            email: null
         }
 
         componentDidMount() {
-            firebase.auth.onAuthStateChanged(authUser => {
-                authUser
-                    ? this.setState(() => ({ id: authUser.uid}))
-                    : this.setState(() => ({ id: null }))
+            firebase.auth.onAuthStateChanged(user => {
+                user
+                    ? this.setState(() => ({ id: user.uid, email: user.email}))
+                    : this.setState(() => ({ id: null, email: null }))
+                console.log("User state:");
                 console.log(this.state); 
             })
         }
 
         render() {
-            const { id } = this.state;
+            const user = { ...this.state };
 
             return (
-                <AuthUserContext.Provider value={id}>
+                <AuthUserContext.Provider value={user}>
                     <Component />
                 </AuthUserContext.Provider>
             );

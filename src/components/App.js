@@ -13,6 +13,8 @@ import HomePage from './HomePage';
 import UserPage from './UserPage';
 import SignInPage from './SignInPage';
 import SignUpPage from './SignUpPage';
+import ManageAccount from './ManageAccount';
+import ProfilePage from './ProfilePage';
 import withAuthentication from './Session/withAuthentication';
 
 import * as routes from '../constants/routes';
@@ -28,6 +30,8 @@ const App = (props) => {
 					<Route exact path={routes.SIGN_UP} component={SignUpPage} />
 					<Route exact path={routes.ADD_HRS} component={TimeLoggingForm} />
 					<Route exact path={routes.SEND_HRS} component={SendHrsForm} />
+					<Route exact path={routes.MANAGE_ACCOUNT} component={ManageAccount} />
+					<Route exact path={routes.PROFILE} component={ProfilePage} />
 					<Route path={routes.USER_PAGE} component={UserPage} />
 					<Route render={({ location }) => {
 						// console.log(location);
