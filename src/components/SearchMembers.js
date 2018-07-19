@@ -45,7 +45,9 @@ class SearchMembers extends Component {
         const { history } = this.props;
         const { value, description } = result;
         if (description === "User")
-            history.push(`/user/${value}`)
+            history.push(`/user/${value}`);
+        else if (description === "Organisation")
+            history.push(`/organisation/${value}`)
     }
 
     handleSearchChange = (e, { value }) => {

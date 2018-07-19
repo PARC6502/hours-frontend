@@ -3,30 +3,7 @@ import { db } from './firebase';
 const settings = {timestampsInSnapshots: true};
 db.settings(settings);
 
-function updateHoursTransaction(transaction, userRef, amount) {
-    return transaction.get(userRef)
-    .then(function(userDoc) {
-        if (!userDoc.exists) {
-            throw "Document does not exist!";
-        }
-
-        var newHours = userDoc.data().hours + Number(amount);
-        return transaction.update(userRef, { hours: newHours });
-    })
-}
-
-function updateOrgsHoursGenerateTransaction(transaction, orgRef, amount) {
-    return transaction.get(orgRef)
-    .then((orgDoc) => {
-        if (!orgDoc.exists) {
-            throw "Document does not exist!";
-        }
-
-        var newHours = orgDoc.data().hoursGenerated + Number(amount);
-        return transaction.update(orgRef, { hoursGenerated: newHours });
-    })
-}
-
+/* User Functions */
 export const createUser = (id, name, email) => {
     return db.collection("users").doc(id).set({
         name,
@@ -34,7 +11,6 @@ export const createUser = (id, name, email) => {
         hours: 0,
     })
 }
-
 export const getUsers = () =>
     db.collection("users").get()
     .then(function(querySnapshot) {
@@ -58,7 +34,17 @@ export const getUser = id =>
         else return null;
     });
 
+function updateHoursTransaction(transaction, userRef, amount) {
+    return transaction.get(userRef)
+    .then(function(userDoc) {
+        if (!userDoc.exists) {
+            throw "Document does not exist!";
+        }
 
+        var newHours = userDoc.data().hours + Number(amount);
+        return transaction.update(userRef, { hours: newHours });
+    })
+}   
 export const sendHoursToUser = (id, amount) => {
     const userRef = db.collection("users").doc(id);
 
@@ -66,6 +52,7 @@ export const sendHoursToUser = (id, amount) => {
     return db.runTransaction(transaction => updateHoursTransaction(transaction, userRef, amount))
 };
 
+/* Organisation functions*/
 export const getOrganisations = () =>
     db.collection("organisations").get()
     .then(function(querySnapshot) {
@@ -81,12 +68,31 @@ export const getOrganisations = () =>
         return orgs;
     });
 
+export const getOrganisation = id =>
+    db.collection("organisations").doc(id).get()
+    .then(doc => {
+        if (doc.exists) return doc.data();
+        else return null;
+    });
+
+function updateOrgsHoursGenerateTransaction(transaction, orgRef, amount) {
+    return transaction.get(orgRef)
+    .then((orgDoc) => {
+        if (!orgDoc.exists) {
+            throw "Document does not exist!";
+        }
+
+        var newHours = orgDoc.data().hoursGenerated + Number(amount);
+        return transaction.update(orgRef, { hoursGenerated: newHours });
+    })
+}
 export const generateHoursFromOrg = (id, amount) => {
     const orgRef = db.collection("organisations").doc(id);
     return db.runTransaction(transaction => 
         updateOrgsHoursGenerateTransaction(transaction, orgRef, amount));
 }
 
+/* Transaction functions */
 export const createTransaction = (type, from, to, hours, description) => {
     return db.collection("transactions").add({
         type,
@@ -96,3 +102,16 @@ export const createTransaction = (type, from, to, hours, description) => {
         description
     })
 }
+export const getTransactions = () =>
+    db.collection("transactions").get()
+    .then(function(querySnapshot) {
+        var transactions = [];
+        querySnapshot.forEach(doc => {
+            var {type, from, to, hours, description, fromName, toName} = doc.data();
+            transactions.push({
+                id: doc.id,
+                type, from, fromName, to, toName, hours, description
+            });
+        });
+        return transactions;
+    });

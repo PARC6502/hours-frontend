@@ -15,6 +15,7 @@ import SignInPage from './SignInPage';
 import SignUpPage from './SignUpPage';
 import ManageAccount from './ManageAccount';
 import ProfilePage from './ProfilePage';
+import OrganisationPage from './OrganisationPage'
 import withAuthentication from './Session/withAuthentication';
 
 import * as routes from '../constants/routes';
@@ -33,6 +34,7 @@ const App = (props) => {
 					<Route exact path={routes.MANAGE_ACCOUNT} component={ManageAccount} />
 					<Route exact path={routes.PROFILE} component={ProfilePage} />
 					<Route path={routes.USER_PAGE} component={UserPage} />
+					<Route path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
 					<Route render={({ location }) => {
 						// console.log(location);
 						return (
