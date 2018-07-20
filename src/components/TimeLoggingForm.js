@@ -3,6 +3,7 @@ import './TimeLoggingForm.css';
 import { Form, Button } from 'semantic-ui-react';
 
 import { auth, db } from '../firebase';
+import AuthUserContext from './Session/AuthUserContext'
 import withAuthorization from './Session/withAuthorization';
 
 class TimeLoggingForm extends Component {
@@ -17,20 +18,19 @@ class TimeLoggingForm extends Component {
       organisations: [],
       loading: true
     };
+  }
+  
+  componentDidMount() {
     db.getOrganisations()
     .then(organisations => {
-      console.log(organisations);
       this.setState({
         organisations,
         loading: false,
       })
     })
   }
-  
 
   handleSubmit = () => {
-    console.log("form submitted");
-    console.log(this.state.fields);
     this.logHours();
     const fields = {
       task: '',
@@ -41,13 +41,13 @@ class TimeLoggingForm extends Component {
   };
 
   logHours = () => {
-    const userId = auth.getCurrentUserId();
-    console.log('userId: ' + userId)
+    const { id: userId, name: userName } = this.props.user;
     var { task, project, time } = this.state.fields;
-
+    let [projectId, projectName] = project.split('-');
+    console.log(userId, userName, projectName);
     db.sendHoursToUser(userId, time)
-    .then(() => db.generateHoursFromOrg(project, time))
-    .then(() => db.createTransaction("Log Hours", project, userId, time, task))
+    .then(() => db.generateHoursFromOrg(projectId, time))
+    .then(() => db.createTransaction("Log Hours", projectId, projectName, userId, userName, time, task, Date.now()))
     .catch((error) => console.log(error));
   }
 
@@ -61,7 +61,7 @@ class TimeLoggingForm extends Component {
     const orgOptions = this.state.organisations.map(org => (
       {
         text: org.name,
-        value: org.id,
+        value: `${org.id}-${org.name}`,
       }));
     
     return (
@@ -92,5 +92,10 @@ class TimeLoggingForm extends Component {
   }
 }
 
+const TimeLoggingFormWithUser = () =>
+  <AuthUserContext.Consumer>
+    {user => <TimeLoggingForm user={user} />}
+  </AuthUserContext.Consumer>
+
 const authCondition = (user) => user !== null;
-export default withAuthorization(authCondition)(TimeLoggingForm);
+export default withAuthorization(authCondition)(TimeLoggingFormWithUser);

@@ -93,24 +93,28 @@ export const generateHoursFromOrg = (id, amount) => {
 }
 
 /* Transaction functions */
-export const createTransaction = (type, from, to, hours, description) => {
+export const createTransaction = (type, from, fromName, to, toName, hours, description, dateCreated) => {
+    console.log('Creating transaction');
     return db.collection("transactions").add({
         type,
         from,
+        fromName,
         to,
+        toName,
         hours,
-        description
+        description,
+        dateCreated,
     })
 }
 export const getTransactions = () =>
-    db.collection("transactions").get()
+    db.collection("transactions").orderBy("dateCreated", "desc").get()
     .then(function(querySnapshot) {
         var transactions = [];
         querySnapshot.forEach(doc => {
-            var {type, from, to, hours, description, fromName, toName} = doc.data();
+            var {type, from, to, hours, description, fromName, toName, dateCreated} = doc.data();
             transactions.push({
                 id: doc.id,
-                type, from, fromName, to, toName, hours, description
+                type, from, fromName, to, toName, hours, description, dateCreated
             });
         });
         return transactions;

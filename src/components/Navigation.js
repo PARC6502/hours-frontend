@@ -14,17 +14,20 @@ const Navigation = () =>
 
 const NavigationAuth = () =>
     <Menu className="Menu">
-        <Menu.Item as={NavLink} to={routes.ADD_HRS}>Add Hrs</Menu.Item>
+        <Menu.Item as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
+        <Menu.Item as={NavLink} to={routes.ADD_HRS}>Log Hrs</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SEND_HRS}>Send Hrs</Menu.Item>  
         <Menu.Item as={NavLink} to={routes.PROFILE}>Your Profile</Menu.Item>  
-        <Menu.Item as={NavLink} to={routes.MANAGE_ACCOUNT}>Account</Menu.Item>  
+        {/* <Menu.Item as={NavLink} to={routes.MANAGE_ACCOUNT}>Account</Menu.Item>   */}
         <Menu.Item position='right'><SearchMembers /></Menu.Item>  
         <Menu.Item position='right'><Button onClick={auth.doSignOut}>Log out</Button></Menu.Item>  
     </Menu>
 
 const NavigationNonAuth = () => 
     <Menu className="Menu">
+        <Menu.Item as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SIGN_IN}>Sign in</Menu.Item> 
+        <Menu.Item as={NavLink} to={routes.SIGN_UP}>Sign up</Menu.Item> 
     </Menu>
 
 export default Navigation

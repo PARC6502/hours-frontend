@@ -16,7 +16,7 @@ import SignUpPage from './SignUpPage';
 import ManageAccount from './ManageAccount';
 import ProfilePage from './ProfilePage';
 import OrganisationPage from './OrganisationPage'
-import withAuthentication from './Session/withAuthentication';
+import withAuthAndUser from './Session/withAuthAndUser';
 
 import * as routes from '../constants/routes';
 
@@ -47,4 +47,4 @@ const App = (props) => {
 	);
 };
 
-export default withAuthentication(App);
+export default withAuthAndUser(App);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Feed, Segment, Dimmer, Loader } from 'semantic-ui-react';
 
+import { timeSince } from '../helpers'
 import { db } from '../firebase';
 
 const dummyFeed = [
@@ -20,6 +21,7 @@ const FeedFromArray = (props) => (
             <Feed.Content>
             <Feed.Summary>
                 {feedItem.summary}
+                <Feed.Date>{feedItem.date} ago</Feed.Date>
             </Feed.Summary>
             <Feed.Extra text>
                 {feedItem.extra}
@@ -41,11 +43,12 @@ class TransactionFeed extends Component {
         db.getTransactions()
         .then(transactions => {
             feedItems = transactions.map(transaction => {
-                const {id, fromName, from, toName, to, description, hours, type} = transaction;
+                const {id, fromName, from, toName, to, description, hours, type, dateCreated} = transaction;
                 // if (type === 'Log Hours')
                 return {
                     id,
                     summary: `${toName} recieved ${hours} hours from ${fromName}`,
+                    date: timeSince(dateCreated),
                     extra: description,
                     fromId: from,
                     toId: to,
