@@ -40,14 +40,13 @@ class SearchMembers extends Component {
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
 
     handleResultSelect = (e, { result }) => {
-        console.log(result);
-
         const { history } = this.props;
         const { value, description } = result;
         if (description === "User")
             history.push(`/user/${value}`);
         else if (description === "Organisation")
             history.push(`/organisation/${value}`)
+        this.resetComponent();
     }
 
     handleSearchChange = (e, { value }) => {

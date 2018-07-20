@@ -1,9 +1,9 @@
 function timeSince(date) {
 
-    var seconds = Math.floor((new Date() - date) / 1000);
+    var seconds = Math.floor((Date.now() - date) / 1000);
 
     var interval = Math.floor(seconds / 31536000);
-
+    
     if (interval > 1) {
         return interval + " years";
     }

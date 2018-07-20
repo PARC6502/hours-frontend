@@ -4,8 +4,8 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
 
-// import Dashboard from './Dashboard';
 import Navigation from './Navigation'
 import TimeLoggingForm from './TimeLoggingForm';
 import SendHrsForm from './SendHrsForm';
@@ -25,6 +25,7 @@ const App = (props) => {
 		<Router>
 			<Fragment>
 				<Navigation />
+				<Container>
 				<Switch>
 					<Route exact path={routes.HOME_PAGE} component={HomePage} />
 					<Route exact path={routes.SIGN_IN} component={SignInPage} />
@@ -42,6 +43,7 @@ const App = (props) => {
 				        );
 			        }} />
 				</Switch>
+				</Container>
 			</Fragment>
 		</Router>
 	);

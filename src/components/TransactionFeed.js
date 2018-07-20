@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Feed, Segment, Dimmer, Loader } from 'semantic-ui-react';
+import { Feed, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
 
 import { timeSince } from '../helpers'
 import { db } from '../firebase';
+
+import jennySmall from '../jennySmall.jpg'
 
 const dummyFeed = [
     {
@@ -18,14 +20,15 @@ const FeedFromArray = (props) => (
     <Feed>
         {props.feedItems.map(feedItem => 
         <Feed.Event key={feedItem.id}>
+            <Feed.Label><Image src={jennySmall} /></Feed.Label>
             <Feed.Content>
-            <Feed.Summary>
-                {feedItem.summary}
-                <Feed.Date>{feedItem.date} ago</Feed.Date>
-            </Feed.Summary>
-            <Feed.Extra text>
-                {feedItem.extra}
-            </Feed.Extra>
+                <Feed.Summary>
+                    {feedItem.summary}
+                    <Feed.Date>{feedItem.date} ago</Feed.Date>
+                </Feed.Summary>
+                <Feed.Extra text>
+                    {feedItem.extra}
+                </Feed.Extra>
             </Feed.Content>
         </Feed.Event>)
         }

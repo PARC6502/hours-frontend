@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
-import { Segment, Dimmer, Loader } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
+
+import LoadingCardView from './LoadingCardView';
 import { db } from '../firebase'
+import userImage from '../daniel.jpg'
 
 class UserPage extends React.Component {
 	state = {
@@ -23,14 +26,14 @@ class UserPage extends React.Component {
 	
 	render() {
 		return (
-			<Segment>
-				<Dimmer active={this.state.loading}>
-					<Loader content="loading" />
-				</Dimmer>
-				<h1>Name: {this.state.name || ''}</h1>
-				<h2>Hours: {this.state.hours !== null ? this.state.hours : ''}</h2> 
-			</Segment>
-		);
+			<LoadingCardView 
+				loading={this.state.loading} 
+				image={userImage} 
+				header={this.state.name || ''}
+				meta={this.state.hours !== null ? `${this.state.hours} hours` : ''}
+				extra={<Fragment><Icon name='user' /> User</Fragment>}
+			/>
+		)
 	}	
 };
 

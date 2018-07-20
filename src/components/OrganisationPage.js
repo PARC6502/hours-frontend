@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react';
-import { Segment, Dimmer, Loader } from 'semantic-ui-react';
-import { db } from '../firebase'
+import { Icon } from 'semantic-ui-react';
+
+import { db } from '../firebase';
+import LoadingCardView from './LoadingCardView'; 
+
+import moonScaffold from '../moonScaffold.jpg'
 
 class OrganisationPage extends React.Component {
 	state = {
@@ -23,14 +27,15 @@ class OrganisationPage extends React.Component {
 	
 	render() {
 		return (
-			<Segment>
-				<Dimmer active={this.state.loading}>
-					<Loader content="loading" />
-				</Dimmer>
-				<h1>Organisation: {this.state.name || ''}</h1>
-				<h2>Hours Generated: {this.state.hoursGenerated !== null 
-				? this.state.hoursGenerated : ''}</h2> 
-			</Segment>
+			<LoadingCardView
+				loading={this.state.loading} 
+				header={this.state.name || ''}
+				meta={this.state.hoursGenerated !== null 
+				? this.state.hoursGenerated+' hours distributed' 
+				: ''}
+				image={moonScaffold}
+				extra={<Fragment><Icon name='group' /> Organisation</Fragment>}
+			/>
 		);
 	}	
 };

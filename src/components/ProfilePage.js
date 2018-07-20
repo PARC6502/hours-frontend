@@ -1,9 +1,11 @@
 import React from 'react';
-import { Dimmer, Loader, Segment } from 'semantic-ui-react';
 
+import LoadingCardView from './LoadingCardView';
 import AuthUserContext from './Session/AuthUserContext';
 import withAuthorization from './Session/withAuthorization';
 import { db } from '../firebase';
+
+import nan from '../nan.jpg'
 
 class Profile extends React.Component {
 	state = {
@@ -33,15 +35,12 @@ class Profile extends React.Component {
 			user = { name: 'name', email: 'email', hours: 'NA'}
 		}
 		return (
-			<Segment>
-				<Dimmer active={this.state.loading}>
-					<Loader content="loading" />
-				</Dimmer>
-				<h1> Profile Page</h1>
-				<h2>Name: {user.name}</h2>
-				<h2>Email: {user.email}</h2>
-				<h2>Hours: {user.hours}</h2> 
-			</Segment>
+			<LoadingCardView
+				loading={this.state.loading}
+				header={user.name}
+				meta={user.hours + ' hours'}
+				image={nan}	 
+			/>
 		)
 	}	
 };
