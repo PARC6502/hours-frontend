@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Feed, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
+import { Feed, Segment, Dimmer, Loader, Image, Container, Grid } from 'semantic-ui-react';
 
 import { timeSince } from '../helpers'
 import { db } from '../firebase';
 
-import jennySmall from '../jennySmall.jpg'
+import jennySmall from '../jennySmall.jpg';
+import elliotSmall from '../elliotSmall.jpg';
+import helenSmall from '../helenSmall.jpg';
+import joeSmall from '../joeSmall.jpg';
+import './TransactionFeed.css';
 
 const dummyFeed = [
     {
@@ -16,19 +20,23 @@ const dummyFeed = [
     }
 ];
 
+const imageArray = [jennySmall, elliotSmall, helenSmall, joeSmall]
+
 const FeedFromArray = (props) => (
-    <Feed>
+    <Feed id="transactionFeed">
         {props.feedItems.map(feedItem => 
         <Feed.Event key={feedItem.id}>
-            <Feed.Label><Image src={jennySmall} /></Feed.Label>
+            <Feed.Label className='middle aligned'><Image src={imageArray[Math.floor(Math.random() * imageArray.length)]} verticalAlign='middle' /></Feed.Label>
             <Feed.Content>
-                <Feed.Summary>
-                    {feedItem.summary}
-                    <Feed.Date>{feedItem.date} ago</Feed.Date>
-                </Feed.Summary>
-                <Feed.Extra text>
-                    {feedItem.extra}
-                </Feed.Extra>
+                <Segment className="feed item" raised>
+                    <Feed.Summary>
+                        {feedItem.summary}
+                        <Feed.Date>{feedItem.date} ago</Feed.Date>
+                    </Feed.Summary>
+                    <Feed.Extra text>
+                        {feedItem.extra}
+                    </Feed.Extra>
+                </Segment>
             </Feed.Content>
         </Feed.Event>)
         }
@@ -66,12 +74,14 @@ class TransactionFeed extends Component {
     render() {
         const feedItems = this.state.transactions || dummyFeed;
         return (
-            <Segment>
-                <Dimmer active={this.state.loading}>
-					<Loader content="loading" />
-				</Dimmer>
-                <FeedFromArray feedItems={feedItems} />
-            </Segment>
+            <Grid centered columns={2} id="transactionFeedContainer">
+                <Grid.Column>
+                    <Dimmer active={this.state.loading}>
+                        <Loader content="loading" />
+                    </Dimmer>
+                    <FeedFromArray feedItems={feedItems} />
+                </Grid.Column>
+            </Grid>
         );
     }
 }
