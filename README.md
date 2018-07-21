@@ -1,11 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-# Hours
+This is the code repository for the EASA Money workshop. It was forked from the [hours project](https://github.com/PARC6502/hours-frontend) in order to make some EASA specific changes.
 
 ## Intro
 
 A react web application, in the early stages of development, that will allow users to log time spent contributing to community projects and charities and then exchange those hours for between each other or for goods and services.
 
-Eventually the goal is to implement this as a cryptocurrency of sorts with smart contracts, maybe using some proof stake systems.
+## React
 
-The project is under development at Foodhall, a grassroots community project based in Sheffield.
+React is a javascript library for building user interfaces and web applications
