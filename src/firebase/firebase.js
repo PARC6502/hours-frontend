@@ -3,12 +3,12 @@ import 'firebase/auth';
 import 'firebase/firestore'
 
 const config = {
-  apiKey: "AIzaSyAZmqwHUq7aQulTVDzklYfGwOkOrcJFuYU",
-  authDomain: "hours-website.firebaseapp.com",
-  databaseURL: "https://hours-website.firebaseio.com",
-  projectId: "hours-website",
-  storageBucket: "hours-website.appspot.com",
-  messagingSenderId: "858246670779"
+  apiKey: "AIzaSyALkT38ls4fTUMAm43tQcnMb-6Ps0H0wG0",
+  authDomain: "easa-money.firebaseapp.com",
+  databaseURL: "https://easa-money.firebaseio.com",
+  projectId: "easa-money",
+  storageBucket: "",
+  messagingSenderId: "479879861595"
 };
 
 if (!firebase.apps.length)
