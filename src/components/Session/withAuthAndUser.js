@@ -18,7 +18,8 @@ const withAuthAndUser = (Component) =>
                     this.setState(() => ({ id: user.uid, email: user.email}))
                     db.getUser(user.uid)
                     .then(user => {
-                        this.setState({ name: user.name, hours: user.hours  })
+                        let role = user.role || 'USER' 
+                        this.setState({ name: user.name, hours: user.hours, role: user.role  })
                     })
                 }
                 else {

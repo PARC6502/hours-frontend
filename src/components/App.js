@@ -16,8 +16,9 @@ import SignUpPage from './SignUpPage';
 import ManageAccount from './ManageAccount';
 import ProfilePage from './ProfilePage';
 import OrganisationPage from './OrganisationPage'
-import withAuthAndUser from './Session/withAuthAndUser';
+import AddOrganisation from './Admin/AddOrganisation'
 
+import withAuthAndUser from './Session/withAuthAndUser';
 import * as routes from '../constants/routes';
 
 const App = (props) => {
@@ -36,6 +37,7 @@ const App = (props) => {
 					<Route exact path={routes.PROFILE} component={ProfilePage} />
 					<Route path={routes.USER_PAGE} component={UserPage} />
 					<Route path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
+					<Route path='/admin/add-organisation' component={AddOrganisation} />
 					<Route render={({ location }) => {
 						// console.log(location);
 						return (
