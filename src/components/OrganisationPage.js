@@ -9,6 +9,7 @@ import moonScaffold from '../moonScaffold.jpg'
 class OrganisationPage extends React.Component {
 	state = {
 		name: '',
+		description: '',
 		hoursGenerated: null,
 		loading: true,
 	};
@@ -17,9 +18,8 @@ class OrganisationPage extends React.Component {
 		const match = this.props.match;
 		console.log(match);
 		db.getOrganisation(match.params.organisationId)
-		.then(({name, hoursGenerated}) => {
-			this.setState({ name, hoursGenerated, loading: false });
-			console.log(this.state);
+		.then(({ name, hoursGenerated, description }) => {
+			this.setState({ name, hoursGenerated, description, loading: false });
 		})
 	}
 
@@ -30,6 +30,7 @@ class OrganisationPage extends React.Component {
 			<LoadingCardView
 				loading={this.state.loading} 
 				header={this.state.name || ''}
+				description={this.state.description}
 				meta={this.state.hoursGenerated !== null 
 				? this.state.hoursGenerated+' hours distributed' 
 				: ''}
