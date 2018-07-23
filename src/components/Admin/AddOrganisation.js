@@ -23,10 +23,14 @@ class AddOrganisation extends Component {
 
     render() {
         return (
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onSubmit} error={this.state.error !== null}>
                 <Form.Input name='name' value={this.state.name} placeholder='Organisation name' onChange={this.handleChange}/>
                 <Form.TextArea name='description' value={this.state.description} placeholder='Description' onChange={this.handleChange} />
                 <Form.Button type='submit'>Submit</Form.Button>
+                <Message
+                    error
+                    header="Form Error"
+                    content={this.state.error ? this.state.error.message : ''} />
             </Form>
         );  
     }
