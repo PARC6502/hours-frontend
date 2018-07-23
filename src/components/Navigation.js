@@ -9,22 +9,28 @@ import * as routes from '../constants/routes';
 
 const Navigation = () => 
     <AuthUserContext.Consumer>
-        {user => user.id ? <NavigationAuth /> : <NavigationNonAuth />}
+        {user => user.id ? <NavigationAuth user={user} /> : <NavigationNonAuth />}
     </AuthUserContext.Consumer>
 
-const NavigationAuth = () =>
-    <Menu stackable>
+const NavigationAuth = (props) => {
+    const isAdmin = props.user.role === 'ADMIN';
+    
+    return (
+        <Menu stackable>
         <Menu.Item as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
         <Menu.Item as={NavLink} to={routes.ADD_HRS}>Log Hrs</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SEND_HRS}>Send Hrs</Menu.Item>  
         <Menu.Item as={NavLink} to={routes.PROFILE}>Your Profile</Menu.Item>  
-        {/* <Menu.Item as={NavLink} to={routes.MANAGE_ACCOUNT}>Account</Menu.Item>   */}
+        {isAdmin ? <Menu.Item as={NavLink} to={routes.ADMIN_PAGE}>Admin Page</Menu.Item> : null}
         <Menu.Menu position='right'>
             <SearchMembers className="right aligned item" />
             <AccountDropdown />
             {/* <Menu.Item><Button onClick={auth.doSignOut}>Log out</Button></Menu.Item> */}
         </Menu.Menu>  
     </Menu>
+    )
+}
+    
 
 const NavigationNonAuth = () => 
     <Menu>
