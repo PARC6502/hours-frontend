@@ -32,7 +32,5 @@ class AddOrganisation extends Component {
     }
 }
 
-const authCondition = (user) => {
-    console.log(user)
-    return (user.role === 'ADMIN');}
+const authCondition = (user) => (user.role === 'ADMIN');
 export default withAuthorization(authCondition)(AddOrganisation);

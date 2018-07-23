@@ -10,4 +10,4 @@ export const PROFILE = '/profile';
 
 /* ADMIN routes */
 export const ADMIN_PAGE = '/admin';
-export const ADMIN_ADD_ORGANISATION = '/admin/ADD_ORGANISATION';
+export const ADMIN_ADD_ORGANISATION = '/admin/add-organisation';

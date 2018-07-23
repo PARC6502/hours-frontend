@@ -22,7 +22,7 @@ const NavigationAuth = (props) => {
         <Menu.Item as={NavLink} to={routes.ADD_HRS}>Log Hrs</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SEND_HRS}>Send Hrs</Menu.Item>  
         <Menu.Item as={NavLink} to={routes.PROFILE}>Your Profile</Menu.Item>  
-        {isAdmin ? <Menu.Item as={NavLink} to='/admin/add-organisation'>Add Organisation</Menu.Item> : null}
+        {isAdmin ? <Menu.Item as={NavLink} to={routes.ADMIN_PAGE}>Admin Page</Menu.Item> : null}
         <Menu.Menu position='right'>
             <SearchMembers className="right aligned item" />
             <AccountDropdown />

@@ -15,8 +15,9 @@ import SignInPage from './SignInPage';
 import SignUpPage from './SignUpPage';
 import ManageAccount from './ManageAccount';
 import ProfilePage from './ProfilePage';
-import OrganisationPage from './OrganisationPage'
-import AddOrganisation from './Admin/AddOrganisation'
+import OrganisationPage from './OrganisationPage';
+import AddOrganisation from './Admin/AddOrganisation';
+import AdminPage from './Admin/AdminPage';
 
 import withAuthAndUser from './Session/withAuthAndUser';
 import * as routes from '../constants/routes';
@@ -35,9 +36,10 @@ const App = (props) => {
 					<Route exact path={routes.SEND_HRS} component={SendHrsForm} />
 					<Route exact path={routes.MANAGE_ACCOUNT} component={ManageAccount} />
 					<Route exact path={routes.PROFILE} component={ProfilePage} />
-					<Route path={routes.USER_PAGE} component={UserPage} />
-					<Route path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
-					<Route path='/admin/add-organisation' component={AddOrganisation} />
+					<Route exact path={routes.USER_PAGE} component={UserPage} />
+					<Route exact path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
+					<Route exact path={routes.ADMIN_PAGE} component={AdminPage} />
+					<Route exact path={routes.ADMIN_ADD_ORGANISATION} component={AddOrganisation} />
 					<Route render={({ location }) => {
 						// console.log(location);
 						return (
