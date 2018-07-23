@@ -8,13 +8,23 @@ class AddOrganisation extends Component {
     state = {
         name: '',
         description: '',
-        error: null
+        error: null,
+        success: null,
     }
     
     onSubmit = e => {
         e.preventDefault();
-
-        console.log(this.state);
+        // console.log(this.state);
+        const { name, description } = this.state;
+        admin.createOrganisation(name,description)
+        .then(success => {
+            this.setState({
+                name: '',
+                description: '',
+                success: 'Organisation created successfully!'
+            })
+        })
+        .catch(error => this.setState({ error }))
     }
 
     handleChange = (e, { name, value }) => {  
@@ -23,7 +33,7 @@ class AddOrganisation extends Component {
 
     render() {
         return (
-            <Form onSubmit={this.onSubmit} error={this.state.error !== null}>
+            <Form onSubmit={this.onSubmit} error={this.state.error !== null} success={this.state.success}>
                 <Form.Input name='name' value={this.state.name} placeholder='Organisation name' onChange={this.handleChange}/>
                 <Form.TextArea name='description' value={this.state.description} placeholder='Description' onChange={this.handleChange} />
                 <Form.Button type='submit'>Submit</Form.Button>
@@ -31,6 +41,7 @@ class AddOrganisation extends Component {
                     error
                     header="Form Error"
                     content={this.state.error ? this.state.error.message : ''} />
+                <Message success header='Form Completed' content={this.state.success || ''} />
             </Form>
         );  
     }
