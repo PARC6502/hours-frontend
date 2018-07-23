@@ -64,5 +64,5 @@ const SignInPage = () =>
     <SignInForm />
   </Fragment>
 
-const authCondition = (user) => user === null;
+const authCondition = (user) => user.id === null;
 export default withAuthorization(authCondition)(SignInPage);
