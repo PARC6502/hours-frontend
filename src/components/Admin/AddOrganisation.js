@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form } from 'semantic-ui-react';
+import { Form, Message } from 'semantic-ui-react';
 
 import { admin } from '../../firebase';
 import withAuthorization from '../Session/withAuthorization';
