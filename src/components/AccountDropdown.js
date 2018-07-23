@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
 import AuthUserContext from './Session/AuthUserContext';
@@ -20,6 +20,7 @@ const AccountDropdown = (props) => {
     );
 }
 
+// NOTE Could be recieved from navigation??
 const AccountDropdownWithUser = () => (
     <AuthUserContext.Consumer>
         {user => <AccountDropdown user={user} />}

@@ -16,7 +16,7 @@ export const getUsers = () =>
     .then(function(querySnapshot) {
         var users = [];
         querySnapshot.forEach(doc => {
-            var {hours, name, email, id} = doc.data();
+            var {hours, name, email} = doc.data();
             users.push({
                 id: doc.id,
                 name,
@@ -38,7 +38,7 @@ function updateHoursTransaction(transaction, userRef, amount) {
     return transaction.get(userRef)
     .then(function(userDoc) {
         if (!userDoc.exists) {
-            throw "Document does not exist!";
+            throw Error("Document does not exist!");
         }
 
         var newHours = userDoc.data().hours + Number(amount);
@@ -79,7 +79,7 @@ function updateOrgsHoursGenerateTransaction(transaction, orgRef, amount) {
     return transaction.get(orgRef)
     .then((orgDoc) => {
         if (!orgDoc.exists) {
-            throw "Document does not exist!";
+            throw Error("Document does not exist!");
         }
 
         var newHours = orgDoc.data().hoursGenerated + Number(amount);

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Menu, Button } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 import SearchMembers from './SearchMembers'
 import AccountDropdown from './AccountDropdown';
 import AuthUserContext from './Session/AuthUserContext'
-import { auth } from '../firebase';
 import * as routes from '../constants/routes';
 
 const Navigation = () => 

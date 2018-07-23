@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './TimeLoggingForm.css';
 import { Form, Button } from 'semantic-ui-react';
 
-import { auth, db } from '../firebase';
+import { db } from '../firebase';
 import AuthUserContext from './Session/AuthUserContext'
 import withAuthorization from './Session/withAuthorization';
 

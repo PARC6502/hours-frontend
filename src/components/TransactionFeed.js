@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Feed, Segment, Dimmer, Loader, Image, Container, Grid } from 'semantic-ui-react';
+import { Feed, Segment, Dimmer, Loader, Image, Grid } from 'semantic-ui-react';
 
 import { timeSince } from '../helpers'
 import { db } from '../firebase';
@@ -54,7 +54,8 @@ class TransactionFeed extends Component {
         db.getTransactions()
         .then(transactions => {
             feedItems = transactions.map(transaction => {
-                const {id, fromName, from, toName, to, description, hours, type, dateCreated} = transaction;
+                // TODO check transaction type
+                const {id, fromName, from, toName, to, description, hours, dateCreated} = transaction;
                 // if (type === 'Log Hours')
                 return {
                     id,
