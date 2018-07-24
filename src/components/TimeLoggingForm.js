@@ -45,8 +45,8 @@ class TimeLoggingForm extends Component {
     var { task, project, time } = this.state.fields;
     let [projectId, projectName] = project.split('-');
     console.log(userId, userName, projectName);
-    db.sendHoursToUser(userId, time)
-    .then(() => db.generateHoursFromOrg(projectId, time))
+    db.logHours(userId, time)
+    .then(() => db.updateDistributedHoursForOrg(projectId, time))
     .then(() => db.createTransaction("Log Hours", projectId, projectName, userId, userName, time, task, Date.now()))
     .catch((error) => console.log(error));
   }

@@ -45,10 +45,23 @@ function updateHoursTransaction(transaction, userRef, amount) {
         return transaction.update(userRef, { hours: newHours });
     })
 }   
-export const sendHoursToUser = (id, amount) => {
+export const sendHoursToUser = (fromId, toId, amount) => {
+    const fromUserRef = db.collection("users").doc(fromId);
+    const toUserRef = db.collection("users").doc(toId);
+    return db.runTransaction(async transaction => {
+        const fromUserDoc = await transaction.get(fromUserRef);
+        const toUserDoc = await transaction.get(toUserRef);
+        const fromHours = fromUserDoc.data().hours - Number(amount);
+        const toHours = toUserDoc.data().hours + Number(amount);
+        await transaction.update(fromUserRef, {hours: fromHours});
+        await transaction.update(toUserRef, {hours: toHours});
+    })
+
+};
+
+export const logHours = (id, amount) => {
     const userRef = db.collection("users").doc(id);
 
-    console.log(`userid: ${id}, amount: ${amount}, typeof amount: ${typeof amount}`);
     return db.runTransaction(transaction => updateHoursTransaction(transaction, userRef, amount))
 };
 
@@ -86,7 +99,7 @@ function updateOrgsHoursGenerateTransaction(transaction, orgRef, amount) {
         return transaction.update(orgRef, { hoursGenerated: newHours });
     })
 }
-export const generateHoursFromOrg = (id, amount) => {
+export const updateDistributedHoursForOrg = (id, amount) => {
     const orgRef = db.collection("organisations").doc(id);
     return db.runTransaction(transaction => 
         updateOrgsHoursGenerateTransaction(transaction, orgRef, amount));
