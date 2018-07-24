@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { Icon } from 'semantic-ui-react';
 
-import { db } from '../firebase';
-import LoadingCardView from './LoadingCardView'; 
+import { db } from '../../firebase';
+import LoadingCardView from '../LoadingCardView'; 
 
-import moonScaffold from '../moonScaffold.jpg'
+import moonScaffold from '../../moonScaffold.jpg'
 
 class OrganisationPage extends React.Component {
 	state = {

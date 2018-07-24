@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { Icon } from 'semantic-ui-react';
 
-import LoadingCardView from './LoadingCardView';
-import { db } from '../firebase'
-import userImage from '../daniel.jpg'
+import LoadingCardView from '../LoadingCardView';
+import { db } from '../../firebase'
+import userImage from '../../daniel.jpg'
 
 class UserPage extends React.Component {
 	state = {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Feed, Segment, Dimmer, Loader, Image, Grid } from 'semantic-ui-react';
 
-import { timeSince } from '../helpers'
-import { db } from '../firebase';
+import { timeSince } from '../../helpers'
+import { db } from '../../firebase';
 
-import jennySmall from '../jennySmall.jpg';
-import elliotSmall from '../elliotSmall.jpg';
-import helenSmall from '../helenSmall.jpg';
-import joeSmall from '../joeSmall.jpg';
+import jennySmall from '../../jennySmall.jpg';
+import elliotSmall from '../../elliotSmall.jpg';
+import helenSmall from '../../helenSmall.jpg';
+import joeSmall from '../../joeSmall.jpg';
 import './TransactionFeed.css';
 
 const dummyFeed = [

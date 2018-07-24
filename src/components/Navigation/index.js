@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 
 import SearchMembers from './SearchMembers'
 import AccountDropdown from './AccountDropdown';
-import AuthUserContext from './Session/AuthUserContext'
-import * as routes from '../constants/routes';
+import AuthUserContext from '../Session/AuthUserContext'
+import * as routes from '../../constants/routes';
 
 const Navigation = () => 
     <AuthUserContext.Consumer>

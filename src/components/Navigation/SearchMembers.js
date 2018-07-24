@@ -3,7 +3,7 @@ import { Search } from 'semantic-ui-react';
 import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
 
-import { db } from '../firebase';
+import { db } from '../../firebase';
 
 //will have to implement algolia or elasticsearch....
 class SearchMembers extends Component {

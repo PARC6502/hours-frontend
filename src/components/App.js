@@ -10,12 +10,12 @@ import Navigation from './Navigation'
 import TimeLoggingForm from './TimeLoggingForm';
 import SendHrsForm from './SendHrsForm';
 import HomePage from './HomePage';
-import UserPage from './UserPage';
 import SignInPage from './SignInPage';
 import SignUpPage from './SignUpPage';
 import ManageAccount from './ManageAccount';
 import ProfilePage from './ProfilePage';
-import OrganisationPage from './OrganisationPage';
+import OrganisationPage from './InfoPages/OrganisationPage';
+import UserPage from './InfoPages/UserPage';
 import AddOrganisation from './Admin/AddOrganisation';
 import AdminPage from './Admin/AdminPage';
 
