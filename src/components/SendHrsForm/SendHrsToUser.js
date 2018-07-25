@@ -8,7 +8,8 @@ import UsersDropdown from "./UsersDropdown";
 const INITIAL_STATE = {
   user: '',
   amount: 1,
-  error: null
+  error: null,
+  loading: false,
 };
 
 class SendHrsToUser extends Component {
@@ -29,11 +30,12 @@ class SendHrsToUser extends Component {
   handleSubmit = () => {
     const { id: fromUser } = this.props.user;
     const { user: toUser, amount } = this.state;
+    this.setState({ loading: true });
     db.sendHoursToUser(fromUser, toUser, amount)
     .then(() => this.setState({ ...INITIAL_STATE }))
     .then(() => console.log('Transaction successful'))
-    .catch(error => this.setState({ error }));
-    
+    .catch(error => this.setState({ error }))
+    .then(() => this.setState({ loading: false }));
   };
 
   onFormChange = (evt, { name, value }) => {
@@ -64,6 +66,7 @@ class SendHrsToUser extends Component {
           color='red'
           fluid basic
           disabled={!this.validate()}
+          loading={this.state.loading}
         >
           Send Hrs
         </Form.Button>
