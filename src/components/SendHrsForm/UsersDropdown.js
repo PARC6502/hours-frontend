@@ -9,19 +9,11 @@ class UsersDropdown extends Component {
         users: [],
         loading: true,
     };
-    
-  
-    // onChange = (evt, {name, value}) => {
-    //   this.setState({ value });
-    //   this.props.onChange(evt, {name, value});
-    // }
-  
-    // componentWillReceiveProps(update) {
-    //   this.setState({ value: update.value });
-    // }
-  
+
     componentDidMount() {
+        console.info(this.props.user)
         db.getUsers()
+        .then(users => users.filter(user => user.id !== this.props.user.id))
         .then(users => this.setState({ users, loading: false }))
         .catch(error => console.log(error))
     }

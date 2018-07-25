@@ -46,11 +46,13 @@ function updateHoursTransaction(transaction, userRef, amount) {
     })
 }   
 export const sendHoursToUser = (fromId, toId, amount) => {
+    if (fromId === toId) return Promise.reject(Error('Trying to send to self.'))
     const fromUserRef = db.collection("users").doc(fromId);
     const toUserRef = db.collection("users").doc(toId);
     return db.runTransaction(async transaction => {
         const fromUserDoc = await transaction.get(fromUserRef);
         const toUserDoc = await transaction.get(toUserRef);
+        if(!fromUserDoc.exists || !toUserDoc.exists) throw Error('Firebase error')
         const fromHours = fromUserDoc.data().hours - Number(amount);
         const toHours = toUserDoc.data().hours + Number(amount);
         await transaction.update(fromUserRef, {hours: fromHours});

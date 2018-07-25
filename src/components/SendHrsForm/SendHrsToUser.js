@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Form } from "semantic-ui-react";
+import { Form, Message } from "semantic-ui-react";
 
 import { db } from "../../firebase";
 import AuthUserContext from "../Session/AuthUserContext";
 import UsersDropdown from "./UsersDropdown";
 
 const INITIAL_STATE = {
-  user: "",
-  amount: 0
+  user: '',
+  amount: 1,
+  error: null
 };
 
 class SendHrsToUser extends Component {
@@ -28,8 +29,11 @@ class SendHrsToUser extends Component {
   handleSubmit = () => {
     const { id: fromUser } = this.props.user;
     const { user: toUser, amount } = this.state;
-    db.sendHoursToUser(fromUser, toUser, amount);
-    this.setState({ ...INITIAL_STATE });
+    db.sendHoursToUser(fromUser, toUser, amount)
+    .then(() => this.setState({ ...INITIAL_STATE }))
+    .then(() => console.log('Transaction successful'))
+    .catch(error => this.setState({ error }));
+    
   };
 
   onFormChange = (evt, { name, value }) => {
@@ -38,10 +42,11 @@ class SendHrsToUser extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} error={this.state.error}>
         <UsersDropdown
           onChange={this.onFormChange}
           value={this.state.user}
+          user={this.props.user}
         />
         <Form.Input
           name="amount"
@@ -50,6 +55,10 @@ class SendHrsToUser extends Component {
           value={this.state.amount}
           onChange={this.onFormChange}
         />
+        <Message
+          error
+          header="Form Error"
+          content={this.state.error ? this.state.error.message : ''} />
         <Form.Button
           type='submit'
           color='red'

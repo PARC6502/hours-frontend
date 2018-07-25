@@ -13,7 +13,6 @@ const withAuthAndUser = (Component) =>
         }
 
         componentDidMount() {
-            console.log(`withAuthAndUser mounted ${Date.now()}`);
             firebase.auth.onAuthStateChanged(user => {
                 if(user) {
                     this.setState(() => ({ id: user.uid, email: user.email}))
