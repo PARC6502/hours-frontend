@@ -102,5 +102,5 @@ const SignUpPage = () =>
     <Button as={NavLink} to={routes.SIGN_IN} fluid>Already have an account? Sign In</Button>
   </Fragment>
 
-const authCondition = (user) => user === null;
+const authCondition = (user) => user.id === null;
 export default withAuthorization(authCondition)(SignUpPage);
