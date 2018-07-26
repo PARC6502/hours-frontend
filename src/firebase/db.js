@@ -45,23 +45,7 @@ function updateHoursTransaction(transaction, userRef, amount) {
         return transaction.update(userRef, { hours: newHours });
     })
 }   
-export const sendHoursToUser = (fromId, toId, amount) => {
-    if (fromId === toId) return Promise.reject(Error('Trying to send to self.'));
-    if (amount <= 0) return Promise.reject(Error("Can't send negative amount"));
-    const fromUserRef = db.collection("users").doc(fromId);
-    const toUserRef = db.collection("users").doc(toId);
-    return db.runTransaction(async transaction => {
-        const fromUserDoc = await transaction.get(fromUserRef);
-        const toUserDoc = await transaction.get(toUserRef);
-        if(!fromUserDoc.exists || !toUserDoc.exists) throw Error('Firebase error')
-        const fromHours = fromUserDoc.data().hours - Number(amount);
-        if (fromHours < 0) throw Error('Insufficient funds');
-        const toHours = toUserDoc.data().hours + Number(amount);
-        await transaction.update(fromUserRef, {hours: fromHours});
-        await transaction.update(toUserRef, {hours: toHours});
-    })
 
-};
 
 export const logHours = (id, amount) => {
     const userRef = db.collection("users").doc(id);
