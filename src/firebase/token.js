@@ -63,14 +63,32 @@ export const requestTokens = (fromOrg, requester, details) => {
     return batch.commit();
 }
 
-export const approveTokens = (requestId) => {
+export const approveTokens = (requestId, orgId) => {
+    const requestRef = db.collection('token-request').doc(orgId).collection('requests').doc(requestId);
+    const orgRef = db.collection('organisations').doc(orgId);
+    return db.runTransaction(async transaction => {
+        const requestDoc = await transaction.get(requestRef);
+        const orgDoc = await transaction.get(orgRef);
+        if(!requestDoc.exists || !orgDoc.exists) throw Error('Firebase error')
 
+        const requesterRef = db.collection('users').doc(requestDoc.data().requesterId);
+        const requesterDoc = await transaction.get(requesterRef);
+        if(requesterDoc.exists) throw Error('Firebase error')
+
+        const requesterTokens = requesterDoc.data().hours + Number(requestDoc.data().tokens);
+        const distributedHours = orgDoc.data().hoursGenerated + Number(requestDoc.data().tokens);
+        
+        await transaction.update(orgRef, {hoursGenerated: distributedHours});
+        await transaction.update(requesterRef, {hours: requesterTokens});
+        await transaction.update(requestRef, {approved: true, fulfilled:true});
+    })
 }
 
 export const rejectTokens = (requestId, reason) => {
-
+    const requestRef = db.collection('token-request').doc(fromOrg.id).collection('requests').doc(requestId);
+    return requestRef.update({rejected: true, fulfilled: true});
 }
 
 export const spendTokens = (from, on, details) => {
-
+    return Error('function unimplemented');
 }
