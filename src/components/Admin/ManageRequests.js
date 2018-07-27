@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Form, Message, Segment } from 'semantic-ui-react';
+import React, { Component, Fragment } from 'react';
+import { Segment, Button, Icon, Divider, Header } from 'semantic-ui-react';
 
-import { admin, firebase } from '../../firebase';
+import { admin, token } from '../../firebase';
 import withAuthorization from '../Session/withAuthorization';
 
 class ManageRequests extends Component {
@@ -9,26 +9,20 @@ class ManageRequests extends Component {
         error: null,
         success: null,
         loading: false,
-        requests: [],
+        reqs: [],
     }
 
     componentDidMount() {
-        // some db function to get requests
-        firebase.db.collection('token-requests').get()
-        .then(querySnapshot => querySnapshot.docs)
-        .then(docs => docs.map( doc => ({ docId: doc.id,  ...doc.data() })) )
-        .then(console.log);
-        // .then(requests => this.setState({ requests }))
-        // .then(querySnapshot => {
-        //     querySnapshot.forEach(doc => {
-                
-        //     });
-        // })
+       this.loadRequests();
+    }
+
+    loadRequests() {
+        token.getRequests()
+        .then(reqs => this.setState({ reqs }));
     }
     
     onSubmit = e => {
         e.preventDefault();
-        // console.log(this.state);
         const { name, description } = this.state;
         admin.createOrganisation(name,description)
         .then(success => {
@@ -45,12 +39,47 @@ class ManageRequests extends Component {
         this.setState({ [name]: value });
     }
 
-    render() {
-        return (
-            <Segment.Group>
+    handleAccept = (req) => {
+        token.approveTokens(req.docId, req.fromId)
+        .then(() => this.loadRequests())
+        .catch(console.error)
+    }
 
-            </Segment.Group> 
-        );  
+    handleReject = (req) => {
+        token.rejectTokens(req, req.fromId, 'Unspecified')
+        .then(() => this.loadRequests())
+        .catch(console.error)
+    }
+
+    render() {
+        const renderReqPending = (req) =>
+            <Segment vertical fluid key={req.docId}>
+                <Icon name='wait' />
+                {`${req.requesterName} requested ${req.tokens} hours for "${req.description}" done on ${req.dateOfLabour}`}
+                <Button.Group floated='right'>
+                    <Button primary onClick={() => this.handleAccept(req)}>Accept</Button>
+                    <Button red onClick={() => this.handleReject(req)}>Reject</Button>
+                </Button.Group>
+            </Segment>
+
+        const renderReqFulfilled = (req) =>
+            <Segment vertical fluid key={req.docId}>
+                <Icon name={ req.approved ? 'check' : 'ban'} />
+                {`${req.requesterName} requested ${req.tokens} hours for "${req.description}" done on ${req.dateOfLabour}`}
+            </Segment> 
+        
+        const reqs = this.state.reqs
+        const reqsPending = reqs.filter(req => !req.fulfilled);
+        const reqsFulfilled = reqs.filter(req => req.fulfilled);
+        return (
+            <Fragment>
+                <Header>Pending</Header>
+                {reqsPending.map(renderReqPending)}
+
+                <Header>Fulfilled</Header>
+                {reqsFulfilled.map(renderReqFulfilled)}
+            </Fragment>
+        );
     }
 }
 

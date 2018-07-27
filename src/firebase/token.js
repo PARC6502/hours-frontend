@@ -1,4 +1,5 @@
 import { db } from './firebase';
+import { not } from 'ip';
 
 const makeTokenEvent = (type, details) => {
     const dateCreated = Date.now();
@@ -60,16 +61,16 @@ export const requestTokens = (fromOrg, requester, details) => {
 }
 
 export const approveTokens = (requestId, orgId) => {
-    const requestRef = db.collection('token-requests').doc(orgId).collection('requests').doc(requestId);
+    const requestRef = db.collection('token-requests').doc(requestId);
     const orgRef = db.collection('organisations').doc(orgId);
-    return db.runTransaction(async transaction => {
+    return db.runTransaction(async (transaction) => {
         const requestDoc = await transaction.get(requestRef);
         const orgDoc = await transaction.get(orgRef);
-        if(!requestDoc.exists || !orgDoc.exists) throw Error('Firebase error')
-
+        if(!requestDoc.exists || !orgDoc.exists) throw Error('Firebase error');
+        if(requestDoc.data().fulfilled) throw Error('Request already fulfilled');
         const requesterRef = db.collection('users').doc(requestDoc.data().requesterId);
         const requesterDoc = await transaction.get(requesterRef);
-        if(requesterDoc.exists) throw Error('Firebase error')
+        if(!requesterDoc.exists) throw Error('Firebase error')
 
         const requesterTokens = requesterDoc.data().hours + Number(requestDoc.data().tokens);
         const distributedHours = orgDoc.data().hoursGenerated + Number(requestDoc.data().tokens);
@@ -84,14 +85,15 @@ export const approveTokens = (requestId, orgId) => {
     })
 }
 
-export const rejectTokens = (requestId, orgId, reason) => {
-    const requestRef = db.collection('token-requests').doc(orgId).collection('requests').doc(requestId);
+export const rejectTokens = (request, orgId, reason) => {
+    if (request.fulfilled) return Promise.reject(Error('Request already fulfilled'))
+    const requestRef = db.collection('token-requests').doc(request.docId);
     const batch = db.batch();
     batch.update(requestRef, {rejected: true, fulfilled: true});
 
     const eventType = 'REQUEST_TOKENS';
     // TODO: add more info to event log
-    const tokenEvent = makeTokenEvent(eventType, requestId);
+    const tokenEvent = makeTokenEvent(eventType, request.docId);
     batch.set(getNewEventLogEntry(), tokenEvent);
 
     return batch.commit()
@@ -100,3 +102,8 @@ export const rejectTokens = (requestId, orgId, reason) => {
 export const spendTokens = (from, on, details) => {
     return Error('function unimplemented');
 }
+
+export const getRequests = () => 
+    db.collection('token-requests').get()
+    .then(querySnapshot => querySnapshot.docs)
+    .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))
