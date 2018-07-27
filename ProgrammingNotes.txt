@@ -9,6 +9,11 @@ X Link TimeLoggingForm to token request
 X Create admin page for approving & rejecting requests
 X Send tokens to other user using new function
 
+* reverse feeds in admin section
+* make submit button green instead red
+* make sure we're checking for negative amounts everywere
+* drop spend functionality in send section
+
 * User able to view status and history of their requests
 * implementing organisation administration
   * Implement organisation-specific request management
