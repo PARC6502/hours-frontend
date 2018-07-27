@@ -120,3 +120,8 @@ export const getTransactions = () =>
         });
         return transactions;
     });
+
+export const getEventLog = () =>
+    db.collection('event-log').orderBy("dateCreated", "desc").get()
+    .then(querySnapshot => querySnapshot.docs)
+    .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))

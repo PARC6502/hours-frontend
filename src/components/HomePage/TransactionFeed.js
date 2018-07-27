@@ -41,7 +41,35 @@ const FeedFromArray = (props) => (
         </Feed.Event>)
         }
     </Feed>
-)
+);
+
+const eventLogMapper = {
+    'SEND_TOKENS': eventItem => {
+        const { docId: id, details, dateCreated } = eventItem;
+        const toName = details.to.name;
+        const fromName = details.from.name;
+        const hours = details.amount;
+        return {
+            id,
+            summary: `${toName} recieved ${hours} hours from ${fromName}`,
+            date: timeSince(dateCreated),
+            extra: '',
+        };
+    },
+    'APPROVE_TOKENS': eventItem => {
+        const { docId: id, details, dateCreated } = eventItem;
+        const contributor = details.requesterName;
+        const organisation = details.fromName;
+        const hours = details.tokens;
+        const description = details.description;
+        return {
+            id,
+            summary: `${contributor} contributed ${hours} hours to ${organisation}`,
+            date: timeSince(dateCreated),
+            extra: description,
+        };
+    },
+}
 
 class TransactionFeed extends Component {
     state = {
@@ -51,22 +79,10 @@ class TransactionFeed extends Component {
 
     componentDidMount() {
         let feedItems = [];
-        db.getTransactions()
-        .then(transactions => {
-            feedItems = transactions.map(transaction => {
-                // TODO check transaction type
-                const {id, fromName, from, toName, to, description, hours, dateCreated} = transaction;
-                // if (type === 'Log Hours')
-                return {
-                    id,
-                    summary: `${toName} recieved ${hours} hours from ${fromName}`,
-                    date: timeSince(dateCreated),
-                    extra: description,
-                    fromId: from,
-                    toId: to,
-                };
-                // return
-            });
+        db.getEventLog()
+        .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'SEND_TOKENS'))
+        .then(events => {
+            feedItems = events.map(event => eventLogMapper[event.type](event))
             console.log(feedItems);
             this.setState({ transactions: feedItems, loading: false })
         })
