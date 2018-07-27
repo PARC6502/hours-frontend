@@ -12,6 +12,7 @@ const objContains = (obj, fields) => fields.every(field => Object.keys(obj).incl
 
 export const sendTokens = async (from, to, details) => {
     if (!objContains(details, ['amount'])) throw Error('Sending amount not provided');
+    
     if (from.id === to.id) throw Error('Trying to send to self.');
     if (details.amount <= 0) throw Error("Can't send negative amount");
     const fromUserRef = db.collection("users").doc(from.id);
