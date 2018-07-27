@@ -21,4 +21,5 @@ X drop spend functionality in send section
     * should vendors (or surplus providers) be separate entities to volunteer organisations?
       * discuss with group
 
-* decide how token event feeds will be displayed
+X decide how token event feeds will be displayed
+  - Displaying items from event-log, rendered based on event type
