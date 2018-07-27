@@ -12,7 +12,7 @@ X Send tokens to other user using new function
 X reverse feeds in admin section
 X make submit button green instead red
 * make sure we're checking for negative amounts everywere
-* drop spend functionality in send section
+X drop spend functionality in send section
 
 * User able to view status and history of their requests
 * implementing organisation administration
