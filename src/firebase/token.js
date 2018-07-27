@@ -1,14 +1,13 @@
 import { db } from './firebase';
-import { assert } from '../../node_modules/@firebase/util';
 
 const makeTokenEvent = (type, details) => {
-    dateCreated = Date.now();
+    const dateCreated = Date.now();
     return {type, details, dateCreated};
 }
 
 const getNewEventLogEntry = () => db.collection("event-log").doc();
 
-objContains = (obj, fields) => fields.every(field => Object.keys(obj).includes(field))
+const objContains = (obj, fields) => fields.every(field => Object.keys(obj).includes(field))
 
 export const sendTokens = async (from, to, details) => {
     if (!objContains(details, ['amount'])) throw Error('Sending amount not provided');
@@ -39,7 +38,7 @@ export const sendTokens = async (from, to, details) => {
 */
 export const requestTokens = (fromOrg, requester, details) => {
     // validate fromOrg
-    const requestRef = db.collection('token-request').doc(fromOrg.id).collection('requests').doc();
+    const requestRef = db.collection('token-requests').doc(fromOrg.id).collection('requests').doc();
     const batch = db.batch();
     const request = {
         fromId: fromOrg.id,
@@ -61,7 +60,7 @@ export const requestTokens = (fromOrg, requester, details) => {
 }
 
 export const approveTokens = (requestId, orgId) => {
-    const requestRef = db.collection('token-request').doc(orgId).collection('requests').doc(requestId);
+    const requestRef = db.collection('token-requests').doc(orgId).collection('requests').doc(requestId);
     const orgRef = db.collection('organisations').doc(orgId);
     return db.runTransaction(async transaction => {
         const requestDoc = await transaction.get(requestRef);
@@ -79,21 +78,20 @@ export const approveTokens = (requestId, orgId) => {
         await transaction.update(requesterRef, {hours: requesterTokens});
         await transaction.update(requestRef, {approved: true, fulfilled:true});
 
-        const eventType = 'REQUEST_TOKENS';
+        const eventType = 'APPROVE_TOKENS';
         const tokenEvent = makeTokenEvent(eventType, requestDoc.data());
-        batch.set(getNewEventLogEntry(), tokenEvent);
-
-        return batch.commit();
+        await transaction.set(getNewEventLogEntry(), tokenEvent);
     })
 }
 
-export const rejectTokens = (requestId, reason) => {
-    const requestRef = db.collection('token-request').doc(fromOrg.id).collection('requests').doc(requestId);
+export const rejectTokens = (requestId, orgId, reason) => {
+    const requestRef = db.collection('token-requests').doc(orgId).collection('requests').doc(requestId);
     const batch = db.batch();
     batch.update(requestRef, {rejected: true, fulfilled: true});
 
     const eventType = 'REQUEST_TOKENS';
-    const tokenEvent = makeTokenEvent(eventType, requestDoc.data());
+    // TODO: add more info to event log
+    const tokenEvent = makeTokenEvent(eventType, requestId);
     batch.set(getNewEventLogEntry(), tokenEvent);
 
     return batch.commit()
