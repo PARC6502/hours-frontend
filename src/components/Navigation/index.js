@@ -17,7 +17,7 @@ const NavigationAuth = (props) => {
     
     return (
         <Menu stackable>
-        <Menu.Item as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
+        <Menu.Item exact as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
         <Menu.Item as={NavLink} to={routes.ADD_HRS}>Log Hrs</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SEND_HRS}>Send Hrs</Menu.Item>  
         <Menu.Item as={NavLink} to={routes.PROFILE}>Your Profile</Menu.Item>  
