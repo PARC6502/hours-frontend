@@ -104,6 +104,6 @@ export const spendTokens = (from, on, details) => {
 }
 
 export const getRequests = () => 
-    db.collection('token-requests').get()
+    db.collection('token-requests').orderBy("dateCreated", "desc").get()
     .then(querySnapshot => querySnapshot.docs)
     .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))

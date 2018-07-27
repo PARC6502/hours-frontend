@@ -105,7 +105,8 @@ class TimeLoggingForm extends Component {
             header="Success!"
             content='You have successfully requested hours tokens!' />
         <Button 
-          className="ui basic fluid red button" 
+          fluid basic
+          color='green'
           loading={this.state.submitting}>Submit Request</Button>
       </Form>
     );

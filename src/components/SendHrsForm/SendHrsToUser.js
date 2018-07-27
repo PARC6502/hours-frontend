@@ -80,7 +80,7 @@ class SendHrsToUser extends Component {
           content={this.state.success ? 'Tokens sent successfully.' : ''} />
         <Form.Button
           type='submit'
-          color='red'
+          color='green'
           fluid basic
           disabled={!this.validate()}
           loading={this.state.loading}
