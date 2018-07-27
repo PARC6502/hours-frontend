@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Segment, Button, Icon, Divider, Header } from 'semantic-ui-react';
+import { Segment, Button, Icon, Header } from 'semantic-ui-react';
 
 import { admin, token } from '../../firebase';
 import withAuthorization from '../Session/withAuthorization';

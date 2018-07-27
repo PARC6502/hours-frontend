@@ -48,7 +48,6 @@ class TimeLoggingForm extends Component {
   };
 
   logHours = () => {
-    const { id: userId, name: userName } = this.props.user;
     var { task, orgIndex, time, dateOfLabour } = this.state.fields;
     const org = this.state.organisations[orgIndex];
     

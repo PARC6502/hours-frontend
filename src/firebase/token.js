@@ -1,5 +1,4 @@
 import { db } from './firebase';
-import { not } from 'ip';
 
 const makeTokenEvent = (type, details) => {
     const dateCreated = Date.now();
