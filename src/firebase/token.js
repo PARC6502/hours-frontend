@@ -9,11 +9,15 @@ const getNewEventLogEntry = () => db.collection("event-log").doc();
 
 const objContains = (obj, fields) => fields.every(field => Object.keys(obj).includes(field))
 
+const isNumberOrStringNumber = n => !isNaN(n) //typeof amount === 'number'
+const isNumberish = isNumberOrStringNumber
+const isAmountCorrect = amount => isNumberish(amount) && amount > 0
+
 export const sendTokens = async (from, to, details) => {
     if (!objContains(details, ['amount'])) throw Error('Sending amount not provided');
     
     if (from.id === to.id) throw Error('Trying to send to self.');
-    if (details.amount <= 0) throw Error("Can't send negative amount");
+    if (!isAmountCorrect(details.amount)) throw Error("Amount has to be a positive number.");
     const fromUserRef = db.collection("users").doc(from.id);
     const toUserRef = db.collection("users").doc(to.id);
     return db.runTransaction(async transaction => {
@@ -39,6 +43,7 @@ export const sendTokens = async (from, to, details) => {
 */
 export const requestTokens = (fromOrg, requester, details) => {
     // validate fromOrg
+    if (!isAmountCorrect(details.loggedHours)) throw Error("Amount has to be a positive number.");
     const requestRef = db.collection('token-requests').doc();
     const batch = db.batch();
     const request = {
