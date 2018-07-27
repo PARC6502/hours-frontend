@@ -1,42 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form } from 'semantic-ui-react';
 
 
-import { db } from '../../firebase';
+const UsersDropdown = props => {
+    const { users, loading, value, onChange } = props;
 
-class UsersDropdown extends Component {
-    state = {
-        users: [],
-        loading: true,
-    };
-
-    componentDidMount() {
-        console.info(this.props.user)
-        db.getUsers()
-        .then(users => users.filter(user => user.id !== this.props.user.id))
-        .then(users => this.setState({ users, loading: false }))
-        .catch(error => console.log(error))
-    }
-  
-    render() {
-        const userOptions = this.state.users.map(user => (
+    const userOptions = users.map((user,index) => (
         {
             text: user.name,
-            value: user.id,
+            value: index,
         }));
-        const { onChange, value } = this.props;
-        return (
-            <Form.Dropdown
-                loading={this.state.loading}
-                name="user" 
-                fluid search selection
-                label="Pick a user from the dropdown, or type their name"
-                placeholder="Select a user..." 
-                options={userOptions}
-                value={value} 
-                onChange={onChange} />
-        )
-    }
+    return (
+        <Form.Dropdown
+            loading={loading}
+            name="selectedUserIndex" 
+            fluid search selection
+            label="Pick a user from the dropdown, or type their name"
+            placeholder="Select a user..." 
+            options={userOptions}
+            value={value} 
+            onChange={onChange}
+            />
+    )
 }
 
 export default UsersDropdown;
