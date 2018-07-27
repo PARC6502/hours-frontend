@@ -64,7 +64,20 @@ const eventLogMapper = {
         const description = details.description;
         return {
             id,
-            summary: `${contributor} contributed ${hours} hours to ${organisation}`,
+            summary: `${contributor} contributed ${hours} hours to ${organisation} (Approved)`,
+            date: timeSince(dateCreated),
+            extra: description,
+        };
+    },
+    'REQUEST_TOKENS': eventItem => {
+        const { docId: id, details, dateCreated } = eventItem;
+        const contributor = details.requester.name;
+        const organisation = details.fromOrg.name;
+        const hours = details.loggedHours;
+        const description = details.description;
+        return {
+            id,
+            summary: `${contributor} logged ${hours} hours with ${organisation} (Pending approval)`,
             date: timeSince(dateCreated),
             extra: description,
         };
@@ -80,7 +93,7 @@ class TransactionFeed extends Component {
     componentDidMount() {
         let feedItems = [];
         db.getEventLog()
-        .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'SEND_TOKENS'))
+        .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'SEND_TOKENS' || event.type === 'REQUEST_TOKENS'))
         .then(events => {
             feedItems = events.map(event => eventLogMapper[event.type](event))
             console.log(feedItems);
