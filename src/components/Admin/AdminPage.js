@@ -10,6 +10,9 @@ const AdminPage = () =>
         <Grid.Row>
             <Button as={Link} to={routes.ADMIN_ADD_ORGANISATION}>Add Organisation</Button>
         </Grid.Row>
+        <Grid.Row>
+            <Button as={Link} to={routes.ADMIN_MANAGE_REQUESTS}>Manage token requests</Button>
+        </Grid.Row>
     </Grid>
 
 const authCondition = (user) => (user.role === 'ADMIN');

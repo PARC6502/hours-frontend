@@ -5,7 +5,7 @@
 
 # 27/07/2018
 
-* Link TimeLoggingForm to token request
+X Link TimeLoggingForm to token request
 * Create admin page for approving & rejecting requests
 * Send tokens to other user using new function
 

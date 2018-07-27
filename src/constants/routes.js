@@ -11,3 +11,4 @@ export const PROFILE = '/profile';
 /* ADMIN routes */
 export const ADMIN_PAGE = '/admin';
 export const ADMIN_ADD_ORGANISATION = '/admin/add-organisation';
+export const ADMIN_MANAGE_REQUESTS = '/admin/manage-requests';

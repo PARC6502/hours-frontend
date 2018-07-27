@@ -38,7 +38,7 @@ export const sendTokens = async (from, to, details) => {
 */
 export const requestTokens = (fromOrg, requester, details) => {
     // validate fromOrg
-    const requestRef = db.collection('token-requests').doc(fromOrg.id).collection('requests').doc();
+    const requestRef = db.collection('token-requests').doc();
     const batch = db.batch();
     const request = {
         fromId: fromOrg.id,

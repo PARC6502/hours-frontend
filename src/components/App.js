@@ -17,6 +17,7 @@ import ProfilePage from './ProfilePage';
 import OrganisationPage from './InfoPages/OrganisationPage';
 import UserPage from './InfoPages/UserPage';
 import AddOrganisation from './Admin/AddOrganisation';
+import ManageRequests from './Admin/ManageRequests';
 import AdminPage from './Admin/AdminPage';
 
 import withAuthAndUser from './Session/withAuthAndUser';
@@ -40,6 +41,7 @@ const App = (props) => {
 						<Route exact path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
 						<Route exact path={routes.ADMIN_PAGE} component={AdminPage} />
 						<Route exact path={routes.ADMIN_ADD_ORGANISATION} component={AddOrganisation} />
+						<Route exact path={routes.ADMIN_MANAGE_REQUESTS} component={ManageRequests} />
 						<Route render={({ location }) => {
 							// console.log(location);
 							return (
