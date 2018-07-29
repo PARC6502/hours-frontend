@@ -1,4 +1,4 @@
-#### 26/07/2018
+# 26/07/2018
 
 * Create Token.js file in firebase folder
   * created skeleton functions for token events
@@ -23,3 +23,6 @@ X drop spend functionality in send section
 
 X decide how token event feeds will be displayed
   - Displaying items from event-log, rendered based on event type
+  * Need to clean up transactionfeed.js so naming conventions are more consistent
+
+29/07/2018
