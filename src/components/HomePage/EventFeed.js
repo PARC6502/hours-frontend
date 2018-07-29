@@ -87,15 +87,18 @@ const eventLogMapper = {
 
 class EventFeed extends Component {
     state = {
-        feedItems: null,
+        feedItems: [],
         loading: true
     }
 
     componentDidMount() {
         let feedItems = [];
         db.getEventLog()
+        // .then(events => events.filter(event => event.type === 'REQUEST_TOKENS'))
+        // .then(console.info)
         .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'SEND_TOKENS' || event.type === 'REQUEST_TOKENS'))
         .then(events => {
+
             feedItems = events.map(event => eventLogMapper[event.type](event))
             console.log(feedItems);
             this.setState({ feedItems })
@@ -105,7 +108,7 @@ class EventFeed extends Component {
     }
 
     render() {
-        const feedItems = this.state.feedItems || dummyFeed;
+        const feedItems = this.state.feedItems;
         return (
             <Grid centered columns={2} id="eventFeedContainer">
                 <Grid.Column>

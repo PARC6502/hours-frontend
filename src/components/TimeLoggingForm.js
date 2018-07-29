@@ -75,7 +75,8 @@ class TimeLoggingForm extends Component {
     const fieldValues = Object.values(this.state.fields);
     console.log(fieldValues);
     const fieldValuesAreSome = fieldValues.every(isSome);
-    return fieldValuesAreSome && this.validateTime(fieldValues.time);
+    const timeFieldValid = this.validateTime(this.state.fields.time);
+    return fieldValuesAreSome && timeFieldValid;
   }
 
   render() {
