@@ -66,6 +66,10 @@ class TimeLoggingForm extends Component {
     && hours < 24
   }
 
+  validateDate = (date) => {
+    const [year, month, day] = date.split('-');
+  }
+
   validate = () => {
     const isSome = x => x !== null && x !== '';
     const fieldValues = Object.values(this.state.fields);
@@ -85,9 +89,9 @@ class TimeLoggingForm extends Component {
       <Form onSubmit={this.handleSubmit} loading={this.state.loading} 
       error={this.state.error} success={this.state.success}>
         <Message>
-          <Message.Header>Form Information</Message.Header>
+          <Message.Header>How to log hours</Message.Header>
           <List bulleted>
-            <List.Item>You need to fill on all the fields</List.Item>
+            <List.Item>You need to fill in all of the fields</List.Item>
             <List.Item>You can only log a maximum of 24 hours at once</List.Item>
           </List>
         </Message>
