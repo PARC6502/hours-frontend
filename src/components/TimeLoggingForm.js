@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './TimeLoggingForm.css';
-import { Form, Button, Message } from 'semantic-ui-react';
+import { Form, Button, Message, List } from 'semantic-ui-react';
 
 import { db } from '../firebase';
 import { token } from '../firebase';
@@ -60,6 +60,20 @@ class TimeLoggingForm extends Component {
     this.setState({ fields });
   };
 
+  validateTime = (time) => {
+    const hours = Number(time);
+    return hours > 0
+    && hours < 24
+  }
+
+  validate = () => {
+    const isSome = x => x !== null && x !== '';
+    const fieldValues = Object.values(this.state.fields);
+    console.log(fieldValues);
+    const fieldValuesAreSome = fieldValues.every(isSome);
+    return fieldValuesAreSome && this.validateTime(fieldValues.time);
+  }
+
   render() {
     const orgOptions = this.state.organisations.map((org, i) => (
       {
@@ -70,6 +84,13 @@ class TimeLoggingForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit} loading={this.state.loading} 
       error={this.state.error} success={this.state.success}>
+        <Message>
+          <Message.Header>Form Information</Message.Header>
+          <List bulleted>
+            <List.Item>You need to fill on all the fields</List.Item>
+            <List.Item>You can only log a maximum of 24 hours at once</List.Item>
+          </List>
+        </Message>
         <Form.Input
           name="task" 
           label="What did you do?" 
@@ -107,6 +128,7 @@ class TimeLoggingForm extends Component {
         <Button 
           fluid basic
           color='green'
+          disabled={!this.validate()}
           loading={this.state.submitting}>Submit Request</Button>
       </Form>
     );
