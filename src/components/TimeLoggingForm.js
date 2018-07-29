@@ -66,17 +66,25 @@ class TimeLoggingForm extends Component {
     && hours < 24
   }
 
-  validateDate = (date) => {
-    const [year, month, day] = date.split('-');
+  validateDate = (dateString) => {
+    const MILLIS_IN_MONTH = 2678400000;
+    const loggedDate = new Date(dateString);
+    const today = new Date();
+    const dateDiff = today - loggedDate;
+    // check 
+    const dateNotInFuture = dateDiff >= 0;
+    const dateLessThanMonthOld = dateDiff < MILLIS_IN_MONTH; 
+    return dateLessThanMonthOld && dateNotInFuture;
   }
 
   validate = () => {
     const isSome = x => x !== null && x !== '';
-    const fieldValues = Object.values(this.state.fields);
-    console.log(fieldValues);
+    const fields = this.state.fields;
+    const fieldValues = Object.values(fields);
     const fieldValuesAreSome = fieldValues.every(isSome);
-    const timeFieldValid = this.validateTime(this.state.fields.time);
-    return fieldValuesAreSome && timeFieldValid;
+    const timeFieldValid = this.validateTime(fields.time);
+    const dateFieldValid = this.validateDate(fields.dateOfLabour);
+    return fieldValuesAreSome && timeFieldValid && dateFieldValid;
   }
 
   render() {
@@ -94,6 +102,7 @@ class TimeLoggingForm extends Component {
           <List bulleted>
             <List.Item>You need to fill in all of the fields</List.Item>
             <List.Item>You can only log a maximum of 24 hours at once</List.Item>
+            <List.Item>You can't log tasks over a month old</List.Item>
           </List>
         </Message>
         <Form.Input
@@ -112,7 +121,7 @@ class TimeLoggingForm extends Component {
           onChange={this.onFormChange} />
         <Form.Input 
           name="time" 
-          label="How long did you spend on this?" 
+          label="How many hours did you spend on this?" 
           type="number"
           value={this.state.fields.time}
           onChange={this.onFormChange} />
