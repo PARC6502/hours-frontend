@@ -96,9 +96,9 @@ export const rejectTokens = (request, orgId, reason) => {
     const batch = db.batch();
     batch.update(requestRef, {rejected: true, fulfilled: true});
 
-    const eventType = 'REQUEST_TOKENS';
+    const eventType = 'REJECT_TOKENS';
     // TODO: add more info to event log
-    const tokenEvent = makeTokenEvent(eventType, request.docId);
+    const tokenEvent = makeTokenEvent(eventType, {requestId: request.docId, rejectionReason: reason});
     batch.set(getNewEventLogEntry(), tokenEvent);
 
     return batch.commit()

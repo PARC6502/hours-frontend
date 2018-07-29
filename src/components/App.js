@@ -14,6 +14,9 @@ import SignInPage from './SignInPage';
 import SignUpPage from './SignUpPage';
 import ManageAccount from './ManageAccount';
 import ProfilePage from './ProfilePage';
+
+import OfflineDimmer from './OfflineDimmer';
+
 import OrganisationPage from './InfoPages/OrganisationPage';
 import UserPage from './InfoPages/UserPage';
 import AddOrganisation from './Admin/AddOrganisation';
@@ -28,6 +31,7 @@ const App = (props) => {
 		<Router>
 			<Fragment>
 				<Navigation />
+				<OfflineDimmer />
 				<Container>
 					<Switch>
 						<Route exact path={routes.HOME_PAGE} component={HomePage} />

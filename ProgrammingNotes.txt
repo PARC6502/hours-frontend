@@ -26,3 +26,19 @@ X decide how token event feeds will be displayed
   * Need to clean up transactionfeed.js so naming conventions are more consistent
 
 29/07/2018
+
+- There was error in event log, had to manually delete entry in DB
+  X Fixed event log function
+X Renamed all vars in eventfeed to make it consistent
+* Add app-wide offline indicator/dimmer
+
+* Check date validation on TimeLoggingForm
+* User can add description when sending hours
+
+* Manage Users (especially user roles) in Admin page
+  - Having info on user fits with current route auth 
+
+* research other methods of route authorisation
+
+* persistent state for navigation?
+- offline firebase: are offline transactions possible?

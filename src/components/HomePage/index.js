@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { Segment } from 'semantic-ui-react';
 
-import TransactionFeed from './TransactionFeed';
+import EventFeed from './EventFeed';
 
 const HomePage = () =>
 	<Fragment>
 		<Segment>Welcome to the hours project</Segment>
-		<TransactionFeed />
+		<EventFeed />
 	</Fragment>
 
 export default HomePage;
