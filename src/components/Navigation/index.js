@@ -2,15 +2,16 @@ import React from 'react';
 import { Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
-import SearchMembers from './SearchMembers'
+import SearchMembers from './SearchMembers';
 import AccountDropdown from './AccountDropdown';
-import AuthUserContext from '../Session/AuthUserContext'
+import AuthUserContext from '../Session/AuthUserContext';
+import { FirebaseAuthUserContext } from '../Session/FirebaseAuthUserProvider';
 import * as routes from '../../constants/routes';
 
 const Navigation = () => 
-    <AuthUserContext.Consumer>
-        {user => user.id ? <NavigationAuth user={user} /> : <NavigationNonAuth />}
-    </AuthUserContext.Consumer>
+    <FirebaseAuthUserContext.Consumer>
+        {user => user.isUserSignedIn && !user.pendingUser ? <NavigationAuth user={user} /> : <NavigationNonAuth />}
+    </FirebaseAuthUserContext.Consumer>
 
 const NavigationAuth = (props) => {
     const isAdmin = props.user.role === 'ADMIN';
@@ -24,7 +25,7 @@ const NavigationAuth = (props) => {
         {isAdmin ? <Menu.Item as={NavLink} to={routes.ADMIN_PAGE}>Admin Page</Menu.Item> : null}
         <Menu.Menu position='right'>
             <SearchMembers className="right aligned item" />
-            <AccountDropdown />
+            <AccountDropdown user={props.user} />
             {/* <Menu.Item><Button onClick={auth.doSignOut}>Log out</Button></Menu.Item> */}
         </Menu.Menu>  
     </Menu>

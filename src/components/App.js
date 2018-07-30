@@ -26,8 +26,11 @@ import AdminPage from './Admin/AdminPage';
 import withAuthAndUser from './Session/withAuthAndUser';
 import * as routes from '../constants/routes';
 
+import FirebaseAuthUserProvider from './Session/FirebaseAuthUserProvider'
+
 const App = (props) => {
 	return (
+		<FirebaseAuthUserProvider>
 		<Router>
 			<Fragment>
 				<Navigation />
@@ -56,7 +59,8 @@ const App = (props) => {
 				</Container>
 			</Fragment>
 		</Router>
+		</FirebaseAuthUserProvider>
 	);
 };
 
-export default withAuthAndUser(App);
+export default App;

@@ -100,7 +100,6 @@ class EventFeed extends Component {
         .then(events => {
 
             feedItems = events.map(event => eventLogMapper[event.type](event))
-            console.log(feedItems);
             this.setState({ feedItems })
         })
         .catch(console.error)

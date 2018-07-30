@@ -20,11 +20,4 @@ const AccountDropdown = (props) => {
     );
 }
 
-// NOTE Could be recieved from navigation??
-const AccountDropdownWithUser = () => (
-    <AuthUserContext.Consumer>
-        {user => <AccountDropdown user={user} />}
-    </AuthUserContext.Consumer>
-);
-
-export default AccountDropdownWithUser;
+export default AccountDropdown;

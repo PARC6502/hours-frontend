@@ -42,3 +42,15 @@ X Renamed all vars in eventfeed to make it consistent
 
 * persistent state for navigation?
 - offline firebase: are offline transactions possible?
+
+30/07/2018
+
+- Methods of protecting routes
+  - Store currentuser in local storage, check localstorage when app first loads 
+    and have app call onAuthStateChanged to refresh localstorage
+  - Use `PrivateRoute` component, have it check if authenticated and either load
+    load protected route or redirect
+    - Need to have a way of having other authconditions like `role`
+    - Can have some kind of loading functionality that waits for onAuthStateChanged
+  - Using higher order component
+    - Can add loading/pending to HOC
