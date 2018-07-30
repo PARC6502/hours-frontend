@@ -54,3 +54,5 @@ X Renamed all vars in eventfeed to make it consistent
     - Can have some kind of loading functionality that waits for onAuthStateChanged
   - Using higher order component
     - Can add loading/pending to HOC
+      X with loading component can refresh protected route without being redirected
+

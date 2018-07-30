@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 
 import SearchMembers from './SearchMembers';
 import AccountDropdown from './AccountDropdown';
-import AuthUserContext from '../Session/AuthUserContext';
 import { FirebaseAuthUserContext } from '../Session/FirebaseAuthUserProvider';
 import * as routes from '../../constants/routes';
 

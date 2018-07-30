@@ -23,7 +23,6 @@ import AddOrganisation from './Admin/AddOrganisation';
 import ManageRequests from './Admin/ManageRequests';
 import AdminPage from './Admin/AdminPage';
 
-import withAuthAndUser from './Session/withAuthAndUser';
 import * as routes from '../constants/routes';
 
 import FirebaseAuthUserProvider from './Session/FirebaseAuthUserProvider'

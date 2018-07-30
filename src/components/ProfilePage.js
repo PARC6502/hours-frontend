@@ -1,7 +1,7 @@
 import React from 'react';
 
 import LoadingCardView from './LoadingCardView';
-import AuthUserContext from './Session/AuthUserContext';
+import { FirebaseAuthUserContext } from './Session/FirebaseAuthUserProvider';
 import withAuthorization from './Session/withAuthorization';
 import { db } from '../firebase';
 
@@ -46,9 +46,9 @@ class Profile extends React.Component {
 };
 
 const ProfilePage = () => 
-	<AuthUserContext.Consumer>
+	<FirebaseAuthUserContext.Consumer>
 		{user => <Profile user={user} />}
-	</AuthUserContext.Consumer>
+	</FirebaseAuthUserContext.Consumer>
 
 const authCondition = (user) => user !== null;
 export default withAuthorization(authCondition)(ProfilePage);

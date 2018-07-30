@@ -4,7 +4,7 @@ import { Form, Button, Message, List } from 'semantic-ui-react';
 
 import { db } from '../firebase';
 import { token } from '../firebase';
-import AuthUserContext from './Session/AuthUserContext'
+import {FirebaseAuthUserContext} from './Session/FirebaseAuthUserProvider';
 import withAuthorization from './Session/withAuthorization';
 
 const INITIAL_FIELDS = {
@@ -150,9 +150,9 @@ class TimeLoggingForm extends Component {
 }
 
 const TimeLoggingFormWithUser = () =>
-  <AuthUserContext.Consumer>
+  <FirebaseAuthUserContext.Consumer>
     {user => <TimeLoggingForm user={user} />}
-  </AuthUserContext.Consumer>
+  </FirebaseAuthUserContext.Consumer>
 
 const authCondition = (user) => user !== null;
 export default withAuthorization(authCondition)(TimeLoggingFormWithUser);

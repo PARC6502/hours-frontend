@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
-import AuthUserContext from '../Session/AuthUserContext';
 import { auth } from '../../firebase';
 
 const AccountDropdown = (props) => {

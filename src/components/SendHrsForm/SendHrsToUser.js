@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Message } from "semantic-ui-react";
 
 import { token, db } from "../../firebase";
-import AuthUserContext from "../Session/AuthUserContext";
+import {FirebaseAuthUserContext} from "../Session/FirebaseAuthUserProvider";
 import UsersDropdown from "./UsersDropdown";
 
 const INITIAL_STATE = {
@@ -93,8 +93,8 @@ class SendHrsToUser extends Component {
 }
 
 const SendHrsToUserWithAuthUser = (props) =>
-  <AuthUserContext.Consumer>
+  <FirebaseAuthUserContext.Consumer>
     {user => <SendHrsToUser user={user} />}
-  </AuthUserContext.Consumer>
+  </FirebaseAuthUserContext.Consumer>
 
 export default SendHrsToUserWithAuthUser;
