@@ -34,7 +34,7 @@ const NavigationAuth = (props) => {
 
 const NavigationNonAuth = () => 
     <Menu>
-        <Menu.Item as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
+        <Menu.Item exact as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SIGN_IN}>Sign in</Menu.Item> 
         <Menu.Item as={NavLink} to={routes.SIGN_UP}>Sign up</Menu.Item> 
     </Menu>
