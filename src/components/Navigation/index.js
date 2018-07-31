@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 import SearchMembers from './SearchMembers';
@@ -36,7 +36,9 @@ const NavigationNonAuth = () =>
     <Menu>
         <Menu.Item exact as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SIGN_IN}>Sign in</Menu.Item> 
-        <Menu.Item as={NavLink} to={routes.SIGN_UP}>Sign up</Menu.Item> 
+        <Menu.Item position='right' fitted>
+            <Button as={NavLink} to={routes.SIGN_UP} fluid primary>Sign up</Button>
+        </Menu.Item> 
     </Menu>
 
 export default Navigation
