@@ -6,7 +6,10 @@ import {
 } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
-import Navigation from './Navigation'
+import Navigation from './Navigation';
+import OfflineDimmer from './OfflineDimmer';
+import InfoModal from './InfoModal';
+
 import TimeLoggingForm from './TimeLoggingForm';
 import SendHrsForm from './SendHrsForm';
 import HomePage from './HomePage';
@@ -15,10 +18,9 @@ import SignUpPage from './SignUpPage';
 import ManageAccount from './ManageAccount';
 import ProfilePage from './ProfilePage';
 
-import OfflineDimmer from './OfflineDimmer';
-
 import OrganisationPage from './InfoPages/OrganisationPage';
 import UserPage from './InfoPages/UserPage';
+
 import AddOrganisation from './Admin/AddOrganisation';
 import ManageRequests from './Admin/ManageRequests';
 import AdminPage from './Admin/AdminPage';
@@ -34,6 +36,7 @@ const App = (props) => {
 			<Fragment>
 				<Navigation />
 				<OfflineDimmer />
+				<InfoModal />
 				<Container>
 					<Switch>
 						<Route exact path={routes.HOME_PAGE} component={HomePage} />
