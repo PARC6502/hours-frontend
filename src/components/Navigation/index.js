@@ -115,8 +115,8 @@ class ResponsiveNavigation extends React.Component {
         return (
             <Fragment>
                 <Responsive {...Responsive.onlyMobile}>
-                    <Menu fluid icon size='massive'>
-                        <Menu.Item onClick={this.handleButtonClick} position='right' >
+                    <Menu fluid icon size='massive' borderless fixed='top' secondary>
+                        <Menu.Item onClick={this.handleButtonClick} position='right' active={this.state.sidebarActive}>
                             <Icon name='bars' />
                         </Menu.Item>
                     </Menu>
