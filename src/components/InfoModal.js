@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Grid, Button, Image, Modal, Header } from 'semantic-ui-react'
 
 import aboutUs from '../images/jumpyHours.png';
-import howItWorks from '../images/helping.jpg';
+import howItWorks from '../images/helping.png';
 import logHours from '../images/logHours.png';
 import spendHours from '../images/shopSupport.png';
 import exchangeHours from '../images/greatTime.png';
@@ -91,12 +91,12 @@ class InfoGallery extends Component {
         const {activeIndex} = this.state;
         return (
             <Grid>
-                <Grid.Row centered><Header content={panes[activeIndex].header} /></Grid.Row>
-                <Grid.Row>
+                <Grid.Row style={{ minHeight:'362px' }} >
                     <Grid.Column width={2} verticalAlign='middle'>
                         <Button basic icon='chevron left' onClick={this.onLeftClick} />
                     </Grid.Column>
-                    <Grid.Column width={6} verticalAlign='middle'>
+                    <Grid.Column width={6} stretched>
+                        <Header content={panes[activeIndex].header} size='huge'/>
                         <p>{panes[activeIndex].text}</p>
                     </Grid.Column>
                     <Grid.Column width={6} verticalAlign='middle'>
@@ -114,7 +114,8 @@ class InfoGallery extends Component {
                             basic={activeIndex===index} 
                             onClick={this.onButtonClick} 
                             circular icon color='black'
-                            size='mini'  /> )}
+                            size='mini'
+                            style={{ padding:'0.6em', fontSize:'0.6em' }}  /> )}
                 </Grid.Row>
             </Grid>
         );
