@@ -93,9 +93,11 @@ class InfoGallery extends Component {
         return (
             <Grid as={Swipeable}
             onSwipedLeft={this.onRightClick}
-            onSwipedRight={this.onLeftClick}>
-                <Grid.Row style={{ minHeight:'362px' }} >
-                    <Grid.Column width={2} verticalAlign='middle'>
+            onSwipedRight={this.onLeftClick}
+            stackable
+            >
+                <Grid.Row style={{ minHeight:'362px' }} reversed='mobile vertically'>
+                    <Grid.Column width={2} verticalAlign='middle' only='computer large screen widescreen'>
                         <Button basic icon='chevron left' onClick={this.onLeftClick} />
                     </Grid.Column>
                     <Grid.Column width={6} stretched>
@@ -105,7 +107,7 @@ class InfoGallery extends Component {
                     <Grid.Column width={6} verticalAlign='middle'>
                         <Image src={panes[activeIndex].image} />
                     </Grid.Column>
-                    <Grid.Column width={2} verticalAlign='middle'>
+                    <Grid.Column width={2} verticalAlign='middle'  only='computer large screen widescreen'>
                         <Button basic icon='chevron right' onClick={this.onRightClick} />
                     </Grid.Column>
                 </Grid.Row>
