@@ -59,4 +59,6 @@ X Renamed all vars in eventfeed to make it consistent
 31/07/2018
 
 Infomodal
-  
+
+* Change image for second infopane with updated image
+* Move heading in info pane to left (over text) and make bigger
