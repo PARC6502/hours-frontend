@@ -109,7 +109,7 @@ class EventFeed extends Component {
     render() {
         const feedItems = this.state.feedItems;
         return (
-            <Grid centered columns={2} id="eventFeedContainer">
+            <Grid centered container columns={2} stackable id="eventFeedContainer">
                 <Grid.Column>
                     <Dimmer active={this.state.loading}>
                         <Loader content="loading" />
