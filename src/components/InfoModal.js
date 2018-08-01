@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Grid, Button, Image, Modal, Header } from 'semantic-ui-react'
+import Swipeable from 'react-swipeable';
 
 import aboutUs from '../images/jumpyHours.png';
 import howItWorks from '../images/helping.png';
@@ -90,7 +91,9 @@ class InfoGallery extends Component {
         const {panes} = this.props;
         const {activeIndex} = this.state;
         return (
-            <Grid>
+            <Grid as={Swipeable}
+            onSwipedLeft={this.onRightClick}
+            onSwipedRight={this.onLeftClick}>
                 <Grid.Row style={{ minHeight:'362px' }} >
                     <Grid.Column width={2} verticalAlign='middle'>
                         <Button basic icon='chevron left' onClick={this.onLeftClick} />
