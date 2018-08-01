@@ -97,7 +97,7 @@ class InfoGallery extends Component {
             stackable
             >
                 <Grid.Row style={{ minHeight:'362px' }} reversed='mobile vertically'>
-                    <Grid.Column width={2} verticalAlign='middle' only='computer large screen widescreen'>
+                    <Grid.Column width={2} verticalAlign='middle' only='computer'>
                         <Button basic icon='chevron left' onClick={this.onLeftClick} />
                     </Grid.Column>
                     <Grid.Column width={6} stretched>
@@ -107,7 +107,7 @@ class InfoGallery extends Component {
                     <Grid.Column width={6} verticalAlign='middle'>
                         <Image src={panes[activeIndex].image} />
                     </Grid.Column>
-                    <Grid.Column width={2} verticalAlign='middle'  only='computer large screen widescreen'>
+                    <Grid.Column width={2} verticalAlign='middle'  only='computer'>
                         <Button basic icon='chevron right' onClick={this.onRightClick} />
                     </Grid.Column>
                 </Grid.Row>
