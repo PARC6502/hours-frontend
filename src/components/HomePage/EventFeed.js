@@ -49,11 +49,12 @@ const eventLogMapper = {
         const toName = details.to.name;
         const fromName = details.from.name;
         const hours = details.amount;
+        const description = details.description || '';
         return {
             id,
             summary: `${toName} recieved ${hours} hours from ${fromName}`,
             date: timeSince(dateCreated),
-            extra: '',
+            extra: description,
         };
     },
     'APPROVE_TOKENS': eventItem => {
