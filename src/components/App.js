@@ -37,7 +37,7 @@ const App = (props) => {
 				<Navigation />
 				<OfflineDimmer />
 				<InfoModal />
-				<Container>
+				<Container style={{ marginTop: '4.5rem' }}>
 					<Switch>
 						<Route exact path={routes.HOME_PAGE} component={HomePage} />
 						<Route exact path={routes.SIGN_IN} component={SignInPage} />

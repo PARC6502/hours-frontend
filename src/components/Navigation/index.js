@@ -91,7 +91,7 @@ const SidebarMenu = (props) => (
 )
 
 const BarMenu = () => 
-    <Menu>
+    <Menu fixed='top'>
         <MenuItems />
     </Menu>
 
@@ -115,8 +115,8 @@ class ResponsiveNavigation extends React.Component {
         return (
             <Fragment>
                 <Responsive {...Responsive.onlyMobile}>
-                    <Menu fluid icon size='massive' borderless fixed='top' secondary>
-                        <Menu.Item onClick={this.handleButtonClick} position='right' active={this.state.sidebarActive}>
+                    <Menu fluid icon size='massive' borderless fixed='top'>
+                        <Menu.Item onClick={this.handleButtonClick} position='right'>
                             <Icon name='bars' />
                         </Menu.Item>
                     </Menu>
