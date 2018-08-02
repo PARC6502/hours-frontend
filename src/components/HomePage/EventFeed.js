@@ -63,8 +63,6 @@ const eventLogMapper = {
     },
     'REQUEST_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const contributor = details.requester.name;
-        const organisation = details.fromOrg.name;
         const hours = details.loggedHours;
         const description = details.description;
         const contributorLink = <Link to={`user/${details.requester.id}`}>{details.requester.name}</Link>
