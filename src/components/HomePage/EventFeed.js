@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Feed, Segment, Dimmer, Loader, Image, Grid } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import { timeSince } from '../../helpers'
 import { db } from '../../firebase';
@@ -9,16 +10,6 @@ import elliotSmall from '../../elliotSmall.jpg';
 import helenSmall from '../../helenSmall.jpg';
 import joeSmall from '../../joeSmall.jpg';
 import './EventFeed.css';
-
-const dummyFeed = [
-    {
-        id: 0,
-        summary: ` recieved  hours from `,
-        extra: 'description',
-        fromId: 'from',
-        toId: 'to',
-    }
-];
 
 const imageArray = [jennySmall, elliotSmall, helenSmall, joeSmall]
 
@@ -46,26 +37,26 @@ const FeedFromArray = (props) => (
 const eventLogMapper = {
     'SEND_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const toName = details.to.name;
-        const fromName = details.from.name;
         const hours = details.amount;
         const description = details.description || '';
+        const toLink = <Link to={`user/${details.to.id}`}>{details.to.name}</Link>;
+        const fromLink = <Link to={`user/${details.from.id}`}>{details.from.name}</Link>;
         return {
             id,
-            summary: `${toName} recieved ${hours} hours from ${fromName}`,
+            summary: <Fragment>{toLink} recieved {hours} hours from {fromLink}</Fragment>,
             date: timeSince(dateCreated),
             extra: description,
         };
     },
     'APPROVE_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const contributor = details.requesterName;
-        const organisation = details.fromName;
         const hours = details.tokens;
         const description = details.description;
+        const contributorLink = <Link to={`user/${details.requesterId}`}>{details.requesterName}</Link>;
+        const organisationLink = <Link to={`organisation/${details.fromId}`}>{details.fromName}</Link>;
         return {
             id,
-            summary: `${contributor} contributed ${hours} hours to ${organisation} (Approved)`,
+            summary: <Fragment>{contributorLink} contributed {hours} hours to {organisationLink} (Approved)</Fragment>,
             date: timeSince(dateCreated),
             extra: description,
         };
@@ -76,10 +67,11 @@ const eventLogMapper = {
         const organisation = details.fromOrg.name;
         const hours = details.loggedHours;
         const description = details.description;
-       
+        const contributorLink = <Link to={`user/${details.requester.id}`}>{details.requester.name}</Link>
+        const organisationLink = <Link to={`organisation/${details.fromOrg.id}`}>{details.fromOrg.name}</Link>
         return {
             id,
-            summary: `${contributor} logged ${hours} hours with ${organisation} (Pending approval)`,
+            summary: <Fragment>{contributorLink} logged {hours} hours with {organisationLink} (Pending approval)</Fragment>,
             date: timeSince(dateCreated),
             extra: description,
         };
