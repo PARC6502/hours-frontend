@@ -8,6 +8,7 @@ import UsersDropdown from "./UsersDropdown";
 const INITIAL_STATE = {
   selectedUserIndex: null,
   amount: 1,
+  description: '',
   error: null,
   loading: false,
   users: [],
@@ -37,10 +38,10 @@ class SendHrsToUser extends Component {
 
   handleSubmit = () => {
     const fromUser = this.props.user;
-    const { amount, selectedUserIndex } = this.state;
+    const { amount, selectedUserIndex, description } = this.state;
     const toUser = this.state.users[selectedUserIndex];
     this.setState({ loading: true });
-    const details = { amount };
+    const details = { amount, description };
     token.sendTokens(fromUser, toUser, details)
     .then(() => this.setState({ ...INITIAL_STATE }))
     .then(() => this.setState({ success: true }))
@@ -63,6 +64,12 @@ class SendHrsToUser extends Component {
           loading={this.state.loading}
           users={this.state.users}
         />
+        <Form.Input
+          name="description" 
+          label="What's the reason for sending these hours?" 
+          type="text" 
+          value={this.state.description}
+          onChange={this.onFormChange} />
         <Form.Input
           name="amount"
           label="How much are you sending?"
