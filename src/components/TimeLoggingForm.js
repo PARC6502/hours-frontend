@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
 import './TimeLoggingForm.css';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button, Message, List } from 'semantic-ui-react';
 
-import { auth, db } from '../firebase';
-import AuthUserContext from './Session/AuthUserContext'
+import { db } from '../firebase';
+import { token } from '../firebase';
+import {FirebaseAuthUserContext} from './Session/FirebaseAuthUserProvider';
 import withAuthorization from './Session/withAuthorization';
+
+const INITIAL_FIELDS = {
+  task: '',
+  orgIndex: '',
+  time: '',
+  dateOfLabour: null,
+};
 
 class TimeLoggingForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       fields: {
-        task: '',
-        project: '',
-        time: '',
+        ...INITIAL_FIELDS
       },
       organisations: [],
-      loading: true
+      loading: true,
+      submitting: false,
+      error: null,
+      success: false,
     };
   }
   
@@ -31,24 +40,18 @@ class TimeLoggingForm extends Component {
   }
 
   handleSubmit = () => {
-    this.logHours();
-    const fields = {
-      task: '',
-      project: '',
-      time: '',
-    };
-    this.setState({ fields });
+    this.setState({ submitting: true });
+    this.logHours()
+    .then(() => this.setState({ success:true, fields: {...INITIAL_FIELDS} }))
+    .catch((error) => this.setState({ error }))
+    .then(() => this.setState({ submitting: false }));
   };
 
   logHours = () => {
-    const { id: userId, name: userName } = this.props.user;
-    var { task, project, time } = this.state.fields;
-    let [projectId, projectName] = project.split('-');
-    console.log(userId, userName, projectName);
-    db.sendHoursToUser(userId, time)
-    .then(() => db.generateHoursFromOrg(projectId, time))
-    .then(() => db.createTransaction("Log Hours", projectId, projectName, userId, userName, time, task, Date.now()))
-    .catch((error) => console.log(error));
+    var { task, orgIndex, time, dateOfLabour } = this.state.fields;
+    const org = this.state.organisations[orgIndex];
+    
+    return token.requestTokens(org, this.props.user, {loggedHours: time, description: task, dateOfLabour});
   }
 
   onFormChange = (evt, {name, value}) => {
@@ -57,15 +60,51 @@ class TimeLoggingForm extends Component {
     this.setState({ fields });
   };
 
+  validateTime = (time) => {
+    const hours = Number(time);
+    return hours > 0
+    && hours < 24
+  }
+
+  validateDate = (dateString) => {
+    const MILLIS_IN_MONTH = 2678400000;
+    const loggedDate = new Date(dateString);
+    const today = new Date();
+    const dateDiff = today - loggedDate;
+    // check 
+    const dateNotInFuture = dateDiff >= 0;
+    const dateLessThanMonthOld = dateDiff < MILLIS_IN_MONTH; 
+    return dateLessThanMonthOld && dateNotInFuture;
+  }
+
+  validate = () => {
+    const isSome = x => x !== null && x !== '';
+    const fields = this.state.fields;
+    const fieldValues = Object.values(fields);
+    const fieldValuesAreSome = fieldValues.every(isSome);
+    const timeFieldValid = this.validateTime(fields.time);
+    const dateFieldValid = this.validateDate(fields.dateOfLabour);
+    return fieldValuesAreSome && timeFieldValid && dateFieldValid;
+  }
+
   render() {
-    const orgOptions = this.state.organisations.map(org => (
+    const orgOptions = this.state.organisations.map((org, i) => (
       {
         text: org.name,
-        value: `${org.id}-${org.name}`,
+        value: i,
       }));
     
     return (
-      <Form onSubmit={this.handleSubmit} loading={this.state.loading}>
+      <Form onSubmit={this.handleSubmit} loading={this.state.loading} 
+      error={this.state.error} success={this.state.success}>
+        <Message>
+          <Message.Header>How to log hours</Message.Header>
+          <List bulleted>
+            <List.Item>You need to fill in all of the fields</List.Item>
+            <List.Item>You can only log a maximum of 24 hours at once</List.Item>
+            <List.Item>You can't log tasks over a month old</List.Item>
+          </List>
+        </Message>
         <Form.Input
           name="task" 
           label="What did you do?" 
@@ -73,29 +112,47 @@ class TimeLoggingForm extends Component {
           value={this.state.fields.task}
           onChange={this.onFormChange} />
         <Form.Select 
-          name="project" 
+          name="orgIndex" 
           fluid search selection
           label="Who did you do this for?"
           placeholder="Select a project..." 
           options={orgOptions}
-          value={this.state.fields.project} 
+          value={this.state.fields.orgIndex} 
           onChange={this.onFormChange} />
         <Form.Input 
           name="time" 
-          label="How long did you spend on this?" 
+          label="How many hours did you spend on this?" 
           type="number"
           value={this.state.fields.time}
           onChange={this.onFormChange} />
-        <Button className="ui basic fluid red button">Submit</Button>
+          <Form.Input 
+            name="dateOfLabour" 
+            label="When did you do this?" 
+            type="date"
+            value={this.state.fields.dateOfLabour}
+            onChange={this.onFormChange} />
+          <Message
+            error
+            header="Form Error"
+            content={this.state.error ? this.state.error.message : ''} />
+          <Message
+            success
+            header="Success!"
+            content='You have successfully requested hours tokens!' />
+        <Button 
+          fluid basic
+          color='green'
+          disabled={!this.validate()}
+          loading={this.state.submitting}>Submit Request</Button>
       </Form>
     );
   }
 }
 
 const TimeLoggingFormWithUser = () =>
-  <AuthUserContext.Consumer>
+  <FirebaseAuthUserContext.Consumer>
     {user => <TimeLoggingForm user={user} />}
-  </AuthUserContext.Consumer>
+  </FirebaseAuthUserContext.Consumer>
 
 const authCondition = (user) => user !== null;
 export default withAuthorization(authCondition)(TimeLoggingFormWithUser);

@@ -16,7 +16,7 @@ export const getUsers = () =>
     .then(function(querySnapshot) {
         var users = [];
         querySnapshot.forEach(doc => {
-            var {hours, name, email, id} = doc.data();
+            var {hours, name, email} = doc.data();
             users.push({
                 id: doc.id,
                 name,
@@ -38,17 +38,18 @@ function updateHoursTransaction(transaction, userRef, amount) {
     return transaction.get(userRef)
     .then(function(userDoc) {
         if (!userDoc.exists) {
-            throw "Document does not exist!";
+            throw Error("Document does not exist!");
         }
 
         var newHours = userDoc.data().hours + Number(amount);
         return transaction.update(userRef, { hours: newHours });
     })
 }   
-export const sendHoursToUser = (id, amount) => {
+
+
+export const logHours = (id, amount) => {
     const userRef = db.collection("users").doc(id);
 
-    console.log(`userid: ${id}, amount: ${amount}, typeof amount: ${typeof amount}`);
     return db.runTransaction(transaction => updateHoursTransaction(transaction, userRef, amount))
 };
 
@@ -79,14 +80,14 @@ function updateOrgsHoursGenerateTransaction(transaction, orgRef, amount) {
     return transaction.get(orgRef)
     .then((orgDoc) => {
         if (!orgDoc.exists) {
-            throw "Document does not exist!";
+            throw Error("Document does not exist!");
         }
 
         var newHours = orgDoc.data().hoursGenerated + Number(amount);
         return transaction.update(orgRef, { hoursGenerated: newHours });
     })
 }
-export const generateHoursFromOrg = (id, amount) => {
+export const updateDistributedHoursForOrg = (id, amount) => {
     const orgRef = db.collection("organisations").doc(id);
     return db.runTransaction(transaction => 
         updateOrgsHoursGenerateTransaction(transaction, orgRef, amount));
@@ -119,3 +120,22 @@ export const getTransactions = () =>
         });
         return transactions;
     });
+
+export const getEventLog = () =>
+    db.collection('event-log').orderBy("dateCreated", "desc").get()
+    .then(querySnapshot => querySnapshot.docs)
+    .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))
+
+export const getEventLogForUser = (userId) => {
+    return db.collection('event-log').orderBy("dateCreated", "desc").get()
+    .then(querySnapshot => querySnapshot.docs)
+    .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))
+    .then(docs => docs.filter(doc =>
+        (doc.details.requesterId === userId)
+        || (doc.details.requester && doc.details.requester.id === userId)
+        || (doc.details.to && doc.details.to.id === userId)
+        || (doc.details.from && doc.details.from.id === userId)     
+    ))
+    .catch(console.error);
+}
+    

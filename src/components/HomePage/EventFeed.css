@@ -1,0 +1,10 @@
+/* .segment.feed.item {
+    position: relative;
+    right: 30px;
+    padding: 20px;
+} */
+
+#eventFeedContainer {
+    margin-top: 2rem;
+    min-height: 150px;
+}

@@ -1,29 +1,33 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
-import AuthUserContext from './AuthUserContext';
-import { firebase } from '../../firebase';
+import { FirebaseAuthUserContext } from './FirebaseAuthUserProvider';
 import * as routes from '../../constants/routes';
+
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 const withAuthorization = (authCondition) => (Component) => {
     class WithAuthorization extends React.Component {
-        componentDidMount() {
-            firebase.auth.onAuthStateChanged(user => {
-                if(!authCondition(user))
-                    this.props.history.push(routes.HOME_PAGE);
-            });
-        } 
-        
         render() {
+            const { user } = this.props;
+            if (user.pendingUser) return (
+                <Dimmer active inverted page>
+                    <Loader inverted content='Loading' />
+                </Dimmer>
+            )
+            if (!authCondition(user)) return <Redirect to={routes.HOME_PAGE} />
             return (
-                <AuthUserContext.Consumer>
-                    {user => <Component />}
-                </AuthUserContext.Consumer>    
+                <Component />    
             );
         }
     }
 
-    return withRouter(WithAuthorization);
+    const WithAuthorizationWithUser = (props) =>
+        <FirebaseAuthUserContext.Consumer>
+            {user => <WithAuthorization {...props} user={user} />}
+        </FirebaseAuthUserContext.Consumer>
+
+    return WithAuthorizationWithUser;
 }
 
 export default withAuthorization;

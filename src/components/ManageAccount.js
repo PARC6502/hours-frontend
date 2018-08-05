@@ -3,7 +3,7 @@ import { Menu, Form } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom'
 
 import { auth } from '../firebase';
-import AuthUserContext from './Session/AuthUserContext';
+import {FirebaseAuthUserContext} from './Session/FirebaseAuthUserProvider';
 
 import * as routes from '../constants/routes';
 
@@ -73,10 +73,10 @@ const EmailChangeForm = (props) => {
 }
 
 const ManageAccount = () => 
-    <AuthUserContext.Consumer>
+    <FirebaseAuthUserContext.Consumer>
         {({ email }) => 
             <ManageAccountForm email={email}/>        
         }
-    </AuthUserContext.Consumer>
+    </FirebaseAuthUserContext.Consumer>
 
 export default withRouter(ManageAccount);

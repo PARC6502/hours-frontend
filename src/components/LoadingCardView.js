@@ -10,6 +10,7 @@ const LoadingCardView = (props) =>
         <Card.Content>
             <Card.Header>{props.header}</Card.Header>
             <Card.Meta>{props.meta}</Card.Meta>
+            <Card.Description>{props.description}</Card.Description>
         </Card.Content>
         {props.extra 
         ? <Card.Content extra>{props.extra}</Card.Content> 

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import LoadingCardView from './LoadingCardView';
-import AuthUserContext from './Session/AuthUserContext';
+import PersonalFeed from './PersonalFeed';
+import { FirebaseAuthUserContext } from './Session/FirebaseAuthUserProvider';
 import withAuthorization from './Session/withAuthorization';
 import { db } from '../firebase';
 
@@ -18,13 +19,6 @@ class Profile extends React.Component {
 			db.getUser(this.props.user.id)
 			.then( (user) => this.setState({ user, loading: false }));
 	}
-
-	componentDidUpdate(prevState,prevProps) {
-		
-		if (this.props.user.id && (prevProps.user === null || prevProps.user.id !== this.props.user.id))
-			db.getUser(this.props.user.id)
-			.then( (user) => this.setState({ user, loading: false }));
-	}
 	
 	render() {
 		let user;
@@ -35,20 +29,23 @@ class Profile extends React.Component {
 			user = { name: 'name', email: 'email', hours: 'NA'}
 		}
 		return (
-			<LoadingCardView
-				loading={this.state.loading}
-				header={user.name}
-				meta={user.hours + ' hours'}
-				image={nan}	 
-			/>
+			<Fragment>
+				<LoadingCardView
+					loading={this.state.loading}
+					header={user.name}
+					meta={user.hours + ' hours'}
+					image={nan}	 
+				/>
+				<PersonalFeed userId={this.props.user.id} />
+			</Fragment>
 		)
 	}	
 };
 
 const ProfilePage = () => 
-	<AuthUserContext.Consumer>
+	<FirebaseAuthUserContext.Consumer>
 		{user => <Profile user={user} />}
-	</AuthUserContext.Consumer>
+	</FirebaseAuthUserContext.Consumer>
 
 const authCondition = (user) => user !== null;
 export default withAuthorization(authCondition)(ProfilePage);
