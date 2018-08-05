@@ -5,7 +5,7 @@ import EventFeed from './EventFeed';
 
 const HomePage = () =>
 	<Fragment>
-		<Segment>Welcome to the hours project</Segment>
+		<Segment>Welcome to the hours project dude</Segment>
 		<EventFeed />
 	</Fragment>
 
