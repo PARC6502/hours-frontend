@@ -5,29 +5,86 @@ import {
   Switch,
 } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
+import Loadable from 'react-loadable';
 
+// Universal components
 import Navigation from './Navigation';
 import OfflineDimmer from './OfflineDimmer';
 import InfoModal from './InfoModal';
-
-import TimeLoggingForm from './TimeLoggingForm';
-import SendHrsForm from './SendHrsForm';
 import HomePage from './HomePage';
-import SignInPage from './SignInPage';
-import SignUpPage from './SignUpPage';
-import ManageAccount from './ManageAccount';
-import ProfilePage from './ProfilePage';
 
-import OrganisationPage from './InfoPages/OrganisationPage';
-import UserPage from './InfoPages/UserPage';
+// Components for other pages
+// import TimeLoggingForm from './TimeLoggingForm';
+// import SendHrsForm from './SendHrsForm';
+// import SignInPage from './SignInPage';
+// import SignUpPage from './SignUpPage';
+// import ManageAccount from './ManageAccount';
+// import ProfilePage from './ProfilePage';
+// import OrganisationPage from './InfoPages/OrganisationPage';
+// import UserPage from './InfoPages/UserPage';
 
-import AddOrganisation from './Admin/AddOrganisation';
-import ManageRequests from './Admin/ManageRequests';
-import AdminPage from './Admin/AdminPage';
+// Components for admin page
+// import AddOrganisation from './Admin/AddOrganisation';
+// import ManageRequests from './Admin/ManageRequests';
+// import AdminPage from './Admin/AdminPage';
 
+// Other
 import * as routes from '../constants/routes';
-
 import FirebaseAuthUserProvider from './Session/FirebaseAuthUserProvider'
+
+
+// Loadable components
+function Loading({ error }) {
+	if (error) {
+		return 'Oh nooess!';
+	} else {
+		return <h3>Loading...</h3>;
+	}
+}
+const TimeLoggingForm = Loadable({
+	loader: () => import('./TimeLoggingForm'),
+	loading: Loading
+});
+const SendHrsForm = Loadable({
+	loader: () => import('./SendHrsForm'),
+	loading: Loading
+});
+const SignInPage = Loadable({
+	loader: () => import('./SignInPage'),
+	loading: Loading
+});
+const SignUpPage = Loadable({
+	loader: () => import('./SignUpPage'),
+	loading: Loading
+});
+const ManageAccount = Loadable({
+	loader: () => import('./ManageAccount'),
+	loading: Loading
+});
+const ProfilePage = Loadable({
+	loader: () => import('./ProfilePage'),
+	loading: Loading
+});
+const OrganisationPage = Loadable({
+	loader: () => import('./InfoPages/OrganisationPage'),
+	loading: Loading
+});
+const UserPage = Loadable({
+	loader: () => import('./InfoPages/UserPage'),
+	loading: Loading
+});
+const AddOrganisation = Loadable({
+	loader: () => import('./Admin/AddOrganisation'),
+	loading: Loading
+});
+const ManageRequests = Loadable({
+	loader: () => import('./Admin/ManageRequests'),
+	loading: Loading
+});
+const AdminPage = Loadable({
+	loader: () => import('./Admin/AdminPage'),
+	loading: Loading
+});
 
 const App = (props) => {
 	return (
