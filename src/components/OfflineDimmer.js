@@ -4,7 +4,14 @@ import { Dimmer, Header, Icon } from 'semantic-ui-react'
 
 class OfflineDimmer extends Component {
     state = {
-        active: false
+        active: !navigator.onLine
+    }
+
+    shouldComponentUpdate(_nextProps, nextState) {
+        if (this.state.active !== nextState.active) {
+            return true;
+        }
+        return false;
     }
 
     close = () => this.setState({ active: false });
@@ -19,9 +26,6 @@ class OfflineDimmer extends Component {
     componentDidMount() {
         window.addEventListener('online',  this.handleOnline);
         window.addEventListener('offline', this.handleOffline);
-        if (!navigator.onLine) {
-            this.handleOffline();
-        }
     }
 
     render() {

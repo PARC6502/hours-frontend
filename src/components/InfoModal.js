@@ -128,41 +128,28 @@ class InfoGallery extends Component {
 }
 
 class InfoModal extends Component {
-  state = { 
-      modalOpen: false,
-      wasSignedIn: false,
+  state = {
+      wasSignedIn: this.props.isUserSignedIn,
     }
 
-  handleOpen = () => this.setState({ modalOpen: true });
+    shouldComponentUpdate(nextProps, nextState) {
+        const {user} = this.props;
+        const { user: nextUser } = nextProps;
+        if (user.isUserSignedIn !== nextUser.isUserSignedIn) return true;
+        if (this.state.modalOpen !== nextState.modalOpen) return true;
+        return false;
+    }
 
   handleClose = () => this.setState({ modalOpen: false });
 
-  componentDidMount() {
-      const {user} = this.props;
-      if (user.isUserSignedIn)
-        this.setState({ wasSignedIn: true });
-      if (!user.isUserSignedIn && !user.pendingAuth && !this.state.wasSignedIn)
-        this.handleOpen();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.user === this.props.user) return;
-    const {user} = this.props;
-    if (user.isUserSignedIn)
-      this.setState({ wasSignedIn: true });
-    if (!user.isUserSignedIn && !user.pendingAuth && !this.state.wasSignedIn)
-      this.handleOpen();
-  }
-
   render() {
     const {user} = this.props;
-    const {modalOpen, alreadyShown} = this.state;
-    
-    if (user.isUserSignedIn || alreadyShown) return null;
+    if (user.isUserSignedIn) return null;
+    if ('modalOpen' in this.state) return null;
 
     return (
       <Modal
-        open={modalOpen}
+        open={true}
         onClose={this.handleClose}
         size='small'
         closeIcon
