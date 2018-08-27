@@ -82,19 +82,21 @@ class EventFeed extends Component {
         loading: true
     }
 
+    shouldComponentUpdate(_nextProps, nextState) {
+        if (this.state.feedItems.length !== nextState.feedItems.length) return true;
+        if (this.state.loading !== nextState.loading) return false;
+        return false;
+    }
+
     componentDidMount() {
         let feedItems = [];
         db.getEventLog()
-        // .then(events => events.filter(event => event.type === 'REQUEST_TOKENS'))
-        // .then(console.info)
         .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'SEND_TOKENS' || event.type === 'REQUEST_TOKENS'))
         .then(events => {
-
             feedItems = events.map(event => eventLogMapper[event.type](event))
-            this.setState({ feedItems })
         })
         .catch(console.error)
-        .then(() => this.setState({ loading: false }));
+        .then(() => this.setState({ feedItems, loading: false }));
     }
 
     render() {
