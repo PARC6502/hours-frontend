@@ -84,7 +84,7 @@ class EventFeed extends Component {
 
     shouldComponentUpdate(_nextProps, nextState) {
         if (this.state.feedItems.length !== nextState.feedItems.length) return true;
-        if (this.state.loading !== nextState.loading) return false;
+        if (this.state.loading !== nextState.loading) return true;
         return false;
     }
 
