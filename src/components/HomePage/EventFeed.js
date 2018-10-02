@@ -82,11 +82,11 @@ class EventFeed extends Component {
         loading: true
     }
 
-    shouldComponentUpdate(_nextProps, nextState) {
-        if (this.state.feedItems.length !== nextState.feedItems.length) return true;
-        if (this.state.loading !== nextState.loading) return true;
-        return false;
-    }
+    // shouldComponentUpdate(_nextProps, nextState) {
+    //     if (this.state.feedItems.length !== nextState.feedItems.length) return true;
+    //     if (this.state.loading !== nextState.loading) return true;
+    //     return false;
+    // }
 
     componentDidMount() {
         let feedItems = [];
@@ -96,7 +96,10 @@ class EventFeed extends Component {
             feedItems = events.map(event => eventLogMapper[event.type](event))
         })
         .catch(console.error)
-        .then(() => this.setState({ feedItems, loading: false }));
+        .then(() => {
+            console.log(feedItems);
+            this.setState({ feedItems, loading: false })
+        });
     }
 
     render() {

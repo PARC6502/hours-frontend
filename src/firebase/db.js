@@ -121,6 +121,8 @@ export const getTransactions = () =>
         return transactions;
     });
 
+/** Get all transactions from firebase, sorted by dateCreated
+ */    
 export const getEventLog = () =>
     db.collection('event-log').orderBy("dateCreated", "desc").get()
     .then(querySnapshot => querySnapshot.docs)

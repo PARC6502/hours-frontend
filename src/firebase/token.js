@@ -7,7 +7,7 @@ const makeTokenEvent = (type, details) => {
 
 const getNewEventLogEntry = () => db.collection("event-log").doc();
 
-const objContains = (obj, fields) => fields.every(field => Object.keys(obj).includes(field));
+// const objContains = (obj, fields) => fields.every(field => Object.keys(obj).includes(field));
 
 const isNumberOrStringNumber = n => !isNaN(n) //typeof amount === 'number'
 const isNumberish = isNumberOrStringNumber
@@ -47,29 +47,31 @@ export const sendTokens = async ({source, destination, description, amount}) => 
 
 }
 
-/* 
-* fromOrg and requester should be objects
-* details obj must contain dateOfLabour, description, 
+/** User (destination) requests tokens from Organisation (source)
+* @param {Object} obj Input object containing source, destination, description and amount
+* @param {Object} obj.fromOrg Organisation hours are requested from
+* @param {Object} obj.requester User requesting the tokens
+* @param {String} obj.description What the tokens are requested for
+* @param {Date} obj.dateOfLabour The date the work was done
+* @param {Number} obj.loggedHours Amount of tokens being requested/logged
 */
-export const requestTokens = (fromOrg, requester, details) => {
+export const requestTokens = ({fromOrg, requester, description, dateOfLabour, loggedHours}) => {
     // validate fromOrg
-    if (!isAmountCorrect(details.loggedHours)) throw Error("Amount has to be a positive number.");
+    if (!isAmountCorrect(loggedHours)) throw Error("Amount has to be a positive number.");
     const requestRef = db.collection('token-requests').doc();
     const batch = db.batch();
     const request = {
-        fromId: fromOrg.id,
-        fromName: fromOrg.name,
-        requesterId: requester.id,
-        requesterName: requester.name,
-        tokens: details.loggedHours,
-        description: details.description,
-        dateOfLabour: details.dateOfLabour,
+        source: fromOrg,
+        destination: requester,
+        amount: loggedHours,
+        description: description,
+        dateOfLabour: dateOfLabour,
         dateCreated: Date.now(),
     }
     batch.set(requestRef, request);
 
     const eventType = 'REQUEST_TOKENS';
-    const tokenEvent = makeTokenEvent(eventType, { fromOrg, requester, ...details });
+    const tokenEvent = makeTokenEvent(eventType, { ...request });
     batch.set(getNewEventLogEntry(), tokenEvent);
 
     return batch.commit();
@@ -83,19 +85,29 @@ export const approveTokens = (requestId, orgId) => {
         const orgDoc = await transaction.get(orgRef);
         if(!requestDoc.exists || !orgDoc.exists) throw Error('Firebase error');
         if(requestDoc.data().fulfilled) throw Error('Request already fulfilled');
-        const requesterRef = db.collection('users').doc(requestDoc.data().requesterId);
+        const requesterRef = db.collection('users').doc(requestDoc.data().destination.id);
         const requesterDoc = await transaction.get(requesterRef);
         if(!requesterDoc.exists) throw Error('Firebase error')
 
-        const requesterTokens = requesterDoc.data().hours + Number(requestDoc.data().tokens);
-        const distributedHours = orgDoc.data().hoursGenerated + Number(requestDoc.data().tokens);
+        const requesterTokens = requesterDoc.data().hours + Number(requestDoc.data().amount);
+        const distributedHours = orgDoc.data().hoursGenerated + Number(requestDoc.data().amount);
         
         await transaction.update(orgRef, {hoursGenerated: distributedHours});
         await transaction.update(requesterRef, {hours: requesterTokens});
         await transaction.update(requestRef, {approved: true, fulfilled:true});
 
         const eventType = 'APPROVE_TOKENS';
-        const tokenEvent = makeTokenEvent(eventType, requestDoc.data());
+        const { source, destination, amount, description, dateOfLabour } = requestDoc.data();
+        const approval = {
+            requestId,
+            source,
+            destination,
+            amount,
+            description,
+            dateOfLabour,
+            dateCreated: Date.now(),
+        };
+        const tokenEvent = makeTokenEvent(eventType, { ...approval });
         await transaction.set(getNewEventLogEntry(), tokenEvent);
     })
 }
