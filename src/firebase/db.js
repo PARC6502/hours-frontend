@@ -3,6 +3,11 @@ import { db } from './firebase';
 const settings = {timestampsInSnapshots: true};
 db.settings(settings);
 
+/** Firebase db module
+ * @module firebase/db
+ * @see module:firebase/token
+ */
+
 /* User Functions */
 export const createUser = (id, name, email) => {
     return db.collection("users").doc(id).set({
@@ -122,6 +127,9 @@ export const getTransactions = () =>
     });
 
 /** Get all transactions from firebase, sorted by dateCreated
+ * @async
+ * @function getEventLog
+ * 
  */    
 export const getEventLog = () =>
     db.collection('event-log').orderBy("dateCreated", "desc").get()

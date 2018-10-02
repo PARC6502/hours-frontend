@@ -13,15 +13,21 @@ const isNumberOrStringNumber = n => !isNaN(n) //typeof amount === 'number'
 const isNumberish = isNumberOrStringNumber
 const isAmountCorrect = amount => isNumberish(amount) && amount > 0
 
-/** Sends tokens from one user to another user
- * @param {Object} obj Input object containing source, destination, description and amount
- * @param {Object} obj.source Object describing user sending the tokens
- * @param {String} obj.source.type Presumably this will always be 'User' for this function
- * @param {String} obj.source.id j
- * @param {String} obj.source.name j
- * @param {Object} obj.destination Object describing user recieving the tokens
- * @param {String} obj.description j
- * @param {Number} obj.amount j
+/** Token firebase module
+ * @module firebase/token
+ */
+
+/** Sends tokens from one user to another user 
+ * @function sendTokens
+ * 
+ * @param {Object} sendEvent
+ * @param {Object} sendEvent.source Object describing user sending the tokens
+ * @param {String} sendEvent.source.type Presumably this will always be 'User' for this function
+ * @param {String} sendEvent.source.id j
+ * @param {String} sendEvent.source.name j
+ * @param {Object} sendEvent.destination Object describing user recieving the tokens
+ * @param {String} sendEvent.description j
+ * @param {Number} sendEvent.amount j
  */
 export const sendTokens = async ({source, destination, description, amount}) => {
     if (amount === 'undefined') throw Error('Sending amount not provided');
@@ -48,6 +54,8 @@ export const sendTokens = async ({source, destination, description, amount}) => 
 }
 
 /** User (destination) requests tokens from Organisation (source)
+ * @function requestTokens
+ * 
 * @param {Object} obj Input object containing source, destination, description and amount
 * @param {Object} obj.fromOrg Organisation hours are requested from
 * @param {Object} obj.requester User requesting the tokens
