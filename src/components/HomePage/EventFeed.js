@@ -50,23 +50,22 @@ const eventLogMapper = {
     },
     'APPROVE_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const hours = details.tokens;
-        const description = details.description;
-        const contributorLink = <Link to={`user/${details.requesterId}`}>{details.requesterName}</Link>;
-        const organisationLink = <Link to={`organisation/${details.fromId}`}>{details.fromName}</Link>;
+        const { amount: hours, destination: requester, source: organisation, requestDescription} = details;
+        const contributorLink = <Link to={`user/${requester.id}`}>{requester.name}</Link>;
+        const organisationLink = <Link to={`organisation/${organisation.id}`}>{organisation.name}</Link>;
         return {
             id,
             summary: <Fragment>{contributorLink} contributed {hours} hours to {organisationLink} (Approved)</Fragment>,
             date: timeSince(dateCreated),
-            extra: description,
+            extra: requestDescription,
         };
     },
     'REQUEST_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const hours = details.loggedHours;
-        const description = details.description;
-        const contributorLink = <Link to={`user/${details.requester.id}`}>{details.requester.name}</Link>
-        const organisationLink = <Link to={`organisation/${details.fromOrg.id}`}>{details.fromOrg.name}</Link>
+        const { source: organisation, description, destination: requester, amount: loggedHours } = details;
+        const hours = loggedHours;
+        const contributorLink = <Link to={`user/${requester.id}`}>{requester.name}</Link>
+        const organisationLink = <Link to={`organisation/${organisation.id}`}>{organisation.name}</Link>
         return {
             id,
             summary: <Fragment>{contributorLink} logged {hours} hours with {organisationLink} (Pending approval)</Fragment>,
@@ -92,6 +91,10 @@ class EventFeed extends Component {
         let feedItems = [];
         db.getEventLog()
         .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'SEND_TOKENS' || event.type === 'REQUEST_TOKENS'))
+        .then(events => {
+            console.log(events);
+            return events;
+        })
         .then(events => {
             feedItems = events.map(event => eventLogMapper[event.type](event))
         })

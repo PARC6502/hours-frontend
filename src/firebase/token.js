@@ -77,7 +77,7 @@ export const requestTokens = async ({fromOrg, requester, description, dateOfLabo
     return batch.commit();
 }
 
-export const approveTokens = (requestId, orgId) => {
+export const approveTokens = (requestId, orgId, approvalComment='') => {
     const requestRef = db.collection('token-requests').doc(requestId);
     const orgRef = db.collection('organisations').doc(orgId);
     return db.runTransaction(async (transaction) => {
@@ -97,15 +97,15 @@ export const approveTokens = (requestId, orgId) => {
         await transaction.update(requestRef, {approved: true, fulfilled:true});
 
         const eventType = 'APPROVE_TOKENS';
-        const { source, destination, amount, dateOfLabour } = requestDoc.data();
+        const { source, destination, description: requestDescription ,amount, dateOfLabour } = requestDoc.data();
         const approval = {
             requestId,
             source,
             destination,
             amount,
-            description: 'Approved',
+            description: approvalComment,
+            requestDescription,
             dateOfLabour,
-            dateCreated: Date.now(),
         };
         const tokenEvent = makeTokenEvent(eventType, { ...approval });
         await transaction.set(getNewEventLogEntry(), tokenEvent);

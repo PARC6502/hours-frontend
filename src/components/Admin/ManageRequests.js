@@ -40,7 +40,7 @@ class ManageRequests extends Component {
     }
 
     handleAccept = (req) => {
-        token.approveTokens(req.docId, req.fromId)
+        token.approveTokens(req.docId, req.source.id)
         .then(() => this.loadRequests())
         .catch(console.error)
     }
@@ -52,15 +52,22 @@ class ManageRequests extends Component {
     }
 
     render() {
-        const renderReqPending = (req) =>
-            <Segment vertical fluid key={req.docId}>
+        // const  = req.details;
+
+        const renderReqPending = (req) => {
+            const {destination: requester, source: organisation, description, amount: hours, dateOfLabour} = req;
+
+            return (<Segment vertical fluid key={req.docId}>
                 <Icon name='wait' />
-                {`${req.requesterName} requested ${req.tokens} hours for "${req.description}" done on ${req.dateOfLabour}`}
+                {`${requester.name} requested ${hours} hours for "${description}" from ${organisation.name} done on ${dateOfLabour}`}
+
                 <Button.Group floated='right'>
                     <Button primary onClick={() => this.handleAccept(req)}>Accept</Button>
                     <Button red onClick={() => this.handleReject(req)}>Reject</Button>
                 </Button.Group>
-            </Segment>
+            </Segment>);
+        }
+            
 
         const renderReqFulfilled = (req) =>
             <Segment vertical fluid key={req.docId}>
