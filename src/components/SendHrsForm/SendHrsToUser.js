@@ -41,8 +41,20 @@ class SendHrsToUser extends Component {
     const { amount, selectedUserIndex, description } = this.state;
     const toUser = this.state.users[selectedUserIndex];
     this.setState({ loading: true });
-    const details = { amount, description };
-    token.sendTokens(fromUser, toUser, details)
+    token.sendTokens({
+      source: {
+        type: 'USER',
+        id: fromUser.id,
+        name: fromUser.name,
+      },
+      destination: {
+        type: 'USER', 
+        id: toUser.id,
+        name: toUser.name,
+      },
+      description,
+      amount,
+    })
     .then(() => this.setState({ ...INITIAL_STATE }))
     .then(() => this.setState({ success: true }))
     .then(() => console.log('Transaction successful'))

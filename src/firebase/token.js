@@ -7,31 +7,41 @@ const makeTokenEvent = (type, details) => {
 
 const getNewEventLogEntry = () => db.collection("event-log").doc();
 
-const objContains = (obj, fields) => fields.every(field => Object.keys(obj).includes(field))
+const objContains = (obj, fields) => fields.every(field => Object.keys(obj).includes(field));
 
 const isNumberOrStringNumber = n => !isNaN(n) //typeof amount === 'number'
 const isNumberish = isNumberOrStringNumber
 const isAmountCorrect = amount => isNumberish(amount) && amount > 0
 
-export const sendTokens = async (from, to, details) => {
-    if (!objContains(details, ['amount'])) throw Error('Sending amount not provided');
+/** Sends tokens from one user to another user
+ * @param {Object} obj Input object containing source, destination, description and amount
+ * @param {Object} obj.source Object describing user sending the tokens
+ * @param {String} obj.source.type Presumably this will always be 'User' for this function
+ * @param {String} obj.source.id j
+ * @param {String} obj.source.name j
+ * @param {Object} obj.destination Object describing user recieving the tokens
+ * @param {String} obj.description j
+ * @param {Number} obj.amount j
+ */
+export const sendTokens = async ({source, destination, description, amount}) => {
+    if (amount === 'undefined') throw Error('Sending amount not provided');
     
-    if (from.id === to.id) throw Error('Trying to send to self.');
-    if (!isAmountCorrect(details.amount)) throw Error("Amount has to be a positive number.");
-    const fromUserRef = db.collection("users").doc(from.id);
-    const toUserRef = db.collection("users").doc(to.id);
+    if (source.id === destination.id) throw Error('Trying to send to self.');
+    if (!isAmountCorrect(amount)) throw Error("Amount has to be a positive number.");
+    const fromUserRef = db.collection("users").doc(source.id);
+    const toUserRef = db.collection("users").doc(destination.id);
     return db.runTransaction(async transaction => {
         const fromUserDoc = await transaction.get(fromUserRef);
         const toUserDoc = await transaction.get(toUserRef);
         if(!fromUserDoc.exists || !toUserDoc.exists) throw Error('Firebase error')
-        const fromHours = fromUserDoc.data().hours - Number(details.amount);
+        const fromHours = fromUserDoc.data().hours - Number(amount);
         if (fromHours < 0) throw Error('Insufficient funds');
-        const toHours = toUserDoc.data().hours + Number(details.amount);
+        const toHours = toUserDoc.data().hours + Number(amount);
         await transaction.update(fromUserRef, {hours: fromHours});
         await transaction.update(toUserRef, {hours: toHours});
 
         const eventType = 'SEND_TOKENS';
-        const tokenEvent = makeTokenEvent(eventType, {from, to, ...details});
+        const tokenEvent = makeTokenEvent(eventType, {source, destination, description, amount});
         await transaction.set(getNewEventLogEntry(), tokenEvent);
     })
 
