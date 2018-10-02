@@ -97,13 +97,13 @@ export const approveTokens = (requestId, orgId) => {
         await transaction.update(requestRef, {approved: true, fulfilled:true});
 
         const eventType = 'APPROVE_TOKENS';
-        const { source, destination, amount, description, dateOfLabour } = requestDoc.data();
+        const { source, destination, amount, dateOfLabour } = requestDoc.data();
         const approval = {
             requestId,
             source,
             destination,
             amount,
-            description,
+            description: 'Approved',
             dateOfLabour,
             dateCreated: Date.now(),
         };
@@ -119,7 +119,15 @@ export const rejectTokens = (request, orgId, reason) => {
     batch.update(requestRef, {rejected: true, fulfilled: true});
 
     const eventType = 'REJECT_TOKENS';
-    // TODO: add more info to event log
+    const { docId, source, destination, amount, dateOfLabour } = request;
+    const rejection = {
+        requestId: docId,
+        source,
+        destination,
+        amount,
+        description: reason,
+        dateCreated: Date.now(),
+    };
     const tokenEvent = makeTokenEvent(eventType, {requestId: request.docId, rejectionReason: reason});
     batch.set(getNewEventLogEntry(), tokenEvent);
 
