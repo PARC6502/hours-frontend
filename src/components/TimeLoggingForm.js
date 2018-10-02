@@ -51,6 +51,13 @@ class TimeLoggingForm extends Component {
     var { task, orgIndex, time, dateOfLabour } = this.state.fields;
     const org = this.state.organisations[orgIndex];
     
+    return token.requestTokens({
+      fromOrg: org, 
+      requester: this.props.user, 
+      description: task,
+      dateOfLabour,
+      loggedHours: time,
+    });
     return token.requestTokens(org, this.props.user, {loggedHours: time, description: task, dateOfLabour});
   }
 
