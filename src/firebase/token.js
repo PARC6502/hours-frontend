@@ -55,7 +55,7 @@ export const sendTokens = async ({source, destination, description, amount}) => 
 * @param {Date} obj.dateOfLabour The date the work was done
 * @param {Number} obj.loggedHours Amount of tokens being requested/logged
 */
-export const requestTokens = ({fromOrg, requester, description, dateOfLabour, loggedHours}) => {
+export const requestTokens = async ({fromOrg, requester, description, dateOfLabour, loggedHours}) => {
     // validate fromOrg
     if (!isAmountCorrect(loggedHours)) throw Error("Amount has to be a positive number.");
     const requestRef = db.collection('token-requests').doc();
