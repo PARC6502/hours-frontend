@@ -37,10 +37,11 @@ const FeedFromArray = (props) => (
 const eventLogMapper = {
     'SEND_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const hours = details.amount;
-        const description = details.description || '';
-        const toLink = <Link to={`user/${details.to.id}`}>{details.to.name}</Link>;
-        const fromLink = <Link to={`user/${details.from.id}`}>{details.from.name}</Link>;
+        const { amount: hours, description, source: from, destination: to } = details;
+        // const hours = details.amount;
+        // const description = details.description || '';
+        const toLink = <Link to={`user/${to.id}`}>{to.name}</Link>;
+        const fromLink = <Link to={`user/${from.id}`}>{from.name}</Link>;
         return {
             id,
             summary: <Fragment>{toLink} recieved {hours} hours from {fromLink}</Fragment>,
