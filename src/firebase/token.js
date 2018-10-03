@@ -124,16 +124,17 @@ export const rejectTokens = (request, orgId, reason) => {
     if (request.fulfilled) return Promise.reject(Error('Request already fulfilled'))
     const requestRef = db.collection('token-requests').doc(request.docId);
     const batch = db.batch();
-    batch.update(requestRef, {rejected: true, fulfilled: true});
+    batch.update(requestRef, {rejected: true, fulfilled: true, rejectionReason: reason});
 
     const eventType = 'REJECT_TOKENS';
-    const { docId, source, destination, amount, dateOfLabour } = request;
+    const { docId, source, destination, amount, dateOfLabour, description: requestDescription } = request;
     const rejection = {
         requestId: docId,
         source,
         destination,
         amount,
         description: reason,
+        requestDescription,
         dateCreated: Date.now(),
     };
     const tokenEvent = makeTokenEvent(eventType, {...rejection});
