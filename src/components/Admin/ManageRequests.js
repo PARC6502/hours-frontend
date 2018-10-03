@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Segment, Button, Icon, Header } from 'semantic-ui-react';
+import { Segment, Button, Icon, Header, Input } from 'semantic-ui-react';
 
 import { admin, token } from '../../firebase';
 import withAuthorization from '../Session/withAuthorization';
@@ -9,6 +9,7 @@ class ManageRequests extends Component {
         error: null,
         success: null,
         loading: false,
+        rejectionReason: '',
         reqs: [],
     }
 
@@ -65,6 +66,7 @@ class ManageRequests extends Component {
                     <Button primary onClick={() => this.handleAccept(req)}>Accept</Button>
                     <Button red onClick={() => this.handleReject(req)}>Reject</Button>
                 </Button.Group>
+                <Input placeholder='Reason for rejection (required)/Acceptance comment (optional)' />
             </Segment>);
         }
             

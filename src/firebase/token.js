@@ -136,7 +136,7 @@ export const rejectTokens = (request, orgId, reason) => {
         description: reason,
         dateCreated: Date.now(),
     };
-    const tokenEvent = makeTokenEvent(eventType, {requestId: request.docId, rejectionReason: reason});
+    const tokenEvent = makeTokenEvent(eventType, {...rejection});
     batch.set(getNewEventLogEntry(), tokenEvent);
 
     return batch.commit()

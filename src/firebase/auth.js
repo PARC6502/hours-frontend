@@ -1,3 +1,7 @@
+/** Firebase auth module
+ * @module firebase/auth
+ * @see module:firebase/db
+ */
 import { auth } from './firebase';
 
 // Sign In

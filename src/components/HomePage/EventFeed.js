@@ -61,6 +61,18 @@ const eventLogMapper = {
             extra: requestDescription,
         };
     },
+    'REJECT_TOKENS': eventItem => {
+        const { docId: id, details, dateCreated } = eventItem;
+        const { amount: hours, destination: requester, source: organisation, requestDescription} = details;
+        const contributorLink = <Link to={`user/${requester.id}`}>{requester.name}</Link>;
+        const organisationLink = <Link to={`organisation/${organisation.id}`}>{organisation.name}</Link>;
+        return {
+            id,
+            summary: <Fragment>{organisationLink} rejected {contributorLink}'s request for {hours} hours (Rejected)</Fragment>,
+            date: timeSince(dateCreated),
+            extra: requestDescription,
+        };
+    },
     'REQUEST_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
         const { source: organisation, description, destination: requester, amount: loggedHours } = details;
@@ -91,7 +103,7 @@ class EventFeed extends Component {
     componentDidMount() {
         let feedItems = [];
         db.getEventLog()
-        .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'SEND_TOKENS' || event.type === 'REQUEST_TOKENS'))
+        .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'REJECT_TOKENS' || event.type === 'SEND_TOKENS' || event.type === 'REQUEST_TOKENS'))
         .then(events => {
             console.log(events);
             return events;
