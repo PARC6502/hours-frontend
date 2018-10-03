@@ -39,6 +39,13 @@ export const getUser = id =>
         else return null;
     });
 
+export const editUser = (userId, profileUpdate) => {
+    const userRef = db.collection("users").doc(userId);
+    userRef.set({
+        ...profileUpdate
+    }, { merge: true });
+}
+
 function updateHoursTransaction(transaction, userRef, amount) {
     return transaction.get(userRef)
     .then(function(userDoc) {
@@ -49,7 +56,9 @@ function updateHoursTransaction(transaction, userRef, amount) {
         var newHours = userDoc.data().hours + Number(amount);
         return transaction.update(userRef, { hours: newHours });
     })
-}   
+}
+
+
 
 
 export const logHours = (id, amount) => {

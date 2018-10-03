@@ -65,6 +65,10 @@ const ProfilePage = Loadable({
 	loader: () => import('./ProfilePage'),
 	loading: Loading
 });
+const EditProfile = Loadable({
+	loader: () => import('./EditProfile'),
+	loading: Loading
+})
 const OrganisationPage = Loadable({
 	loader: () => import('./InfoPages/OrganisationPage'),
 	loading: Loading
@@ -103,6 +107,7 @@ const App = (props) => {
 						<Route exact path={routes.SEND_HRS} component={SendHrsForm} />
 						<Route exact path={routes.MANAGE_ACCOUNT} component={ManageAccount} />
 						<Route exact path={routes.PROFILE} component={ProfilePage} />
+						<Route exact path={routes.EDIT_PROFILE} component={EditProfile} />
 						<Route exact path={routes.USER_PAGE} component={UserPage} />
 						<Route exact path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
 						<Route exact path={routes.ADMIN_PAGE} component={AdminPage} />

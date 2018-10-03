@@ -7,6 +7,7 @@ export const SIGN_IN = '/sign-in';
 export const SIGN_UP = '/sign-up';
 export const MANAGE_ACCOUNT = '/manage-account';
 export const PROFILE = '/profile';
+export const EDIT_PROFILE = '/edit-profile'
 
 /* ADMIN routes */
 export const ADMIN_PAGE = '/admin';
