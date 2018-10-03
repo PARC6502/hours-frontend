@@ -53,33 +53,21 @@ class ManageRequests extends Component {
     }
 
     render() {
-        // const  = req.details;
+        const renderReqFulfilled = (req) => {
+            const {
+                docId,
+                approved,
+                destination: requester, 
+                source: organisation, 
+                description, 
+                amount: hours, 
+                dateOfLabour} = req;
 
-        // const renderReqPending = (req) => {
-        //     const {destination: requester, source: organisation, description, amount: hours, dateOfLabour} = req;
-
-        //     return (<Segment vertical fluid key={req.docId}>
-        //         <Icon name='wait' />
-        //         {`${requester.name} requested ${hours} hours for "${description}" from ${organisation.name} done on ${dateOfLabour}`}
-
-        //         <Button.Group floated='right'>
-        //             <Button primary onClick={() => this.handleAccept(req)}>Accept</Button>
-        //             <Button red onClick={() => this.handleReject(req)}>Reject</Button>
-        //         </Button.Group>
-        //         <Input 
-        //             placeholder='Reason for rejection (required)/Acceptance comment (optional)' 
-        //             fluid
-        //             value={this.state}
-        //             />
-        //     </Segment>);
-        // }
-            
-
-        const renderReqFulfilled = (req) =>
-            <Segment vertical fluid key={req.docId}>
-                <Icon name={ req.approved ? 'check' : 'ban'} />
-                {`${req.requesterName} requested ${req.tokens} hours for "${req.description}" done on ${req.dateOfLabour}`}
-            </Segment> 
+            return (<Segment vertical fluid key={docId}>
+                <Icon name={ approved ? 'check' : 'ban'} />
+                {`${requester.name} requested ${hours} hours for "${description}" done on ${dateOfLabour}`}
+            </Segment>); 
+        }
         
         const reqs = this.state.reqs
         const reqsPending = reqs.filter(req => !req.fulfilled);
