@@ -63,14 +63,14 @@ const eventLogMapper = {
     },
     'REJECT_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const { amount: hours, destination: requester, source: organisation, requestDescription} = details;
+        const { amount: hours, destination: requester, source: organisation, description} = details;
         const contributorLink = <Link to={`user/${requester.id}`}>{requester.name}</Link>;
         const organisationLink = <Link to={`organisation/${organisation.id}`}>{organisation.name}</Link>;
         return {
             id,
             summary: <Fragment>{organisationLink} rejected {contributorLink}'s request for {hours} hours (Rejected)</Fragment>,
             date: timeSince(dateCreated),
-            extra: requestDescription,
+            extra: <Fragment>Reason given for rejecting this request: <strong>{description}</strong></Fragment>,
         };
     },
     'REQUEST_TOKENS': eventItem => {

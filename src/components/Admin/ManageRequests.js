@@ -40,14 +40,14 @@ class ManageRequests extends Component {
         this.setState({ [name]: value });
     }
 
-    handleAccept = (req) => {
-        token.approveTokens(req.docId, req.source.id)
+    handleAccept = (req, acceptanceComment) => {
+        token.approveTokens(req.docId, req.source.id, acceptanceComment)
         .then(() => this.loadRequests())
         .catch(console.error)
     }
 
-    handleReject = (req) => {
-        token.rejectTokens(req, req.fromId, 'Unspecified')
+    handleReject = (req, rejectionReason) => {
+        token.rejectTokens(req, req.fromId, rejectionReason)
         .then(() => this.loadRequests())
         .catch(console.error)
     }
@@ -55,20 +55,24 @@ class ManageRequests extends Component {
     render() {
         // const  = req.details;
 
-        const renderReqPending = (req) => {
-            const {destination: requester, source: organisation, description, amount: hours, dateOfLabour} = req;
+        // const renderReqPending = (req) => {
+        //     const {destination: requester, source: organisation, description, amount: hours, dateOfLabour} = req;
 
-            return (<Segment vertical fluid key={req.docId}>
-                <Icon name='wait' />
-                {`${requester.name} requested ${hours} hours for "${description}" from ${organisation.name} done on ${dateOfLabour}`}
+        //     return (<Segment vertical fluid key={req.docId}>
+        //         <Icon name='wait' />
+        //         {`${requester.name} requested ${hours} hours for "${description}" from ${organisation.name} done on ${dateOfLabour}`}
 
-                <Button.Group floated='right'>
-                    <Button primary onClick={() => this.handleAccept(req)}>Accept</Button>
-                    <Button red onClick={() => this.handleReject(req)}>Reject</Button>
-                </Button.Group>
-                <Input placeholder='Reason for rejection (required)/Acceptance comment (optional)' />
-            </Segment>);
-        }
+        //         <Button.Group floated='right'>
+        //             <Button primary onClick={() => this.handleAccept(req)}>Accept</Button>
+        //             <Button red onClick={() => this.handleReject(req)}>Reject</Button>
+        //         </Button.Group>
+        //         <Input 
+        //             placeholder='Reason for rejection (required)/Acceptance comment (optional)' 
+        //             fluid
+        //             value={this.state}
+        //             />
+        //     </Segment>);
+        // }
             
 
         const renderReqFulfilled = (req) =>
@@ -83,12 +87,53 @@ class ManageRequests extends Component {
         return (
             <Fragment>
                 <Header>Pending</Header>
-                {reqsPending.map(renderReqPending)}
+                {reqsPending.map(request => <PendingRequest 
+                                            request={request} 
+                                            handleAccept={this.handleAccept}
+                                            handleReject={this.handleReject}    
+                                            />)}
 
                 <Header>Fulfilled</Header>
                 {reqsFulfilled.map(renderReqFulfilled)}
             </Fragment>
         );
+    }
+}
+
+class PendingRequest extends Component {
+    state = {
+        description: '',
+    }
+
+    onDescriptionChange = (evt, { value }) => {
+        this.setState({ description: value });
+    };
+
+    render() {
+        const req = this.props.request;
+        const {
+            destination: requester, 
+            source: organisation, 
+            description, 
+            amount: hours, 
+            dateOfLabour} = req;
+        
+        
+        return (<Segment vertical fluid key={req.docId}>
+            <Icon name='wait' />
+            {`${requester.name} requested ${hours} hours for "${description}" from ${organisation.name} done on ${dateOfLabour}`}
+
+            <Button.Group floated='right'>
+                <Button primary onClick={() => this.props.handleAccept(req, this.state.description)}>Accept</Button>
+                <Button disabled={this.state.description === ''} red onClick={() => this.props.handleReject(req, this.state.description)}>Reject</Button>
+            </Button.Group>
+            <Input 
+                placeholder='Reason for rejection (required)/Acceptance comment (optional)' 
+                fluid
+                value={this.state.description}
+                onChange={this.onDescriptionChange}
+                />
+        </Segment>); 
     }
 }
 
