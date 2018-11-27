@@ -23,7 +23,9 @@ class EditProfile extends React.Component {
         this.setState({ image, imageUrl });
     }
 
-
+    uploadImage = () => {
+        // storage.upload
+    }
 
     render() {
         // console.log(this.props.user);
