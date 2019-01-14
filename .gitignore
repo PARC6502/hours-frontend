@@ -23,4 +23,12 @@ yarn-error.log*
 # notes
 ProgrammingNotes.txt
 
-.pdf
+*.pdf
+/out
+src/images/_ToolExchange.png
+src/images/_greatTime.png
+src/images/_helping.png
+src/images/_jumpyHours.png
+src/images/_logHours.png
+src/images/_shopSupport.png
+src/images/_supporters.png

@@ -140,12 +140,14 @@ export const getEventLogForUser = (userId) => {
     return db.collection('event-log').orderBy("dateCreated", "desc").get()
     .then(querySnapshot => querySnapshot.docs)
     .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))
-    .then(docs => docs.filter(doc =>
-        (doc.details.requesterId === userId)
-        || (doc.details.requester && doc.details.requester.id === userId)
-        || (doc.details.to && doc.details.to.id === userId)
-        || (doc.details.from && doc.details.from.id === userId)     
-    ))
+    .then(docs => { 
+        console.log(userId);
+        console.log(docs);
+        return docs.filter(doc =>
+        (doc.details.destination && doc.details.destination.id === userId)
+        || (doc.details.source && doc.details.source.id=== userId)     
+    )
+})
     .catch(console.error);
 }
     

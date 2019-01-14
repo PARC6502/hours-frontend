@@ -25,11 +25,14 @@ export default class FirebaseAuthUserProvider extends React.Component {
                     email: user.email}))
                 db.getUser(user.uid)
                 .then(user => {
-                    let role = user.role || 'USER' 
+                    let role = user.role || 'USER'; 
+                    let bio = user.bio || null;
+                    console.log(user);
                     this.setState({ 
                         pendingUser: false,
                         name: user.name, 
-                        hours: user.hours, 
+                        hours: user.hours,
+                        bio,
                         role  })
                 })
             }

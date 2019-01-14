@@ -36,10 +36,11 @@ const FeedFromArray = (props) => (
 const eventLogMapper = {
     'SEND_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const hours = details.amount;
-        const description = details.description || '';
-        const toLink = <Link to={`user/${details.to.id}`}>{details.to.name}</Link>;
-        const fromLink = <Link to={`user/${details.from.id}`}>{details.from.name}</Link>;
+        const { amount: hours, description, source: from, destination: to } = details;
+        // const hours = details.amount;
+        // const description = details.description || '';
+        const toLink = <Link to={`user/${to.id}`}>{to.name}</Link>;
+        const fromLink = <Link to={`user/${from.id}`}>{from.name}</Link>;
         return {
             id,
             summary: <Fragment>{toLink} recieved {hours} hours from {fromLink}</Fragment>,
@@ -49,23 +50,34 @@ const eventLogMapper = {
     },
     'APPROVE_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const hours = details.tokens;
-        const description = details.description;
-        const contributorLink = <Link to={`user/${details.requesterId}`}>{details.requesterName}</Link>;
-        const organisationLink = <Link to={`organisation/${details.fromId}`}>{details.fromName}</Link>;
+        const { amount: hours, destination: requester, source: organisation, requestDescription} = details;
+        const contributorLink = <Link to={`user/${requester.id}`}>{requester.name}</Link>;
+        const organisationLink = <Link to={`organisation/${organisation.id}`}>{organisation.name}</Link>;
         return {
             id,
             summary: <Fragment>{contributorLink} contributed {hours} hours to {organisationLink} (Approved)</Fragment>,
             date: timeSince(dateCreated),
-            extra: description,
+            extra: requestDescription,
+        };
+    },
+    'REJECT_TOKENS': eventItem => {
+        const { docId: id, details, dateCreated } = eventItem;
+        const { amount: hours, destination: requester, source: organisation, description} = details;
+        const contributorLink = <Link to={`user/${requester.id}`}>{requester.name}</Link>;
+        const organisationLink = <Link to={`organisation/${organisation.id}`}>{organisation.name}</Link>;
+        return {
+            id,
+            summary: <Fragment>{organisationLink} rejected {contributorLink}'s request for {hours} hours (Rejected)</Fragment>,
+            date: timeSince(dateCreated),
+            extra: <Fragment>Reason given for rejecting this request: <strong>{description}</strong></Fragment>,
         };
     },
     'REQUEST_TOKENS': eventItem => {
         const { docId: id, details, dateCreated } = eventItem;
-        const hours = details.loggedHours;
-        const description = details.description;
-        const contributorLink = <Link to={`user/${details.requester.id}`}>{details.requester.name}</Link>
-        const organisationLink = <Link to={`organisation/${details.fromOrg.id}`}>{details.fromOrg.name}</Link>
+        const { source: organisation, description, destination: requester, amount: loggedHours } = details;
+        const hours = loggedHours;
+        const contributorLink = <Link to={`user/${requester.id}`}>{requester.name}</Link>
+        const organisationLink = <Link to={`organisation/${organisation.id}`}>{organisation.name}</Link>
         return {
             id,
             summary: <Fragment>{contributorLink} logged {hours} hours with {organisationLink} (Pending approval)</Fragment>,
@@ -74,6 +86,7 @@ const eventLogMapper = {
         };
     },
 }
+
 
 class PersonalFeed extends Component {
     state = {
@@ -96,7 +109,7 @@ class PersonalFeed extends Component {
     render() {
         const feedItems = this.state.feedItems;
         return (
-            <Grid centered container columns={2} stackable id="eventFeedContainer">
+            <Grid centered stackable id="eventFeedContainer">
                 <Grid.Column>
                     <Dimmer active={this.state.loading}>
                         <Loader content="loading" />
