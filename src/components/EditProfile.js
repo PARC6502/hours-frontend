@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Form, Image } from 'semantic-ui-react';
+import { Form, Image, Message } from 'semantic-ui-react';
 
 import { db } from '../firebase';
 import { FirebaseAuthUserContext } from './Session/FirebaseAuthUserProvider';
@@ -11,11 +11,30 @@ class EditProfile extends React.Component {
         image: null,
         imageUrl: this.props.user.image,
         loading: false,
+        bioSuccess: false,
+        bioError: false
     }
 
     onBioChange = (evt, { value }) => {
         this.setState({ bio: value });
     };
+
+    saveBio = () => {
+        this.setState({ loading: true });
+        db.editUserBio(this.props.user.id, this.state.bio)
+        .then(result => {
+            console.log(result);
+            this.setState({ bioSuccess: true });
+        })
+        .catch(error => {
+            console.log(error);
+            this.setState({ bioError: true });
+        })
+        .then(() => { 
+            this.setState({ loading: false })
+            console.log(this.props.user.bio)
+        })
+    }
 
     onImageChange = (evt) => {
         const image = evt.target.files[0];
@@ -28,23 +47,39 @@ class EditProfile extends React.Component {
     }
 
     render() {
-        // console.log(this.props.user);
+        const bioChanged = (this.props.user.bio !== this.state.bio);
 
-        const profileChanged = (this.props.user.bio !== this.state.bio)
-                            || (this.props.user.image !== this.state.image);
+        const imageChanged = (this.props.user.image !== this.state.image);
 
-        // console.log(profileChanged);
+        console.log(this.state);
         return (
-            <Form>
-                {this.state.imageUrl ? <Image src={this.state.imageUrl} /> : null}
-                <Form.Input
-                    accept="image/*" 
-                    type='file' label='Edit Profile Image' onChange={this.onImageChange} />
-                <Form.TextArea label='Edit Bio' content={this.state.bio} name='bio' onChange={this.onBioChange}/>
-                <Form.Button 
-                    fluid
-                    disabled={!profileChanged} >Update Profile</Form.Button>
-            </Form>
+            <Fragment>
+                <Form>
+                    {this.state.imageUrl ? <Image src={this.state.imageUrl} /> : null}
+                    <Form.Input
+                        accept="image/*" 
+                        type='file' label='Edit Profile Image' 
+                        onChange={this.onImageChange} />
+                    <Form.Button
+                        color='green' 
+                        fluid
+                        disabled={!imageChanged} >Save</Form.Button>
+                </Form>
+                <Form success={this.state.bioSuccess} error={this.state.bioError}>
+                    <Form.TextArea 
+                        label='Edit Bio' 
+                        value={this.state.bio} 
+                        name='bio' 
+                        onChange={this.onBioChange}/>
+                    <Message success content="Bio successfully updated!" />
+                    <Message error content="There was a problem updating your bio, sorry about that!" />
+                    <Form.Button
+                        onClick={this.saveBio}
+                        color='green' 
+                        fluid
+                        disabled={!bioChanged} >Save</Form.Button>
+                </Form>
+            </Fragment>
         );
     }
 }

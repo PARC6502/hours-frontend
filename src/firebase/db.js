@@ -39,10 +39,10 @@ export const getUser = id =>
         else return null;
     });
 
-export const editUser = (userId, profileUpdate) => {
+export const editUserBio = (userId, bio) => {
     const userRef = db.collection("users").doc(userId);
-    userRef.set({
-        ...profileUpdate
+    return userRef.set({
+        bio
     }, { merge: true });
 }
 
