@@ -9,8 +9,6 @@ import { FirebaseAuthUserContext } from '../Session/FirebaseAuthUserProvider';
 import withAuthorization from '../Session/withAuthorization';
 import * as routes from '../../constants/routes';
 
-import nan from '../../nan.jpg'
-
 class GridProfileDisplay extends React.Component {
 	render() {
 		return (
@@ -29,7 +27,7 @@ class GridProfileDisplay extends React.Component {
 
 const ProfilePage = () => 
 	<FirebaseAuthUserContext.Consumer>
-		{user => <GridProfileDisplay user={{...user, image: nan}} />}
+		{user => <GridProfileDisplay user={{...user}} />}
 	</FirebaseAuthUserContext.Consumer>
 
 const authCondition = (user) => user !== null;

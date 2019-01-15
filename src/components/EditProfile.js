@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Form, Image, Message } from 'semantic-ui-react';
 
-import { db } from '../firebase';
+import { db, storage } from '../firebase';
 import { FirebaseAuthUserContext } from './Session/FirebaseAuthUserProvider';
 import withAuthorization from './Session/withAuthorization';
 
@@ -43,7 +43,10 @@ class EditProfile extends React.Component {
     }
 
     uploadImage = () => {
-        // storage.upload
+        storage.uploadUserImage(this.props.user.id, this.state.image)
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(downloadUrl => db.editUserImage(this.props.user.id, downloadUrl))
+        .then(() => console.log('successfully added image'))
     }
 
     render() {
@@ -61,6 +64,7 @@ class EditProfile extends React.Component {
                         type='file' label='Edit Profile Image' 
                         onChange={this.onImageChange} />
                     <Form.Button
+                        onClick={this.uploadImage}
                         color='green' 
                         fluid
                         disabled={!imageChanged} >Save</Form.Button>

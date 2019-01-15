@@ -48,6 +48,13 @@ export const editUserBio = (userId, bio) => {
     }, { merge: true });
 }
 
+export const editUserImage = (userId, imageUrl) => {
+    const userRef = db.collection("users").doc(userId);
+    return userRef.set({
+        image: imageUrl
+    }, { merge: true });
+}
+
 function updateHoursTransaction(transaction, userRef, amount) {
     return transaction.get(userRef)
     .then(function(userDoc) {

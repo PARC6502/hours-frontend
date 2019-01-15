@@ -2,6 +2,8 @@ import React from 'react';
 
 import { firebase, db } from '../../firebase';
 
+import nan from '../../nan.jpg'
+
 const defaultUserContext = {
     pendingAuth: true,
     pendingUser: true,
@@ -28,12 +30,14 @@ export default class FirebaseAuthUserProvider extends React.Component {
                     let user = doc.data();
                     let role = user.role || 'USER'; 
                     let bio = user.bio || null;
+                    let image = user.image || nan;
                     // console.log(user);
                     this.setState({ 
                         pendingUser: false,
                         name: user.name, 
                         hours: user.hours,
                         bio,
+                        image,
                         role  });
                 })
                 // db.getUser(user.uid)
