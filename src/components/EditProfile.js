@@ -51,7 +51,7 @@ class EditProfile extends React.Component {
 
         const imageChanged = (this.props.user.image !== this.state.image);
 
-        console.log(this.state);
+        // TODO separate TextArea to avoid unecessarily rerendering whole page, method of measuring performance?
         return (
             <Fragment>
                 <Form>

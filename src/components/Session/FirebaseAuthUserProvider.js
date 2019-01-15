@@ -23,18 +23,31 @@ export default class FirebaseAuthUserProvider extends React.Component {
                     isUserSignedIn:true, 
                     id: user.uid, 
                     email: user.email}))
-                db.getUser(user.uid)
-                .then(user => {
+                
+                db.userRef(user.uid).onSnapshot(doc => {
+                    let user = doc.data();
                     let role = user.role || 'USER'; 
                     let bio = user.bio || null;
-                    console.log(user);
+                    // console.log(user);
                     this.setState({ 
                         pendingUser: false,
                         name: user.name, 
                         hours: user.hours,
                         bio,
-                        role  })
+                        role  });
                 })
+                // db.getUser(user.uid)
+                // .then(user => {
+                //     let role = user.role || 'USER'; 
+                //     let bio = user.bio || null;
+                //     console.log(user);
+                //     this.setState({ 
+                //         pendingUser: false,
+                //         name: user.name, 
+                //         hours: user.hours,
+                //         bio,
+                //         role  })
+                // })
             }
             else {
                 this.setState(() => ({ 

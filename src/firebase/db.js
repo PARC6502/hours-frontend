@@ -39,6 +39,8 @@ export const getUser = id =>
         else return null;
     });
 
+export const userRef = id => db.collection("users").doc(id);
+
 export const editUserBio = (userId, bio) => {
     const userRef = db.collection("users").doc(userId);
     return userRef.set({
@@ -150,8 +152,8 @@ export const getEventLogForUser = (userId) => {
     .then(querySnapshot => querySnapshot.docs)
     .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))
     .then(docs => { 
-        console.log(userId);
-        console.log(docs);
+        // console.log(userId);
+        // console.log(docs);
         return docs.filter(doc =>
         (doc.details.destination && doc.details.destination.id === userId)
         || (doc.details.source && doc.details.source.id=== userId)     
