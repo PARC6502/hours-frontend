@@ -21,6 +21,8 @@ const prodConfig = {
   messagingSenderId: "732480702691"
 };
 
+console.log(process);
+console.log(process.env);
 console.log(process.env.DEVELOP_BRANCH);
 
 const config = process.env.NODE_ENV === 'production'
