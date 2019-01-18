@@ -21,11 +21,9 @@ const prodConfig = {
   messagingSenderId: "732480702691"
 };
 
-console.log(process);
-console.log(process.env);
 console.log(process.env.REACT_APP_DEVELOP);
 
-const config = process.env.NODE_ENV === 'production'
+const config = process.env.REACT_APP_DEVELOP === 'true'
   ? prodConfig
   : devConfig;
 
