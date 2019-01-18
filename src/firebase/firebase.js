@@ -23,7 +23,7 @@ const prodConfig = {
 
 console.log(process);
 console.log(process.env);
-console.log(process.env.DEVELOP_BRANCH);
+console.log(process.env.REACT_APP_DEVELOP);
 
 const config = process.env.NODE_ENV === 'production'
   ? prodConfig
