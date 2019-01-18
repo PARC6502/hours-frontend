@@ -21,11 +21,11 @@ const prodConfig = {
   messagingSenderId: "732480702691"
 };
 
-console.log(process.env.REACT_APP_DEVELOP);
-
 const config = process.env.REACT_APP_DEVELOP === 'true'
   ? prodConfig
   : devConfig;
+
+console.log(process.env.REACT_APP_DEVELOP === 'true' ? 'prodConfig' : 'devConfig');
 
 if (!firebase.apps.length)
   firebase.initializeApp(config);
