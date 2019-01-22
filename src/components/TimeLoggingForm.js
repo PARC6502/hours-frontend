@@ -58,7 +58,6 @@ class TimeLoggingForm extends Component {
       dateOfLabour,
       loggedHours: time,
     });
-    return token.requestTokens(org, this.props.user, {loggedHours: time, description: task, dateOfLabour});
   }
 
   onFormChange = (evt, {name, value}) => {

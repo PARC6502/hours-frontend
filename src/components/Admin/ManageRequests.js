@@ -57,8 +57,7 @@ class ManageRequests extends Component {
             const {
                 docId,
                 approved,
-                destination: requester, 
-                source: organisation, 
+                destination: requester,  
                 description, 
                 amount: hours, 
                 dateOfLabour,

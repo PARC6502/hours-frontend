@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { Form, Image, Message } from 'semantic-ui-react';
 
-import { db, storage } from '../firebase';
+import { storage } from '../firebase';
 import { FirebaseAuthUserContext } from './Session/FirebaseAuthUserProvider';
 import withAuthorization from './Session/withAuthorization';
+import EditBio from './EditBio';
 
 class EditProfile extends React.Component {
     state = {
@@ -18,26 +19,26 @@ class EditProfile extends React.Component {
         bioError: false
     }
 
-    onBioChange = (evt, { value }) => {
-        this.setState({ bio: value });
-    };
+    // onBioChange = (evt, { value }) => {
+    //     this.setState({ bio: value });
+    // };
 
-    saveBio = () => {
-        this.setState({ bioLoading: true });
-        db.editUserBio(this.props.user.id, this.state.bio)
-        .then(result => {
-            console.log(result);
-            this.setState({ bioSuccess: true });
-        })
-        .catch(error => {
-            console.log(error);
-            this.setState({ bioError: true });
-        })
-        .then(() => { 
-            this.setState({ loading: false })
-            console.log(this.props.user.bio)
-        })
-    }
+    // saveBio = () => {
+    //     this.setState({ bioLoading: true });
+    //     db.editUserBio(this.props.user.id, this.state.bio)
+    //     .then(result => {
+    //         console.log(result);
+    //         this.setState({ bioSuccess: true });
+    //     })
+    //     .catch(error => {
+    //         console.log(error);
+    //         this.setState({ bioError: true });
+    //     })
+    //     .then(() => { 
+    //         this.setState({ loading: false })
+    //         console.log(this.props.user.bio)
+    //     })
+    // }
 
     onImageChange = (evt) => {
         const image = evt.target.files[0];
@@ -70,7 +71,7 @@ class EditProfile extends React.Component {
     }
 
     render() {
-        const bioChanged = (this.props.user.bio !== this.state.bio);
+        // const bioChanged = (this.props.user.bio !== this.state.bio);
 
         const imageChanged = (this.props.user.image !== this.state.imageUrl) && !this.state.imageSuccess;
 
@@ -93,21 +94,7 @@ class EditProfile extends React.Component {
                         loading={this.state.uploadingImage}
                         disabled={!imageChanged} >Save</Form.Button>
                 </Form>
-                <Form success={this.state.bioSuccess} error={this.state.bioError}>
-                    <Form.TextArea 
-                        label='Edit Bio' 
-                        value={this.state.bio} 
-                        name='bio' 
-                        onChange={this.onBioChange}/>
-                    <Message success content="Bio successfully updated!" />
-                    <Message error content="There was a problem updating your bio, sorry about that!" />
-                    <Form.Button
-                        onClick={this.saveBio}
-                        color='green' 
-                        fluid
-                        loading={this.state.bioLoading}
-                        disabled={!bioChanged} >Save</Form.Button>
-                </Form>
+                <EditBio bio={this.props.user.bio} userId={this.props.user.id} />
             </Fragment>
         );
     }

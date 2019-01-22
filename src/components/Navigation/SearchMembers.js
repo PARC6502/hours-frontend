@@ -67,7 +67,8 @@ class SearchMembers extends Component {
 
     render() {
         const { isLoading, value, results } = this.state;
-
+        // removed {...this.props} as was generating error, and removal does not seem to have effected, 
+        // will need to double check
         return (
             <Search
                 loading={isLoading}
@@ -75,7 +76,7 @@ class SearchMembers extends Component {
                 onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
                 results={results}
                 value={value}
-                {...this.props}
+                
             />
         )
     }

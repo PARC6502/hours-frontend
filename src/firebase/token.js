@@ -120,14 +120,15 @@ export const approveTokens = (requestId, orgId, approvalComment='') => {
     })
 }
 
-export const rejectTokens = (request, orgId, reason) => {
+export const rejectTokens = (request, _orgId, reason) => {
     if (request.fulfilled) return Promise.reject(Error('Request already fulfilled'))
     const requestRef = db.collection('token-requests').doc(request.docId);
     const batch = db.batch();
     batch.update(requestRef, {rejected: true, fulfilled: true, rejectionReason: reason});
 
     const eventType = 'REJECT_TOKENS';
-    const { docId, source, destination, amount, dateOfLabour, description: requestDescription } = request;
+    // not sure if dateOfLabour needed but removing for now as it's not used
+    const { docId, source, destination, amount, description: requestDescription } = request;
     const rejection = {
         requestId: docId,
         source,
