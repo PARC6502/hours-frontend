@@ -11,8 +11,8 @@ const NonAuthMenuItems = () =>
     <Fragment>
         <Menu.Item exact as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
         <Menu.Item as={NavLink} to={routes.SIGN_IN}>Sign in</Menu.Item> 
-        <Menu.Item position='right' fitted>
-            <Button as={NavLink} to={routes.SIGN_UP} fluid primary>Sign up</Button>
+        <Menu.Item as={NavLink} to={routes.SIGN_UP} position='right' fitted>
+            <Button fluid primary>Sign up</Button>
         </Menu.Item>
     </Fragment>
 
@@ -66,7 +66,7 @@ class ResponsiveNavigation extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log(this.props);
+        // console.log(this.props);
         if (this.props.location !== nextProps.location) return true;
         if (this.state.sidebarActive !== nextState.sidebarActive) return true;
         return false;

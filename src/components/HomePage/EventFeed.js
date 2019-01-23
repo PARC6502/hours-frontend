@@ -105,7 +105,7 @@ class EventFeed extends Component {
         db.getEventLog()
         .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'REJECT_TOKENS' || event.type === 'SEND_TOKENS' || event.type === 'REQUEST_TOKENS'))
         .then(events => {
-            console.log(events);
+            // console.log(events);
             return events;
         })
         .then(events => {
@@ -113,7 +113,7 @@ class EventFeed extends Component {
         })
         .catch(console.error)
         .then(() => {
-            console.log(feedItems);
+            // console.log(feedItems);
             this.setState({ feedItems, loading: false })
         });
     }

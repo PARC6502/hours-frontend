@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Form, Button, Popup, Message, Divider } from 'semantic-ui-react';
+import { Form, Popup, Message, Divider } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 import { auth, db } from '../firebase';
@@ -100,7 +100,7 @@ const SignUpPage = () =>
   <Fragment>
     <SignUpForm />
     <Divider horizontal>Or</Divider>
-    <Button as={NavLink} to={routes.SIGN_IN} fluid color='green'>Already have an account? Sign In</Button>
+    <NavLink className='ui fluid green button' to={routes.SIGN_IN}>Already have an account? Sign In</NavLink>
   </Fragment>
 
 const authCondition = (user) => user.id === null;

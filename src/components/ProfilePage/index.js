@@ -1,6 +1,5 @@
 import React from 'react';
-import { Grid, Button } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { Grid } from 'semantic-ui-react';
 
 import ProfileHeader from './ProfileHeader';
 import Bio from './Bio';
@@ -8,6 +7,7 @@ import PersonalFeed from '../PersonalFeed';
 import { FirebaseAuthUserContext } from '../Session/FirebaseAuthUserProvider';
 import withAuthorization from '../Session/withAuthorization';
 import * as routes from '../../constants/routes';
+import NavButton from '../NavButton';
 
 class GridProfileDisplay extends React.Component {
 	render() {
@@ -16,7 +16,7 @@ class GridProfileDisplay extends React.Component {
 				<Grid.Column width={6}>
 					<ProfileHeader user={this.props.user} />
 					{this.props.user.bio ? <Bio bioText={this.props.user.bio} /> : null}
-					<Button as={NavLink} to={routes.EDIT_PROFILE} icon='edit' content='Edit profile' />
+					<NavButton to={routes.EDIT_PROFILE} icon='edit' content='Edit profile' />
 				</Grid.Column>
 				<Grid.Column width={10}>
 					<PersonalFeed userId={this.props.user.id} />

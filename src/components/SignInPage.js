@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Form, Button, Divider } from 'semantic-ui-react';
+import { Form, Divider } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 import withAuthorization from './Session/withAuthorization';
@@ -52,8 +52,7 @@ class SignInForm extends Component {
           value={this.state.password}
           onChange={this.handleChange} />
         <Form.Button color='green' fluid disabled={!this.validate()}>Sign In</Form.Button>
-        <Divider horizontal>Or</Divider>
-        <Button as={NavLink} to={routes.SIGN_UP} fluid primary>Don't have an account? Sign Up</Button>
+        
 
       </Form>
     );
@@ -63,6 +62,8 @@ class SignInForm extends Component {
 const SignInPage = () => 
   <Fragment>
     <SignInForm />
+    <Divider horizontal>Or</Divider>
+    <NavLink className='ui fluid primary button' to={routes.SIGN_UP}>Don't have an account? Sign Up</NavLink>
   </Fragment>
 
 const authCondition = (user) => user.id === null;

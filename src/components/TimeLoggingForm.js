@@ -11,7 +11,7 @@ const INITIAL_FIELDS = {
   task: '',
   orgIndex: '',
   time: '',
-  dateOfLabour: null,
+  dateOfLabour: '',
 };
 
 class TimeLoggingForm extends Component {
