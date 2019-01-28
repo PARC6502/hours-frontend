@@ -2,13 +2,16 @@ import React, { Component, Fragment } from 'react';
 import { Form, Popup, Message, Divider } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
-import { auth, db } from '../firebase';
+import ImageField from './Form/ImageField';
+import { auth, db, storage } from '../firebase';
 import withAuthorization from './Session/withAuthorization';
 import * as routes from '../constants/routes';
 
 const INITIAL_STATE = {
   name: '',
   email: '',
+  bio: '',
+  image: '',
   password: '',
   confirmPassword: '',
   error: null,
@@ -34,20 +37,19 @@ class SignUpForm extends Component {
 
     if (!this.isValid) return;
     
-    const { email, password, name } = this.state;
-
+    const { email, password, name, bio } = this.state;
+    let userId;
     auth.doCreateUserWithEmailAndPassword(email, password)
-      .then(signUpResult => {
-        this.setState({ ...INITIAL_STATE })
-        return db.createUser(signUpResult.user.uid, name, email)
-      })
-      .then(() => {
-        console.log("User successfully created!")
-      })
-      .catch(error => {
-        this.setState({ error });
-        console.log(error);
-      })
+    .then(signUpResult => {
+      this.setState({ ...INITIAL_STATE });
+      userId = signUpResult.user.uid;
+      return db.createUser(userId, name, email, bio)
+    })
+    .then(() => this.state.image ? storage.uploadUserImage(userId, this.state.image) : null)
+    .catch(error => {
+      this.setState({ error });
+      console.log(error);
+    })
   }
 
   render() {
@@ -84,7 +86,16 @@ class SignUpForm extends Component {
           type="password" 
           value={this.state.confirmPassword} 
           onChange={this.handleChange} />
-        
+        <Form.TextArea 
+          label='Edit Bio' 
+          value={this.state.bio} 
+          name='bio' 
+          onChange={this.handleChange}/>
+        <ImageField
+          label='Profile image' 
+          name='image'
+          onChange={this.handleChange}
+        />
         <Message
           error
           header="Form Error"

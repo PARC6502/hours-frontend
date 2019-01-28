@@ -9,10 +9,11 @@ db.settings(settings);
  */
 
 /* User Functions */
-export const createUser = (id, name, email) => {
+export const createUser = (id, name, email, bio) => {
     return db.collection("users").doc(id).set({
         name,
         email,
+        bio,
         hours: 0,
     })
 }
