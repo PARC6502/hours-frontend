@@ -19,7 +19,7 @@ import HomePage from './HomePage';
 // import SignInPage from './SignInPage';
 // import SignUpPage from './SignUpPage';
 // import ManageAccount from './ManageAccount';
-// import ProfilePage from './ProfilePage';
+import ProfilePage from './ProfilePage';
 // import OrganisationPage from './InfoPages/OrganisationPage';
 // import UserPage from './InfoPages/UserPage';
 
@@ -61,10 +61,10 @@ const ManageAccount = Loadable({
 	loader: () => import('./ManageAccount'),
 	loading: Loading
 });
-const ProfilePage = Loadable({
-	loader: () => import('./ProfilePage'),
-	loading: Loading
-});
+// const ProfilePage = Loadable({
+// 	loader: () => import('./ProfilePage'),
+// 	loading: Loading
+// });
 const EditProfile = Loadable({
 	loader: () => import('./EditProfile'),
 	loading: Loading

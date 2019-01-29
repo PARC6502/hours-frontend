@@ -43,9 +43,9 @@ class SignUpForm extends Component {
     .then(signUpResult => {
       this.setState({ ...INITIAL_STATE });
       userId = signUpResult.user.uid;
-      return db.createUser(userId, name, email, bio)
+      return this.state.image ? storage.uploadUserImage(userId, this.state.image) : null;
     })
-    .then(() => this.state.image ? storage.uploadUserImage(userId, this.state.image) : null)
+    .then(image => db.createUser(userId, name, email, bio, image))
     .catch(error => {
       this.setState({ error });
       console.log(error);

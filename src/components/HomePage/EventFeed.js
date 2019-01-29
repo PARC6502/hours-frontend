@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { timeSince } from '../../helpers'
 import { db } from '../../firebase';
 
+
 import jennySmall from '../../jennySmall.jpg';
 import elliotSmall from '../../elliotSmall.jpg';
 import helenSmall from '../../helenSmall.jpg';

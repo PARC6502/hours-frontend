@@ -11,7 +11,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 // Sign out
 export const doSignOut = () =>
     auth.signOut()
-    .then(data => {console.log(data)});
+    // .then(data => {console.log(data)});
 
 // Sign up
 export const doCreateUserWithEmailAndPassword = (email, password) =>

@@ -1,4 +1,5 @@
 import { db } from './firebase';
+import nan from '../nan.jpg'
 
 const settings = {timestampsInSnapshots: true};
 db.settings(settings);
@@ -9,11 +10,12 @@ db.settings(settings);
  */
 
 /* User Functions */
-export const createUser = (id, name, email, bio) => {
+export const createUser = (id, name, email, bio, image=nan) => {
     return db.collection("users").doc(id).set({
         name,
         email,
         bio,
+        image,
         hours: 0,
     })
 }

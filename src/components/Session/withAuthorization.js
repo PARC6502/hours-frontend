@@ -15,16 +15,21 @@ const withAuthorization = (authCondition) => (Component) => {
                     <Loader inverted content='Loading' />
                 </Dimmer>
             )
+            console.log(user);
             if (!authCondition(user)) return <Redirect to={routes.HOME_PAGE} />
             return (
-                <Component />    
+                <Component { ...this.props } />    
             );
         }
     }
-
+    
     const WithAuthorizationWithUser = (props) =>
         <FirebaseAuthUserContext.Consumer>
-            {user => <WithAuthorization {...props} user={user} />}
+            {user => {
+                {/* console.log('consumer user: ' + JSON.stringify(user)) */}
+                return <WithAuthorization {...props} user={user} />
+                }
+            }
         </FirebaseAuthUserContext.Consumer>
 
     return WithAuthorizationWithUser;

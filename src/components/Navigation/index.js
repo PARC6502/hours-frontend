@@ -39,7 +39,7 @@ const MenuItems = () =>
     <FirebaseAuthUserContext.Consumer>
         {user => user.isUserSignedIn && !user.pendingUser 
         ? <AuthMenuItems user={user} /> : 
-        <NonAuthMenuItems />}
+        <NonAuthMenuItems user={user}/>}
     </FirebaseAuthUserContext.Consumer>
 
 const SidebarMenu = (props) => (
@@ -65,12 +65,12 @@ class ResponsiveNavigation extends React.Component {
         sidebarActive: false
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        // console.log(this.props);
-        if (this.props.location !== nextProps.location) return true;
-        if (this.state.sidebarActive !== nextState.sidebarActive) return true;
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     // console.log(this.props);
+    //     if (this.props.location !== nextProps.location) return true;
+    //     if (this.state.sidebarActive !== nextState.sidebarActive) return true;
+    //     return false;
+    // }
 
     componentDidUpdate(prevProps) {
         const locationChanged = prevProps.location !== this.props.location;
