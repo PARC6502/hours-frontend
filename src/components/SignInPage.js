@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Form, Divider } from 'semantic-ui-react';
+import { Form, Divider, Message } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 import withAuthorization from './Session/withAuthorization';
@@ -10,6 +10,13 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   error: null,
+}
+
+const errors = {
+  'auth/user-not-found': "We didn't find a user with this email, maybe you used a different email to signup?",
+  'auth/wrong-password': "Seems like the password is wrong! Double check it and try again",
+  'auth/invalid-email': "That email isn't valid",
+  'auth/user-disabled': "Account disabled",
 }
 
 class SignInForm extends Component {
@@ -33,11 +40,14 @@ class SignInForm extends Component {
 
     auth.doSignInWithEmailAndPassword(email, password)
     .then(() => this.setState({...INITIAL_STATE}))
+    .catch(error => {
+      this.setState({error})
+    })
   }
 
   render() {
     return (
-      <Form onSubmit={this.onSubmit}>
+      <Form onSubmit={this.onSubmit} error={this.state.error}>
         <Form.Input
           name="email" 
           label="Email"
@@ -51,9 +61,8 @@ class SignInForm extends Component {
           type="password" 
           value={this.state.password}
           onChange={this.handleChange} />
+        <Message error>{this.state.error ? errors[this.state.error.code] : ''}</Message>
         <Form.Button color='green' fluid disabled={!this.validate()}>Sign In</Form.Button>
-        
-
       </Form>
     );
   }

@@ -97,7 +97,7 @@ const App = (props) => {
 			<Fragment>
 				<Navigation />
 				<OfflineDimmer />
-				<InfoModal />
+				{/* <InfoModal /> */}
 				<Container style={{ marginTop: '4.5rem' }}>
 					<Switch>
 						<Route exact path={routes.HOME_PAGE} component={HomePage} />

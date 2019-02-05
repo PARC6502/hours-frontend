@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Form, Popup, Message, Divider } from 'semantic-ui-react';
 import { NavLink, withRouter } from 'react-router-dom';
  
 
 
 import ImageField from './Form/ImageField';
+import ValidatingInput from './Form/ValidatingInput';
 import { auth, db, storage } from '../firebase';
 // import withAuthorization from './Session/withAuthorization';
 import * as routes from '../constants/routes';
@@ -63,6 +64,10 @@ class SignUpFormBase extends Component {
     .then(() => this.setState({ loading: false }))
   }
 
+  confirmPasswordValidator = value => {
+    return value === this.state.password ? false : "The passwords don't match";
+  }
+
   render() {
     return (
       <Form onSubmit={this.onSubmit} error={this.state.error !== null}>
@@ -91,12 +96,14 @@ class SignUpFormBase extends Component {
           content="Password must be greater than 6 characters"
           on="focus"
           position="right center" />
-        <Form.Input 
+        <ValidatingInput 
           name="confirmPassword"
           label="Confirm Password" 
           type="password" 
           value={this.state.confirmPassword} 
-          onChange={this.handleChange} />
+          onChange={this.handleChange} 
+          validate={this.confirmPasswordValidator} 
+          />
         <Form.TextArea 
           label='Edit Bio' 
           value={this.state.bio} 
@@ -124,12 +131,10 @@ class SignUpFormBase extends Component {
 const SignUpForm = withRouter(SignUpFormBase)
 
 const SignUpPage = () => 
-  <Fragment>
+  <>
     <SignUpForm />
     <Divider horizontal>Or</Divider>
     <NavLink className='ui fluid green button' to={routes.SIGN_IN}>Already have an account? Sign In</NavLink>
-  </Fragment>
+  </>
 
-// const authCondition = (user) => user.id === null;
-// export default withAuthorization(authCondition)(SignUpPage);
 export default SignUpPage;
