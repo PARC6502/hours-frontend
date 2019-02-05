@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Image, Message } from 'semantic-ui-react';
 
-import { storage } from '../firebase';
+import { storage, db } from '../firebase';
 
 class EditImage extends React.Component {
     state = {
@@ -27,6 +27,7 @@ class EditImage extends React.Component {
     uploadImage = () => {
         this.setState({ loading: true });
         storage.uploadUserImage(this.props.userId, this.state.image)
+        .then(imageUrl => db.editUserImage(this.props.userId, imageUrl))
         .then(() => this.setState({ loading: false, success: true }))
         .catch(() => this.setState({ loading: false, error: true }))
         // let uploadTask = storage.uploadUserImage(this.props.userId, this.state.image);

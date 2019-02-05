@@ -30,9 +30,9 @@ export default class FirebaseAuthUserProvider extends React.Component {
                 db.userRef(user.uid)
                 .onSnapshot(doc => {
                     let user = doc.data();
-                    let role = user.role || 'USER'; 
-                    let bio = user.bio || null;
-                    let image = user.image || nan;
+                    let role = user.role ? user.role : 'USER'; 
+                    let bio = user.bio ? user.bio : null;
+                    let image = user.image ? user.image : nan;
                     this.setState({ 
                         pendingUser: false,
                         name: user.name, 

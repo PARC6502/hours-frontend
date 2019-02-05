@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { Form, Popup, Message, Divider } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
+ 
+
 
 import ImageField from './Form/ImageField';
 import { auth, db, storage } from '../firebase';
-import withAuthorization from './Session/withAuthorization';
+// import withAuthorization from './Session/withAuthorization';
 import * as routes from '../constants/routes';
 
 const INITIAL_STATE = {
@@ -15,9 +17,10 @@ const INITIAL_STATE = {
   password: '',
   confirmPassword: '',
   error: null,
+  loading: false,
 }
 
-class SignUpForm extends Component {
+class SignUpFormBase extends Component {
 
   state = {
     ...INITIAL_STATE
@@ -36,20 +39,28 @@ class SignUpForm extends Component {
     event.preventDefault();
 
     if (!this.isValid) return;
-    
+    this.setState({ loading: true });
     const { email, password, name, bio } = this.state;
     let userId;
     auth.doCreateUserWithEmailAndPassword(email, password)
     .then(signUpResult => {
-      this.setState({ ...INITIAL_STATE });
       userId = signUpResult.user.uid;
-      return this.state.image ? storage.uploadUserImage(userId, this.state.image) : null;
+      return db.createUser(userId, name, email, bio);
     })
-    .then(image => db.createUser(userId, name, email, bio, image))
+    .then(() => this.state.image ? storage.uploadUserImage(userId, this.state.image) : null )
+    .then(image => {
+      if (image !== null) return db.editUserImage(userId, image);
+      return 
+    })
+    .then(() => {
+      this.setState({ ...INITIAL_STATE });
+      this.props.history.push(routes.HOME_PAGE);
+    })
     .catch(error => {
       this.setState({ error });
       console.log(error);
     })
+    .then(() => this.setState({ loading: false }))
   }
 
   render() {
@@ -101,11 +112,16 @@ class SignUpForm extends Component {
           header="Form Error"
           content={this.state.error ? this.state.error.message : ''} />
 
-        <Form.Button primary fluid type='submit' disabled={!this.isValid()}>Sign Up</Form.Button>
+        <Form.Button 
+          primary fluid 
+          type='submit' 
+          loading={this.state.loading} disabled={!this.isValid()}>Sign Up</Form.Button>
       </Form>
     );
   }
 }
+
+const SignUpForm = withRouter(SignUpFormBase)
 
 const SignUpPage = () => 
   <Fragment>
@@ -114,5 +130,6 @@ const SignUpPage = () =>
     <NavLink className='ui fluid green button' to={routes.SIGN_IN}>Already have an account? Sign In</NavLink>
   </Fragment>
 
-const authCondition = (user) => user.id === null;
-export default withAuthorization(authCondition)(SignUpPage);
+// const authCondition = (user) => user.id === null;
+// export default withAuthorization(authCondition)(SignUpPage);
+export default SignUpPage;

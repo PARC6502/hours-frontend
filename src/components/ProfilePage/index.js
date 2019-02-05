@@ -30,7 +30,7 @@ const ProfilePage = () =>
 		{user => <GridProfileDisplay user={{...user}} />}
 	</FirebaseAuthUserContext.Consumer>
 
-const authCondition = (user) => user !== null;
+const authCondition = (user) => user.role !== null;
 export default withAuthorization(authCondition)(ProfilePage);
 
 
