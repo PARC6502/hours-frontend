@@ -27,7 +27,7 @@ class SignUpFormBase extends Component {
     ...INITIAL_STATE
   }
 
-  handleChange = (e, { name, value }) => {  
+  handleChange = (_e, { name, value }) => {  
     this.setState({ [name]: value });
   }
 
@@ -64,6 +64,10 @@ class SignUpFormBase extends Component {
     .then(() => this.setState({ loading: false }))
   }
 
+  passwordValidator = value => {
+    return value.length > 5 ? false : "The password you entered is less than 5 characters";
+  }
+
   confirmPasswordValidator = value => {
     return value === this.state.password ? false : "The passwords don't match";
   }
@@ -76,22 +80,26 @@ class SignUpFormBase extends Component {
           label="Name" 
           placeholder="Sarah Khan"
           value={this.state.name}
-          onChange={this.handleChange} 
+          onChange={this.handleChange}
+          required 
           />
         <Form.Input
           name="email" 
           label="Email"
           placeholder="example@gmail.com" 
           value={this.state.email}
-          onChange={this.handleChange} 
+          onChange={this.handleChange}
+          required 
           />
         <Popup
-          trigger={<Form.Input
+          trigger={<ValidatingInput
             name="password" 
             label="Password" 
             type="password" 
             value={this.state.password}
-            onChange={this.handleChange} />
+            onChange={this.handleChange}
+            validate={this.passwordValidator}
+            required />
           } 
           content="Password must be greater than 6 characters"
           on="focus"
@@ -102,7 +110,8 @@ class SignUpFormBase extends Component {
           type="password" 
           value={this.state.confirmPassword} 
           onChange={this.handleChange} 
-          validate={this.confirmPasswordValidator} 
+          validate={this.confirmPasswordValidator}
+          required 
           />
         <Form.TextArea 
           label='Edit Bio' 

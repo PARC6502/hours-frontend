@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Message } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
 class ValidatingInput extends React.PureComponent {
     state = {
@@ -16,19 +17,30 @@ class ValidatingInput extends React.PureComponent {
     };
 
     render() {
-        console.log('validating input rerendered')
+        let {name, label, type, value, validate, ...otherProps} = this.props;
+        // console.log(this.props.name + ' - validating input rerendered')
         return (<>
             <Form.Input 
-                name={this.props.name || ''} 
-                label={this.props.label || ''} 
-                type={this.props.type || ''} 
-                value={this.props.value || ''}
+                name={name || ''} 
+                label={label || ''} 
+                type={type || ''} 
+                value={value || ''}
                 onChange={this.onChange}
-                onBlur={this.onBlur} 
+                onBlur={this.onBlur}
+                {...otherProps} 
             />
             {this.state.error ? <Message negative>{this.state.error}</Message> : null}
         </>);
     }   
+}
+
+ValidatingInput.propTypes = {
+    name: PropTypes.string.isRequired, 
+    onChange: PropTypes.func.isRequired,
+    validate: PropTypes.func.isRequired,
+    value: PropTypes.any.isRequired,
+    label: PropTypes.string,
+    // required: PropTypes.bool,
 }
 
 export default ValidatingInput;
