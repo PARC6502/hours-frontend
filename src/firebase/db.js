@@ -44,6 +44,8 @@ export const getUser = id =>
 
 export const userRef = id => db.collection("users").doc(id);
 
+export const usersRef = db.collection("users");
+
 export const editUserBio = (userId, bio) => {
     const userRef = db.collection("users").doc(userId);
     return userRef.set({

@@ -77,8 +77,8 @@ export default class FirebaseAuthUserProvider extends React.Component {
     render() {
         const {children, ...acyclicalProps} = this.props;
         // const user = { ...this.state }
-        console.log('AuthUser: ');
-        console.log(this.state);
+        // console.log('AuthUser: ');
+        // console.log(this.state);
         return (
             <FirebaseAuthUserContext.Provider value={ this.state }>
                 {React.cloneElement(children, acyclicalProps)}
