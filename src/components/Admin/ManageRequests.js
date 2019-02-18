@@ -63,7 +63,7 @@ class ManageRequests extends Component {
                 dateOfLabour,
                 rejectionReason} = req;
 
-            return (<Segment vertical fluid key={docId}>
+            return (<Segment vertical fluid="true" key={docId}>
                 <Icon name={ approved ? 'check' : 'ban'} />
                 {`${requester.name} requested ${hours} hours for "${description}" done on ${dateOfLabour}`}
                 {rejectionReason ? <p>Rejected because: <strong>{rejectionReason}</strong></p> : null}

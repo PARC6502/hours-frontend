@@ -1,6 +1,4 @@
-import React, { Component, Fragment } from 'react';
-// import { Feed, Segment, Dimmer, Loader, Image, Grid } from 'semantic-ui-react';
-// import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
 
 import Feed from './Feed';
 import { db } from '../firebase';

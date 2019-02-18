@@ -25,11 +25,7 @@ const withAuthorization = (authCondition) => (Component) => {
     
     const WithAuthorizationWithUser = (props) =>
         <FirebaseAuthUserContext.Consumer>
-            {user => {
-                {/* console.log('consumer user: ' + JSON.stringify(user)) */}
-                return <WithAuthorization {...props} user={user} />
-                }
-            }
+            {user => <WithAuthorization {...props} user={user} />}
         </FirebaseAuthUserContext.Consumer>
 
     return WithAuthorizationWithUser;

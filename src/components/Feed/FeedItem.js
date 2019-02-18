@@ -23,8 +23,7 @@ const FeedItem = props => {
         </Feed.Content>
     </Feed.Event>);
 };
-// grid-template-rows: 10% 3% 60% auto;
-// grid-template-columns: 25% 55% auto;
+
 const EventContainer = styled.div`
     display: grid;
     grid-template-columns: 4fr 8fr 3fr;
@@ -111,10 +110,6 @@ const ImageArea = styled.div`
     grid-row-end: 2;
     justify-self: end;
     padding: 0.5rem 0 0 0.5rem;
-`
-const LeftSide = styled.div`
-    display: inline-block;
-    margin: 0 1em;
 `
 
 const Summary = styled.div`

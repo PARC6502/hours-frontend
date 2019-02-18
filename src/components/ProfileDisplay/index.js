@@ -13,7 +13,7 @@ import { auth } from '../../firebase';
 
 const ProfileDisplay = props => {
     // console.log(props.user)
-    const isCurrentUser = props.user.id == auth.getCurrentUserId() ? true : false;
+    const isCurrentUser = props.user.id === auth.getCurrentUserId() ? true : false;
     return (
         <Grid stackable>
             <Grid.Column width={6}>
