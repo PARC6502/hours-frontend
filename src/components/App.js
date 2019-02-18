@@ -12,6 +12,7 @@ import Navigation from './Navigation';
 import OfflineDimmer from './OfflineDimmer';
 import InfoModal from './InfoModal';
 import HomePage from './HomePage';
+import GlobalStyle from './GlobalStyle';
 
 // Components for other pages
 // import TimeLoggingForm from './TimeLoggingForm';
@@ -93,10 +94,12 @@ const AdminPage = Loadable({
 const App = (props) => {
 	return (
 		<FirebaseAuthUserProvider>
+		{/* <GlobalStyle /> */}
 		<Router>
 			<Fragment>
 				<Navigation />
 				<OfflineDimmer />
+				<GlobalStyle />
 				{/* <InfoModal /> */}
 				<Container style={{ marginTop: '4.5rem' }}>
 					<Switch>
