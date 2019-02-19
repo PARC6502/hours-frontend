@@ -5,3 +5,9 @@ export const uploadUserImage = (userId, image) => {
     return storageRef.put(image)
     .then(snapshot => snapshot.ref.getDownloadURL())
 }
+
+export const uploadVendorImage = (userId, image) => {
+    const storageRef = storage.ref(userId + '/profile.jpg');
+    return storageRef.put(image)
+    .then(snapshot => snapshot.ref.getDownloadURL())
+}

@@ -72,6 +72,24 @@ function updateHoursTransaction(transaction, userRef, amount) {
     })
 }
 
+/* Vendor Functions */
+export const createVendor = (id, name, email, bio, image=nan) => {
+    return db.collection("vendors").doc(id).set({
+        name,
+        email,
+        bio,
+        image,
+        hoursRecieved: 0,
+        roles: ["vendor"],
+    });
+}
+
+export const editVendorImage = (vendorId, imageUrl) => {
+    const vendorRef = db.collection("vendors").doc(vendorId);
+    return vendorRef.set({
+        image: imageUrl
+    }, { merge: true });
+}
 
 
 
