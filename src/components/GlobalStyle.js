@@ -4,6 +4,7 @@ const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Lato');
   body {
       background: #fbf6f2;
+      font-family: 'Lato', sans-serif;
   }
 `
 
