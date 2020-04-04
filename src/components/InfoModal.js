@@ -3,58 +3,62 @@ import { Grid, Button, Image, Modal, Header } from "semantic-ui-react";
 import Swipeable from "react-swipeable";
 
 import aboutUs from "../images/jumpyHours.png";
+import keepTrack from "../images/ToolExchange.png";
 import howItWorks from "../images/helping.png";
 import logHours from "../images/logHours.png";
 import spendHours from "../images/shopSupport.png";
 import exchangeHours from "../images/greatTime.png";
-import keepTrack from "../images/ToolExchange.png";
 import supporters from "../images/supporters.png";
 
 import { FirebaseAuthUserContext } from "./Session/FirebaseAuthUserProvider";
 
 const infoPanes = [
   {
-    header: `About Us`,
-    text: `Impact feed is a tool to help mutual-aid and voluntary sector groups share the impact they have made with central government and 
-    one another and researchers. Based on the principal of transparecy, this helps track impact during covid-19, informing statistics and painting a clear picture around scale of activity our communities are undertaking.`,
+    header: `Mutual impact`,
+    text: `Mutual impact is a feed for groups to post impact at the end of the day or week. Tracking it collectively and openly during covid-19 allows clear picture of the size of the activity our communities are undertaking. `,
     image: aboutUs
   },
   {
     header: `How it works`,
     text: (
       <Fragment>
-        <Header content="Work" size="small" />
-        Make impact in a non-profit or within a mutual aid group.
-        <Header content="Log" size="small" />
-        Record the people you have worked with, what you have done
-        <Header content="Save" size="small" />
+        <Header content="Help people" size="small" />
+        Make impact in your community within a mutual aid group or voluntary
+        organisation.
+        <Header content="Log your impact" size="small" />
+        Click log impact to share how many people you have helped, what your
+        group has done to help them. Every little bit adds up!
+        <Header content="Share insights" size="small" />
+        This openness helps mutual aid groups to share with researchers,
+        political groups and central government to unlock vital support in the
+        areas it is needed.
       </Fragment>
     ),
     image: howItWorks
   },
   {
-    header: `Log`,
-    text: `You can log the impact you have made by clicking on the log hours button and picking the organisation from the drop down menu. A moderator from your organisation will need to approve your hours for you to receive them.`,
+    header: `How to post impact`,
+    text: `To can post your impact by clicking 'post impact' pick your organisation from the drop down menu. Please share how many people you have helped and the number you helped. A moderator will then approve this. If your community group needs to be listed contact anybody on our moderators list`,
     image: logHours
   },
   {
-    header: `Spend`,
-    text: `Once you receive hours you will be able to spend these with our growing network of supporters who accept them. From cinema tickets to travel subsidiaries. This is a community currency, provided and spend in the community. Become a vendor or patron to help grow the network.`,
-    image: spendHours
-  },
-  {
-    header: `Exchange`,
-    text: `You can also exchange hours by sending them directly to an individual as a tip, a token of gratitude or as a payment for some help they have provided. These personal transactions generate a digital receipt that keeps track of actions and exchanges. `,
-    image: exchangeHours
-  },
-  {
-    header: `Keep track of things`,
-    text: `Everytime you borrow something, for example a hammer from the toolbox. Record the exchange with a token amount of hours, so users can track down borrowed items easily.`,
+    header: `Ensure transparency`,
+    text: ` Be clear about your how you helped, include all relevant information and try to post as often as you can. This helps organisations and researchers keep track of impact as it happens, and lobby effectively for the support of it fast. Having more information also gives each group more context, which helps them do their own work more effectively.`,
     image: keepTrack
   },
   {
+    header: `Share`,
+    text: `People who want to support those contributing to Covid-19 can see the impact your organisation is contributing. Other organisations and individuals, not just government, can work out how they might best support your impact.`,
+    image: spendHours
+  },
+  {
+    header: `Share`,
+    text: `As a novel feature, you can send impact to an individual as a token of gratitude. We are developing these features as the projec evolves. `,
+    image: exchangeHours
+  },
+  {
     header: `Our supporters and partners`,
-    text: `We would like to thank our partners in helping us develop the project.
+    text: `This system is designed by members of the National Food Service campaign, a grassroots network to end food insecurity in the U.K.
 
     
         `,

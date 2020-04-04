@@ -67,7 +67,7 @@ class TimeLoggingForm extends Component {
 
   validateTime = time => {
     const hours = Number(time);
-    return hours > 0 && hours < 24;
+    return hours > 0 && hours < 1500;
   };
 
   validateDate = dateString => {
@@ -134,7 +134,7 @@ class TimeLoggingForm extends Component {
           onChange={this.onFormChange}
         />
         <Form.Input
-          name="People"
+          name="time"
           label="How many people did you help?"
           type="number"
           value={this.state.fields.time}
