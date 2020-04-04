@@ -4,8 +4,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Intro
 
-A react web application, in the early stages of development, that will allow users to log time spent contributing to community projects and charities and then exchange those hours for between each other or for goods and services.
-
-Eventually the goal is to implement this as a cryptocurrency of sorts with smart contracts, maybe using some proof stake systems.
+A react web application, in the early stages of development, that will allow users to log impact and contributions to community projects. Eventually the goal is to implement a currency or system that enables bodies and funders to more easily support communities in relation to the people they have helped.
 
 The project is under development at Foodhall, a grassroots community project based in Sheffield.
