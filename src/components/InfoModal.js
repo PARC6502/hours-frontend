@@ -179,7 +179,7 @@ class InfoModal extends Component {
         closeIcon
         id="infoModal"
       >
-        <Modal.Content style={{ backgroundColor: "#F5F5DC" }}>
+        <Modal.Content style={{ backgroundColor: "#FFFF" }}>
           <InfoGallery panes={infoPanes} />
         </Modal.Content>
       </Modal>
