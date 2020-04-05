@@ -9,6 +9,7 @@ import logHours from "../images/logHours.png";
 import spendHours from "../images/shopSupport.png";
 import exchangeHours from "../images/greatTime.png";
 import supporters from "../images/supporters.png";
+import { Icon, Label } from "semantic-ui-react";
 
 import { FirebaseAuthUserContext } from "./Session/FirebaseAuthUserProvider";
 
@@ -31,21 +32,22 @@ const infoPanes = [
         achieve support for their work.
       </Fragment>
     ),
+
     image: howItWorks
   },
   {
     header: `How to post impact`,
-    text: `Click post impact and pick your organisation from the drop down menu.  Post your general stats like the number of people you helped, how you helped them and any comments. Don't post any sensitive information! Duh! `,
+    text: `Click log impact. Post your general stats such as the number of people you helped and how you helped them. Include as much as you can but don't post any sensitive information! Duh! `,
     image: logHours
   },
   {
     header: `Real time transparency`,
-    text: ` We are living in blink and you will miss it times. Keep it updated and get your team to post as often as you can. Check your groups total by using the search bar and you will be surprised!`,
+    text: ` Keep it updated and get your team to post as often as you can. Try not to repeat information! Check your groups total in the search bar and you will quickly be surprised!`,
     image: keepTrack
   },
   {
     header: `Share`,
-    text: `People can see the impact your organisation is contributing, organisations, individuals, and municipals, can work out how they might best support your impact.`,
+    text: `People can see how you are doing. This allows organisations, individuals, and municipals to work out how to best support you.`,
     image: spendHours
   },
   {
@@ -55,10 +57,21 @@ const infoPanes = [
   },
   {
     header: `Our supporters and partners`,
-    text: `This system is designed by members of the National Food Service campaign, a grassroots network to end food insecurity in the U.K.
 
-    
-        `,
+    text: (
+      <Fragment>
+        <Header content="Who is making this" size="small" />
+        This system is designed by members of the National Food Service
+        campaign, a grassroots network to end food insecurity in the U.K. We are
+        looking for more contributors, so if you would like to help build this
+        app or for more information visit the
+        <a href="https://www.nationalfoodservice.uk/">
+          {" "}
+          National Food Service website
+        </a>
+      </Fragment>
+    ),
+
     image: supporters
   }
 ];
