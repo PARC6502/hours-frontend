@@ -2,14 +2,13 @@ import React, { Component, Fragment } from "react";
 import { Grid, Button, Image, Modal, Header } from "semantic-ui-react";
 import Swipeable from "react-swipeable";
 
-import aboutUs from "../images/jumpyHours.png";
+import aboutUs from "../images/jumpyHours1.png";
 import keepTrack from "../images/ToolExchange.png";
-import howItWorks from "../images/helping.png";
+import howItWorks from "../images/helping1.png";
 import logHours from "../images/logHours.png";
 import spendHours from "../images/shopSupport.png";
 import exchangeHours from "../images/greatTime.png";
 import supporters from "../images/supporters.png";
-import { Icon, Label } from "semantic-ui-react";
 
 import { FirebaseAuthUserContext } from "./Session/FirebaseAuthUserProvider";
 
