@@ -105,13 +105,13 @@ class TimeLoggingForm extends Component {
         success={this.state.success}
       >
         <Message>
-          <Message.Header>How to log impact</Message.Header>
+          <Message.Header>How to post impact</Message.Header>
           <List bulleted>
             <List.Item>You need to fill in all of the fields</List.Item>
             <List.Item>
               You need to list how you helped people, and how many you helped{" "}
             </List.Item>
-            <List.Item>You can't log tasks over a month old</List.Item>
+            <List.Item>You can't post tasks over a month old</List.Item>
           </List>
         </Message>
         <Form.Input
@@ -133,6 +133,9 @@ class TimeLoggingForm extends Component {
           value={this.state.fields.orgIndex}
           onChange={this.onFormChange}
         />
+        <h> Not there? </h>{" "}
+        <a href="https://forms.gle/KXQPG6gcuQsPSFXdA"> Add your group.</a>
+        <p />
         <Form.Input
           name="time"
           label="How many people did you help?"

@@ -71,7 +71,7 @@ const eventLogMapper = {
       id,
       summary: (
         <Fragment>
-          {contributorLink} contributed {hours} hours to {organisationLink}{" "}
+          {contributorLink} helped {hours} people with {organisationLink}{" "}
           (Approved)
         </Fragment>
       ),
