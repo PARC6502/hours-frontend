@@ -15,7 +15,7 @@ import { FirebaseAuthUserContext } from "./Session/FirebaseAuthUserProvider";
 const infoPanes = [
   {
     header: `Mutual impact`,
-    text: `Mutual impact is a feed for groups to post impact at the end of the day or week. Tracking it collectively and openly during covid-19 allows clear picture of the size of the activity our communities are undertaking. `,
+    text: `Mutual impact is a feed for groups to post impact at the end of the day or week. Having more information during COVID-19 gives each group more context, which helps us carry out work more effectively. It also supports researchers to compile evidence for to government to unlock support.`,
     image: aboutUs
   },
   {
@@ -23,37 +23,34 @@ const infoPanes = [
     text: (
       <Fragment>
         <Header content="Help people" size="small" />
-        Make impact in your community within a mutual aid group or voluntary
-        organisation.
-        <Header content="Log your impact" size="small" />
-        Click log impact to share how many people you have helped, what your
-        group has done to help them. Every little bit adds up!
-        <Header content="Share insights" size="small" />
-        This openness helps mutual aid groups to share with researchers,
-        political groups and central government to unlock vital support in the
-        areas it is needed.
+        Help people in your community.
+        <Header content="Post your impact" size="small" />
+        Post your impact on the newsfeed.
+        <Header content="Evidence impact." size="small" />
+        We hope this tool will provide an easy framework for mutualist groups to
+        achieve support for their work.
       </Fragment>
     ),
     image: howItWorks
   },
   {
     header: `How to post impact`,
-    text: `To can post your impact by clicking 'post impact' pick your organisation from the drop down menu. Please share how many people you have helped and the number you helped. A moderator will then approve this. If your community group needs to be listed contact anybody on our moderators list`,
+    text: `Click post impact and pick your organisation from the drop down menu.  Post your general stats like the number of people you helped, how you helped them and any comments. Don't post any sensitive information! Duh! `,
     image: logHours
   },
   {
-    header: `Ensure transparency`,
-    text: ` Be clear about your how you helped, include all relevant information and try to post as often as you can. This helps organisations and researchers keep track of impact as it happens, and lobby effectively for the support of it fast. Having more information also gives each group more context, which helps them do their own work more effectively.`,
+    header: `Real time transparency`,
+    text: ` We are living in blink and you will miss it times. Keep it updated and get your team to post as often as you can. Check your groups total by using the search bar and you will be surprised!`,
     image: keepTrack
   },
   {
     header: `Share`,
-    text: `People who want to support those contributing to Covid-19 can see the impact your organisation is contributing. Other organisations and individuals, not just government, can work out how they might best support your impact.`,
+    text: `People can see the impact your organisation is contributing, organisations, individuals, and municipals, can work out how they might best support your impact.`,
     image: spendHours
   },
   {
     header: `Share`,
-    text: `As a novel feature, you can send impact to an individual as a token of gratitude. We are developing these features as the projec evolves. `,
+    text: `As a novel feature, you can send impact to an individual as a token of gratitude. We are developing these features as the project evolves. `,
     image: exchangeHours
   },
   {
