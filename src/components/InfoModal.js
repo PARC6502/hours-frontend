@@ -15,7 +15,7 @@ import { FirebaseAuthUserContext } from "./Session/FirebaseAuthUserProvider";
 const infoPanes = [
   {
     header: `Mutual impact`,
-    text: `Mutual impact is a feed for groups to post impact at the end of the day or week. Having more information during COVID-19 gives each group more context, which helps us carry out work more effectively. It also supports researchers to compile evidence for to government to unlock support.`,
+    text: `Mutual impact is a web app for groups to post impact at the end of the day or week. Having more information during COVID-19 gives each group more context, which helps us carry out work more effectively. It also supports researchers to compile evidence for to government to unlock support.`,
     image: aboutUs
   },
   {
