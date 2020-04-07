@@ -3,7 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const config = {
-  apiKey: "AIzaSyAhApjVBQOuAt24h9b0OaI1zxiZ3bYw9S4",
+  apiKey: "TOP_SECRET",
   authDomain: "hours-website1.firebaseapp.com",
   databaseURL: "https://hours-website1.firebaseio.com",
   projectId: "hours-website1",
