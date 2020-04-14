@@ -15,8 +15,8 @@ import { FirebaseAuthUserContext } from "./Session/FirebaseAuthUserProvider";
 const infoPanes = [
   {
     header: `Mutual impact`,
-    text: `Mutual impact enables our community to collect vital evidence to demonstrate the impact.  This allows groups to paint a public picture to so the NFS can share with funders or to enable more community level support for work. Removing some administrative burden to enable automatic reports and grant applications.
-Aswell as increasing the total evidence base for Mutual Aid and voluntary labor which is under-reported.
+    text: `Mutual impact is an impact tracker for the National Food Service and partnering mutual community groups to collect vital evidence to demonstrate impact as a whole.  This allows accessiblity and transparency. To paint a picture to the public and can be shared with funders to enable more support for work. It also aims to remove some administrative burden and enable automatic reports and grant applications in the future.
+Aswell as increasing the total evidence base for Mutual Aid and voluntary labor.
 `,
     image: aboutUs
   },
