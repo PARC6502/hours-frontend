@@ -15,9 +15,8 @@ import { FirebaseAuthUserContext } from "./Session/FirebaseAuthUserProvider";
 const infoPanes = [
   {
     header: `Mutual impact`,
-    text: `Enables our community to collect vital evidence to demonstrate the impact.  This allows groups to paint a public picture to share with funders or to achieve community level support for their work. Aswell as this it enables volunteer rewards and celebrates those contributing extensively.
-It is envisaged it may enable volunteers and communities to build a profile, connect with funders and local authorities. Allowing people to share their accomplishments easier, measure them and remove some administrative burden to enable automatic reports and grant applications.
-Theis site also leads towards an impact analysis that different audiences can evidence as a whole. Increasing the evidence base for mutual aid and voluntary labor which is underreported.
+    text: `Mutual impact enables our community to collect vital evidence to demonstrate the impact.  This allows groups to paint a public picture to so the NFS can share with funders or to enable more community level support for work. Removing some administrative burden to enable automatic reports and grant applications.
+Aswell as increasing the total evidence base for Mutual Aid and voluntary labor which is under-reported.
 `,
     image: aboutUs
   },
