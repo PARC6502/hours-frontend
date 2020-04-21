@@ -19,30 +19,34 @@ class Profile extends React.Component {
 			db.getUser(this.props.user.id)
 			.then( (user) => this.setState({ user, loading: false }));
 	}
-	
+
 	render() {
 		let user;
 		if (this.state.user) {
 			user = {...this.state.user};
 		}
 		else {
-			user = { name: 'name', email: 'email', hours: 'NA'}
+			user = { name: 'name', email: 'email', hours: 'NA', meals: 0 }
+		}
+		const meta = [ `${ user.hours } people helped` ];
+		if ( user.meals ) {
+			meta.push( `${ user.meals } meals provided` );
 		}
 		return (
 			<Fragment>
 				<LoadingCardView
 					loading={this.state.loading}
 					header={user.name}
-					meta={user.hours + ' hours'}
-					image={nan}	 
+					meta={ meta.join(', ') }
+					image={nan}
 				/>
 				<PersonalFeed userId={this.props.user.id} />
 			</Fragment>
 		)
-	}	
+	}
 };
 
-const ProfilePage = () => 
+const ProfilePage = () =>
 	<FirebaseAuthUserContext.Consumer>
 		{user => <Profile user={user} />}
 	</FirebaseAuthUserContext.Consumer>

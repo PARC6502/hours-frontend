@@ -11,6 +11,7 @@ const INITIAL_FIELDS = {
   task: "",
   orgIndex: "",
   time: "",
+  meals: "",
   dateOfLabour: ""
 };
 
@@ -49,11 +50,12 @@ class TimeLoggingForm extends Component {
   };
 
   logHours = () => {
-    var { task, orgIndex, time, dateOfLabour } = this.state.fields;
+    var { task, orgIndex, time, meals, dateOfLabour } = this.state.fields;
     const org = this.state.organisations[orgIndex];
 
     return token.requestTokens(org, this.props.user, {
       loggedHours: time,
+      mealsProvided: meals,
       description: task,
       dateOfLabour
     });
@@ -143,6 +145,13 @@ class TimeLoggingForm extends Component {
           label="How many people did you help?"
           type="number"
           value={this.state.fields.time}
+          onChange={this.onFormChange}
+        />
+        <Form.Input
+          name="meals"
+          label="How many meals did you provide?"
+          type="number"
+          value={this.state.fields.meals}
           onChange={this.onFormChange}
         />
         <Form.Input
