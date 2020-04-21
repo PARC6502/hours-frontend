@@ -11,7 +11,7 @@ const INITIAL_FIELDS = {
   task: "",
   orgIndex: "",
   time: "",
-  dateOfLabour: null
+  dateOfLabour: ""
 };
 
 class TimeLoggingForm extends Component {
@@ -133,9 +133,11 @@ class TimeLoggingForm extends Component {
           value={this.state.fields.orgIndex}
           onChange={this.onFormChange}
         />
-        <h> Not there? </h>{" "}
-        <a href="https://forms.gle/KXQPG6gcuQsPSFXdA"> Add your group.</a>
-        <p />
+        <p>
+          Not there?
+          { " " }
+          <a href="https://forms.gle/KXQPG6gcuQsPSFXdA"> Add your group.</a>
+        </p>
         <Form.Input
           name="time"
           label="How many people did you help?"
