@@ -67,24 +67,24 @@ class SendHrsForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         {/* <Form.Group inline>
-          <Form.Radio 
+          <Form.Radio
             name="sendingType"
-            label='Spend on service or product' 
-            value='service' 
-            checked={this.state.sendingType === 'service'} 
+            label='Spend on service or product'
+            value='service'
+            checked={this.state.sendingType === 'service'}
             onChange={this.onSendingTypeSelect} />
           <Form.Radio
-            name="sendingType" 
-            label='Send to other user' 
-            value='user' 
-            checked={this.state.sendingType === 'user'} 
-    onChange={this.onSendingTypeSelect} /> 
+            name="sendingType"
+            label='Send to other user'
+            value='user'
+            checked={this.state.sendingType === 'user'}
+    onChange={this.onSendingTypeSelect} />
 
         </Form.Group>
-        {this.state.sendingType==='user' ? 
-          <UsersDropdown 
-            onChange={this.onFormChange} 
-            value={this.state.fields.user} /> : 
+        {this.state.sendingType==='user' ?
+          <UsersDropdown
+            onChange={this.onFormChange}
+            value={this.state.fields.user} /> :
           <Fragment />} */}
         {this.state.sendingType === "service" ? (
           <ServicesDropdown
@@ -120,24 +120,13 @@ class UsersDropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.value,
       users: []
     };
+  }
+
+  componentDidMount() {
     databaseController.getUsers().then(users => this.setState({ users }));
   }
-
-  onChange = (evt, { name, value }) => {
-    this.setState({ value });
-    this.props.onChange(evt, { name, value });
-  };
-
-  componentWillReceiveProps(update) {
-    this.setState({ value: update.value });
-  }
-
-  // componentDidMount() {
-  //   this.setState({ users: databaseController.getUsers() });
-  // }
 
   render() {
     const userOptions = this.state.users.map(user => ({
@@ -153,8 +142,8 @@ class UsersDropdown extends Component {
         label="Pick a user from the dropdown, or type their name"
         placeholder="Select a user..."
         options={userOptions}
-        value={this.state.value}
-        onChange={this.onChange}
+        value={this.props.value}
+        onChange={this.props.onChange}
       />
     );
   }

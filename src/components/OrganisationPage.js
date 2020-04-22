@@ -3,6 +3,7 @@ import { Icon } from "semantic-ui-react";
 
 import { db } from "../firebase";
 import LoadingCardView from "./LoadingCardView";
+import OrganisationFeed from "./OrganisationFeed";
 
 import moonScaffold from "../moonScaffold.jpg";
 
@@ -15,17 +16,18 @@ class OrganisationPage extends React.Component {
 
   componentDidMount() {
     const match = this.props.match;
-    console.log(match);
     db.getOrganisation(match.params.organisationId).then(
       ({ name, hoursGenerated }) => {
         this.setState({ name, hoursGenerated, loading: false });
-        console.log(this.state);
       }
     );
   }
 
   render() {
-    return (
+    const match = this.props.match;
+    const organisationId = match.params.organisationId;
+
+    return <Fragment>
       <LoadingCardView
         loading={this.state.loading}
         header={this.state.name || ""}
@@ -41,7 +43,8 @@ class OrganisationPage extends React.Component {
           </Fragment>
         }
       />
-    );
+      <OrganisationFeed orgId={organisationId} />
+    </Fragment>;
   }
 }
 

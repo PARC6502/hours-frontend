@@ -25,12 +25,12 @@ Aswell as increasing the total evidence base for Mutual Aid and voluntary labor.
     text: (
       <Fragment>
         <Header content="Help people" size="small" />
-        Help people in your community.
+        <p>Help people in your community.</p>
         <Header content="Post your impact" size="small" />
-        Post your impact on the newsfeed.
+        <p>Post your impact on the newsfeed.</p>
         <Header content="Evidence impact." size="small" />
-        We hope this tool will provide an easy framework for mutualist groups to
-        achieve support for their work.
+        <p>We hope this tool will provide an easy framework for mutualist groups to
+        achieve support for their work.</p>
       </Fragment>
     ),
 
@@ -62,14 +62,17 @@ Aswell as increasing the total evidence base for Mutual Aid and voluntary labor.
     text: (
       <Fragment>
         <Header content="Who is making this" size="small" />
-        This system is designed by members of the National Food Service
-        campaign, a grassroots network to end food insecurity in the U.K. We are
-        looking for more contributors, so if you would like to help build this
-        app or for more information visit the
-        <a href="https://www.nationalfoodservice.uk/">
+        <p>
+          This system is designed by members of the National Food Service
+          campaign, a grassroots network to end food insecurity in the U.K. We are
+          looking for more contributors, so if you would like to help build this
+          app or for more information visit the
           {" "}
-          National Food Service website
-        </a>
+          <a href="https://www.nationalfoodservice.uk/">
+
+            National Food Service website
+          </a>
+        </p>
       </Fragment>
     ),
 
@@ -109,6 +112,7 @@ class InfoGallery extends Component {
   render() {
     const { panes } = this.props;
     const { activeIndex } = this.state;
+    const pane = panes[ activeIndex ];
     return (
       <Grid
         as={Swipeable}
@@ -121,11 +125,11 @@ class InfoGallery extends Component {
             <Button basic icon="chevron left" onClick={this.onLeftClick} />
           </Grid.Column>
           <Grid.Column width={6} stretched>
-            <Header content={panes[activeIndex].header} size="huge" />
-            <p>{panes[activeIndex].text}</p>
+            <Header content={pane.header} size="huge" />
+            {typeof pane.text === 'string' ? <p>{ pane.text }</p> : pane.text}
           </Grid.Column>
           <Grid.Column width={6} verticalAlign="middle">
-            <Image src={panes[activeIndex].image} />
+            <Image src={pane.image} />
           </Grid.Column>
           <Grid.Column width={2} verticalAlign="middle" only="computer">
             <Button basic icon="chevron right" onClick={this.onRightClick} />
