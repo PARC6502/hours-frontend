@@ -4,7 +4,7 @@ import AuthUserContext from './AuthUserContext';
 import { firebase } from '../../firebase';
 
 // higher order component
-const withAuthentication = (Component) => 
+const withAuthentication = (Component) =>
     class WithAuthentication extends React.Component {
         state = {
             id: null,
@@ -16,8 +16,6 @@ const withAuthentication = (Component) =>
                 user
                     ? this.setState(() => ({ id: user.uid, email: user.email}))
                     : this.setState(() => ({ id: null, email: null }))
-                console.log("User state:");
-                console.log(this.state); 
             })
         }
 

@@ -69,9 +69,9 @@ const AuthMenuItems = props => {
       <Menu.Item as={NavLink} to={routes.ADD_HRS}>
         Log impact
       </Menu.Item>
-      <Menu.Item as={NavLink} to={routes.SEND_HRS}>
+      { /* <Menu.Item as={NavLink} to={routes.SEND_HRS}>
         Send{" "}
-      </Menu.Item>
+      </Menu.Item> */ }
       <Menu.Item as={NavLink} to={routes.PROFILE}>
         Your Profile
       </Menu.Item>

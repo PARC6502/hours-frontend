@@ -50,15 +50,18 @@ export const requestTokens = (fromOrg, requester, details) => {
     const request = {
         fromId: fromOrg.id,
         fromName: fromOrg.name,
+        fromPhoto: fromOrg.photo || '',
         requesterId: requester.id,
         requesterName: requester.name,
+        requesterPhoto: requester.photo || '',
         tokens: details.loggedHours,
         meals: details.mealsProvided,
         description: details.description,
+        photo: details.photo || '',
         dateOfLabour: details.dateOfLabour,
         dateCreated: Date.now(),
     }
-    batch.set(requestRef, request);
+    batch.set( requestRef, request );
 
     const eventType = 'REQUEST_TOKENS';
     const tokenEvent = makeTokenEvent(eventType, { fromOrg, requester, ...details });
