@@ -17,11 +17,13 @@ import SignInPage from './SignInPage';
 import SignUpPage from './SignUpPage';
 import ManageAccount from './ManageAccount';
 import ProfilePage from './ProfilePage';
+import ProfileEditPage from './ProfileEditPage';
 
 import OrganisationPage from './InfoPages/OrganisationPage';
 import UserPage from './InfoPages/UserPage';
 
 import AddOrganisation from './Admin/AddOrganisation';
+import EditOrganisation from './Admin/EditOrganisation';
 import ManageRequests from './Admin/ManageRequests';
 import AdminPage from './Admin/AdminPage';
 
@@ -45,11 +47,13 @@ const App = (props) => {
 						<Route exact path={routes.ADD_HRS} component={TimeLoggingForm} />
 						<Route exact path={routes.SEND_HRS} component={SendHrsForm} />
 						<Route exact path={routes.MANAGE_ACCOUNT} component={ManageAccount} />
-						<Route exact path={routes.PROFILE} component={ProfilePage} />
+						<Route exact path={routes.PROFILE} component={ ProfilePage } />
+						<Route exact path={routes.PROFILE_EDIT} component={ProfileEditPage} />
 						<Route exact path={routes.USER_PAGE} component={UserPage} />
 						<Route exact path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
 						<Route exact path={routes.ADMIN_PAGE} component={AdminPage} />
 						<Route exact path={routes.ADMIN_ADD_ORGANISATION} component={AddOrganisation} />
+						<Route exact path={routes.ADMIN_EDIT_ORGANISATION} component={EditOrganisation} />
 						<Route exact path={routes.ADMIN_MANAGE_REQUESTS} component={ManageRequests} />
 						<Route render={({ location }) => {
 							// console.log(location);

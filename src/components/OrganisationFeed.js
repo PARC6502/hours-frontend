@@ -1,36 +1,10 @@
 import React, { Component } from 'react';
-import { Feed, Segment, Dimmer, Loader, Image, Grid } from 'semantic-ui-react';
+import { Dimmer, Loader, Grid } from 'semantic-ui-react';
+
+import ActivityFeed from './ActivityFeed';
 
 import { eventLogMapper } from '../helpers'
 import { db } from '../firebase';
-
-import jennySmall from '../jennySmall.jpg';
-import elliotSmall from '../elliotSmall.jpg';
-import helenSmall from '../helenSmall.jpg';
-import joeSmall from '../joeSmall.jpg';
-
-const imageArray = [jennySmall, elliotSmall, helenSmall, joeSmall]
-
-const FeedFromArray = (props) => (
-    <Feed id="eventFeed">
-        {props.feedItems.map(feedItem =>
-        <Feed.Event key={feedItem.id}>
-            <Feed.Label className='middle aligned'><Image src={imageArray[Math.floor(Math.random() * imageArray.length)]} verticalAlign='middle' /></Feed.Label>
-            <Feed.Content>
-                <Segment className="feed item" raised>
-                    <Feed.Summary>
-                        {feedItem.summary}
-                        <Feed.Date>{feedItem.date} ago</Feed.Date>
-                    </Feed.Summary>
-                    <Feed.Extra text>
-                        {feedItem.extra}
-                    </Feed.Extra>
-                </Segment>
-            </Feed.Content>
-        </Feed.Event>)
-        }
-    </Feed>
-);
 
 class OrganisationFeed extends Component {
     state = {
@@ -55,10 +29,10 @@ class OrganisationFeed extends Component {
         return (
             <Grid centered container columns={2} stackable id="eventFeedContainer">
                 <Grid.Column>
-                    <Dimmer active={this.state.loading}>
-                        <Loader content="loading" />
+                    <Dimmer inverted active={this.state.loading}>
+                        <Loader inverted content="loading" />
                     </Dimmer>
-                    <FeedFromArray feedItems={feedItems} />
+                    <ActivityFeed items={feedItems} />
                 </Grid.Column>
             </Grid>
         );

@@ -4,19 +4,27 @@ import { Grid, Button } from "semantic-ui-react";
 
 import withAuthorization from "../Session/withAuthorization";
 import * as routes from "../../constants/routes";
+import ManageOrganisations from './ManageOrganisations';
 
 const AdminPage = () => (
-  <Grid padded>
-    <Grid.Row>
-      <Button as={Link} to={routes.ADMIN_ADD_ORGANISATION}>
-        Add Organisation
-      </Button>
-    </Grid.Row>
-    <Grid.Row>
-      <Button as={Link} to={routes.ADMIN_MANAGE_REQUESTS}>
-        Manage token requests
-      </Button>
-    </Grid.Row>
+  <Grid padded columns={2}>
+    <Grid.Column>
+      <Grid.Row>
+        <Button primary as={Link} to={routes.ADMIN_ADD_ORGANISATION}>
+          Add Organisation
+        </Button>
+      </Grid.Row>
+      <Grid.Row>
+        <ManageOrganisations />
+      </Grid.Row>
+    </Grid.Column>
+    <Grid.Column>
+      <Grid.Row>
+        <Button primary as={Link} to={routes.ADMIN_MANAGE_REQUESTS}>
+          Manage token requests
+        </Button>
+      </Grid.Row>
+    </Grid.Column>
   </Grid>
 );
 

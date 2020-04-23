@@ -54,6 +54,9 @@ const eventLogMapper = {
     const hours = details.tokens;
     const meals = details.meals;
     const description = details.description;
+    const userPhoto = details.requesterPhoto || null;
+    const orgPhoto = details.fromPhoto || null;
+    const photo = details.photo || null;
     const contributorLink = (
       <Link to={`/user/${details.requesterId}`}>{details.requesterName}</Link>
     );
@@ -62,6 +65,9 @@ const eventLogMapper = {
     );
     return {
       id,
+      photo,
+      userPhoto,
+      orgPhoto,
       summary: (
         <Fragment>
           { contributorLink } helped { hours } people
@@ -81,6 +87,9 @@ const eventLogMapper = {
     const hours = details.loggedHours;
     const meals = details.mealsProvided;
     const description = details.description;
+    const photo = details.photo;
+    const orgPhoto = details.fromOrg.photo;
+    const userPhoto = details.requester.photo;
     const contributorLink = (
       <Link to={`/user/${details.requester.id}`}>{details.requester.name}</Link>
     );
@@ -91,6 +100,9 @@ const eventLogMapper = {
     );
     return {
       id,
+      photo,
+      orgPhoto,
+      userPhoto,
       summary: (
         <Fragment>
           { contributorLink } helped { hours } people
@@ -107,7 +119,25 @@ const eventLogMapper = {
   }
 };
 
+const getImageSize = ( image, size ) => {
+  if ( !image ) {
+    return null;
+  }
+
+  const sizes = {
+    square_sm: '200x200',
+    square_md: '400x400',
+    letter_md: '600x400',
+    letter_lg: '1200x800',
+  }
+
+  const sizeString = sizes[ size ] || sizes.letter_lg;
+
+  return image.replace( /(\.(jpe?g|png|gif|tiff|bmp))/, `_${ sizeString }$1` );
+}
+
 export {
   timeSince,
-  eventLogMapper
+  eventLogMapper,
+  getImageSize,
 }
