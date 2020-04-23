@@ -12,8 +12,9 @@ The project is under development at Foodhall, a grassroots community project bas
 
 ## Getting involved
 
-We warmly welcome participants.
+We warmly welcome new participants.
 
+- Please get in touch with us at [info@nationalfoodservice.uk](mailto:info@nationalfoodservice.uk)
 - User stories are on [this Trello board](https://trello.com/b/6yiDv1ZW/mutual-impact)
 - We discuss development on the [National Food Service Slack](national-food-service.slack.com)
 - If you're new to development in general, or React in particular, we can set you up with some scaffolded tasks to get started.
