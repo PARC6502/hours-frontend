@@ -48,6 +48,7 @@ const NonAuthMenuItems = () => (
     <Menu.Item as={NavLink} to={routes.SIGN_IN}>
       Sign in
     </Menu.Item>
+    <Menu.Item as={NavLink} to={routes.ABOUT_PAGE}>About</Menu.Item>
     <Menu.Item position="right" fitted>
       <NavLink to={ routes.SIGN_UP } >
         <Button fluid primary>
