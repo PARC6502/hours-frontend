@@ -1,11 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-# Hours
+# Mutual Impact
 
 ## Intro
 
-A react web application, in the early stages of development, that will allow users to log time spent contributing to community projects and charities and then exchange those hours for between each other or for goods and services.
+A react web application, in the early stages of development, that will allow users to log impact and contributions to community projects. Eventually the goal is to implement a system that enables bodies and funders to more easily support communities in relation to the people they have helped.
 
-Eventually the goal is to implement this as a cryptocurrency of sorts with smart contracts, maybe using some proof stake systems.
-
-The project is under development at Foodhall, a grassroots community project based in Sheffield.
+The project is under development as part of a National Food Service campaign, grassroots community projects across the country trying to solve food insecurity.

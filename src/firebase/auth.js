@@ -1,4 +1,4 @@
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 
 // Sign In
 export const doSignInWithEmailAndPassword = (email, password) =>
@@ -15,11 +15,23 @@ export const doCreateUserWithEmailAndPassword = (email, password) =>
     // .then(signUpResult => {
     //     db.createUser(signUpResult.uid)
     //     return signUpResult
-    // })    
+    // })
 
 // Change email
 export const doUpdateEmail = (email) =>
     auth.currentUser.updateEmail(email)
-    
-export const getCurrentUserId = () => 
+
+export const getCurrentUserId = () =>
     auth.currentUser.uid
+
+export const doUpdateProfile = ( profile ) => {
+    return db.runTransaction(async (transaction) => {
+        const requesterRef = db.collection('users').doc(getCurrentUserId());
+        const requesterDoc = await transaction.get(requesterRef);
+        if(!requesterDoc.exists) throw Error('User does not exist')
+        await transaction.update(requesterRef, profile);
+    })
+}
+
+export const doUpdatePassword = ( password ) =>
+    auth.currentUser.updatePassword( password );

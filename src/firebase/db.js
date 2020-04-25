@@ -1,14 +1,13 @@
 import { db } from './firebase';
 
-const settings = {timestampsInSnapshots: true};
-db.settings(settings);
-
 /* User Functions */
 export const createUser = (id, name, email) => {
     return db.collection("users").doc(id).set({
         name,
         email,
         hours: 0,
+        meals: 0,
+        photo: null,
     })
 }
 export const getUsers = () =>
@@ -16,12 +15,14 @@ export const getUsers = () =>
     .then(function(querySnapshot) {
         var users = [];
         querySnapshot.forEach(doc => {
-            var {hours, name, email} = doc.data();
+            var {hours, name, email, meals, photo} = doc.data();
             users.push({
                 id: doc.id,
                 name,
                 email,
                 hours,
+                meals,
+                photo,
             });
         });
         return users;
@@ -44,7 +45,7 @@ function updateHoursTransaction(transaction, userRef, amount) {
         var newHours = userDoc.data().hours + Number(amount);
         return transaction.update(userRef, { hours: newHours });
     })
-}   
+}
 
 
 export const logHours = (id, amount) => {
@@ -59,11 +60,14 @@ export const getOrganisations = () =>
     .then(function(querySnapshot) {
         var orgs = [];
         querySnapshot.forEach(doc => {
-            var {name, hoursGenerated} = doc.data();
+            var {name, description, hoursGenerated, mealsProvided, photo} = doc.data();
             orgs.push({
                 id: doc.id,
                 name,
+                description,
                 hoursGenerated,
+                mealsProvided,
+                photo,
             });
         });
         return orgs;
@@ -89,7 +93,7 @@ function updateOrgsHoursGenerateTransaction(transaction, orgRef, amount) {
 }
 export const updateDistributedHoursForOrg = (id, amount) => {
     const orgRef = db.collection("organisations").doc(id);
-    return db.runTransaction(transaction => 
+    return db.runTransaction(transaction =>
         updateOrgsHoursGenerateTransaction(transaction, orgRef, amount));
 }
 
@@ -121,21 +125,35 @@ export const getTransactions = () =>
         return transactions;
     });
 
-export const getEventLog = () =>
-    db.collection('event-log').orderBy("dateCreated", "desc").get()
-    .then(querySnapshot => querySnapshot.docs)
-    .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))
+export const getEventLog = ( type = null, limit = 100 ) => {
+    const collection = db.collection( 'event-log' )
+        .orderBy( "dateCreated", "desc" )
 
-export const getEventLogForUser = (userId) => {
-    return db.collection('event-log').orderBy("dateCreated", "desc").get()
-    .then(querySnapshot => querySnapshot.docs)
-    .then(docs => docs.map(doc => ({ docId: doc.id, ...doc.data() })))
+    if ( type ) {
+        collection.where( 'type', '==', type );
+    }
+
+    return collection.get()
+        .then( querySnapshot => querySnapshot.docs )
+        .then( docs => docs.map( doc => ( { docId: doc.id, ...doc.data() } ) ) )
+}
+
+export const getEventLogForUser = (userId, type = null) => {
+    return getEventLog(type)
     .then(docs => docs.filter(doc =>
         (doc.details.requesterId === userId)
         || (doc.details.requester && doc.details.requester.id === userId)
         || (doc.details.to && doc.details.to.id === userId)
-        || (doc.details.from && doc.details.from.id === userId)     
+        || (doc.details.from && doc.details.from.id === userId)
     ))
     .catch(console.error);
 }
-    
+
+export const getEventLogForOrganisation = (orgId, type = null) => {
+    return getEventLog(type)
+    .then(docs => docs.filter(doc =>
+        (doc.details.fromId === orgId)
+        || (doc.details.fromOrg && doc.details.fromOrg.id === orgId)
+    ))
+    .catch(console.error);
+}

@@ -6,8 +6,7 @@ import ActivityFeed from './ActivityFeed';
 import { eventLogMapper } from '../helpers'
 import { db } from '../firebase';
 
-
-class PersonalFeed extends Component {
+class OrganisationFeed extends Component {
     state = {
         feedItems: [],
         loading: true
@@ -15,7 +14,7 @@ class PersonalFeed extends Component {
 
     componentDidMount() {
         let feedItems = [];
-        db.getEventLogForUser(this.props.userId)
+        db.getEventLogForOrganisation(this.props.orgId)
         .then(events => events.filter(event => event.type === 'APPROVE_TOKENS' || event.type === 'SEND_TOKENS' || event.type === 'REQUEST_TOKENS'))
         .then(events => {
             feedItems = events.map(event => eventLogMapper[event.type](event))
@@ -40,4 +39,4 @@ class PersonalFeed extends Component {
     }
 }
 
-export default PersonalFeed
+export default OrganisationFeed
