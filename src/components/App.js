@@ -40,20 +40,20 @@ const App = (props) => {
 				<InfoModal />
 				<Container style={{ marginTop: '4.5rem' }}>
 					<Switch>
-						<Route exact path={routes.HOME_PAGE} component={HomePage} />
-						<Route exact path={routes.SIGN_IN} component={SignInPage} />
-						<Route exact path={routes.SIGN_UP} component={SignUpPage} />
-						<Route exact path={routes.ADD_HRS} component={TimeLoggingForm} />
-						<Route exact path={routes.SEND_HRS} component={SendHrsForm} />
-						<Route exact path={routes.MANAGE_ACCOUNT} component={ManageAccount} />
-						<Route exact path={routes.PROFILE} component={ProfilePage} />
-						<Route exact path={routes.USER_PAGE} component={UserPage} />
-						<Route exact path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
+            <Route exact path={routes.HOME_PAGE} component={HomePage} />
+            <Route exact path={routes.SIGN_IN} component={SignInPage} />
+            <Route exact path={routes.SIGN_UP} component={SignUpPage} />
+            <Route exact path={routes.ADD_HRS} component={TimeLoggingForm} />
+            <Route exact path={routes.SEND_HRS} component={SendHrsForm} />
+            <Route exact path={routes.MANAGE_ACCOUNT} component={ManageAccount} />
+            <Route exact path={routes.PROFILE} component={ProfilePage} />
+            <Route exact path={routes.USER_PAGE} component={UserPage} />
+            <Route exact path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
             <Route exact path={routes.ABOUT_PAGE} component={AboutPage} />
-						<Route exact path={routes.ADMIN_PAGE} component={AdminPage} />
-						<Route exact path={routes.ADMIN_ADD_ORGANISATION} component={AddOrganisation} />
-						<Route exact path={routes.ADMIN_MANAGE_REQUESTS} component={ManageRequests} />
-						<Route render={({ location }) => {
+            <Route exact path={routes.ADMIN_PAGE} component={AdminPage} />
+            <Route exact path={routes.ADMIN_ADD_ORGANISATION} component={AddOrganisation} />
+            <Route exact path={routes.ADMIN_MANAGE_REQUESTS} component={ManageRequests} />
+            <Route render={({ location }) => {
 							// console.log(location);
 							return (
 							<h1>404! {location.pathname} not found!</h1>
