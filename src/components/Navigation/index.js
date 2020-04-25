@@ -45,8 +45,8 @@ import * as routes from '../../constants/routes';
 const NonAuthMenuItems = () =>
     <Fragment>
         <Menu.Item exact as={NavLink} to={routes.HOME_PAGE}>Homepage</Menu.Item>
-        <Menu.Item as={NavLink} to={routes.SIGN_IN}>Sign in</Menu.Item> 
         <Menu.Item as={NavLink} to={routes.ABOUT_PAGE}>About</Menu.Item>
+        <Menu.Item as={NavLink} to={routes.SIGN_IN}>Sign in</Menu.Item>
         <Menu.Item position='right' fitted>
             <Button as={NavLink} to={routes.SIGN_UP} fluid primary>Sign up</Button>
         </Menu.Item>
