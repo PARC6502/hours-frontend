@@ -12,6 +12,7 @@ import InfoModal from './InfoModal';
 
 import TimeLoggingForm from './TimeLoggingForm';
 import SendHrsForm from './SendHrsForm';
+import AboutPage from './AboutPage';
 import HomePage from './HomePage';
 import SignInPage from './SignInPage';
 import SignUpPage from './SignUpPage';
@@ -48,6 +49,7 @@ const App = (props) => {
 						<Route exact path={routes.SEND_HRS} component={SendHrsForm} />
 						<Route exact path={routes.MANAGE_ACCOUNT} component={ManageAccount} />
 						<Route exact path={routes.PROFILE} component={ ProfilePage } />
+						<Route exact path={routes.ABOUT_PAGE} component={AboutPage} />
 						<Route exact path={routes.PROFILE_EDIT} component={ProfileEditPage} />
 						<Route exact path={routes.USER_PAGE} component={UserPage} />
 						<Route exact path={routes.ORGANISATION_PAGE} component={OrganisationPage} />
