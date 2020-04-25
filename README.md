@@ -9,10 +9,6 @@ A react web application, in the early stages of development, that will allow use
 
 The project is under development as part of a National Food Service campaign, grassroots community projects across the country trying to solve food insecurity.
 
-Eventually the goal is to implement this as a cryptocurrency of sorts with smart contracts, maybe using some proof stake systems.
-
-The project is under development at Foodhall, a grassroots community project based in Sheffield.
-
 ## Getting involved
 
 We warmly welcome new participants.
