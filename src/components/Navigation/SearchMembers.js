@@ -28,7 +28,7 @@ class SearchMembers extends Component {
             return db.getOrganisations();
         })
         .then(orgs => {
-            const orgsWithType = orgs.map(({ name, id }) => ({ title: name, value: id, description: 'Organisation' }))            
+            const orgsWithType = orgs.map(({ name, id }) => ({ title: name, value: id, description: 'Organisation' }))
             this.setState(prevState => {
                 const { members } = prevState;
                 members.push(...orgsWithType);
@@ -36,7 +36,7 @@ class SearchMembers extends Component {
             })
         })
     }
-    
+
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
 
     handleResultSelect = (e, { result }) => {
@@ -54,10 +54,10 @@ class SearchMembers extends Component {
 
         setTimeout(() => {
             if (this.state.value.length < 1) return this.resetComponent()
-      
+
             const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
             const isMatch = result => re.test(result.title)
-      
+
             this.setState({
               isLoading: false,
               results: _.filter(this.state.members, isMatch),
@@ -75,7 +75,7 @@ class SearchMembers extends Component {
                 onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
                 results={results}
                 value={value}
-                {...this.props}
+                className={this.props.className}
             />
         )
     }

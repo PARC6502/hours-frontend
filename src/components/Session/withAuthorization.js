@@ -17,7 +17,7 @@ const withAuthorization = (authCondition) => (Component) => {
             )
             if (!authCondition(user)) return <Redirect to={routes.HOME_PAGE} />
             return (
-                <Component />    
+                <Component {...this.props} />
             );
         }
     }

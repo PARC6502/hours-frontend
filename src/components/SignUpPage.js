@@ -20,20 +20,20 @@ class SignUpForm extends Component {
     ...INITIAL_STATE
   }
 
-  handleChange = (e, { name, value }) => {  
+  handleChange = (e, { name, value }) => {
     this.setState({ [name]: value });
   }
 
   isValid = () =>
-    this.state.email.length 
-    && this.state.password.length >= 6 
+    this.state.email.length
+    && this.state.password.length >= 6
     && this.state.password === this.state.confirmPassword
 
   onSubmit = event => {
     event.preventDefault();
 
     if (!this.isValid) return;
-    
+
     const { email, password, name } = this.state;
 
     auth.doCreateUserWithEmailAndPassword(email, password)
@@ -54,37 +54,37 @@ class SignUpForm extends Component {
     return (
       <Form onSubmit={this.onSubmit} error={this.state.error !== null}>
         <Form.Input
-          name="name" 
-          label="Name" 
+          name="name"
+          label="Name"
           placeholder="Sarah Khan"
           value={this.state.name}
-          onChange={this.handleChange} 
+          onChange={this.handleChange}
           />
         <Form.Input
-          name="email" 
+          name="email"
           label="Email"
-          placeholder="example@gmail.com" 
+          placeholder="example@gmail.com"
           value={this.state.email}
-          onChange={this.handleChange} 
+          onChange={this.handleChange}
           />
         <Popup
           trigger={<Form.Input
-            name="password" 
-            label="Password" 
-            type="password" 
+            name="password"
+            label="Password"
+            type="password"
             value={this.state.password}
             onChange={this.handleChange} />
-          } 
+          }
           content="Password must be greater than 6 characters"
           on="focus"
           position="right center" />
-        <Form.Input 
+        <Form.Input
           name="confirmPassword"
-          label="Confirm Password" 
-          type="password" 
-          value={this.state.confirmPassword} 
+          label="Confirm Password"
+          type="password"
+          value={this.state.confirmPassword}
           onChange={this.handleChange} />
-        
+
         <Message
           error
           header="Form Error"
@@ -96,11 +96,13 @@ class SignUpForm extends Component {
   }
 }
 
-const SignUpPage = () => 
+const SignUpPage = () =>
   <Fragment>
     <SignUpForm />
     <Divider horizontal>Or</Divider>
-    <Button as={NavLink} to={routes.SIGN_IN} fluid color='green'>Already have an account? Sign In</Button>
+    <NavLink to={ routes.SIGN_IN }>
+      <Button fluid color='green'>Already have an account? Sign In</Button>
+    </NavLink>
   </Fragment>
 
 const authCondition = (user) => user.id === null;

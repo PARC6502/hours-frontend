@@ -11,10 +11,9 @@ class AddOrganisation extends Component {
         error: null,
         success: null,
     }
-    
+
     onSubmit = e => {
         e.preventDefault();
-        // console.log(this.state);
         const { name, description } = this.state;
         admin.createOrganisation(name,description)
         .then(success => {
@@ -27,7 +26,7 @@ class AddOrganisation extends Component {
         .catch(error => this.setState({ error }))
     }
 
-    handleChange = (e, { name, value }) => {  
+    handleChange = (e, { name, value }) => {
         this.setState({ [name]: value });
     }
 
@@ -43,7 +42,7 @@ class AddOrganisation extends Component {
                     content={this.state.error ? this.state.error.message : ''} />
                 <Message success header='Form Completed' content={this.state.success || ''} />
             </Form>
-        );  
+        );
     }
 }
 

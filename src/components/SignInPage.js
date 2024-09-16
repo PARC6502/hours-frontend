@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Form, Button, Divider } from 'semantic-ui-react';
+import { Form, Button, Divider, Message } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
 import withAuthorization from './Session/withAuthorization';
@@ -18,12 +18,12 @@ class SignInForm extends Component {
     ...INITIAL_STATE
   }
 
-  handleChange = (e, { name, value }) => {  
-    this.setState({ [name]: value });
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value, error: null });
   }
 
   validate = () =>
-    this.state.email.length 
+    this.state.email.length
     && this.state.password.length
 
   onSubmit = (event) => {
@@ -31,36 +31,45 @@ class SignInForm extends Component {
 
     const { email, password } = this.state;
 
-    auth.doSignInWithEmailAndPassword(email, password)
-    .then(() => this.setState({...INITIAL_STATE}))
+    auth.doSignInWithEmailAndPassword( email, password )
+      .then( () => this.setState( { ...INITIAL_STATE } ) )
+      .catch( error => this.setState( { error } ) )
   }
 
   render() {
     return (
-      <Form onSubmit={this.onSubmit}>
+      <Form onSubmit={ this.onSubmit }>
+        { this.state.error && (
+          <Message negative>
+            <Message.Header>There was a problem logging in</Message.Header>
+            <p>{ this.state.error.message }</p>
+          </Message>
+        ) }
         <Form.Input
-          name="email" 
+          name="email"
           label="Email"
-          placeholder="example@gmail.com" 
+          placeholder="example@gmail.com"
           value={this.state.email}
-          onChange={this.handleChange} 
+          onChange={this.handleChange}
           />
         <Form.Input
-          name="password" 
-          label="Password" 
-          type="password" 
+          name="password"
+          label="Password"
+          type="password"
           value={this.state.password}
           onChange={this.handleChange} />
         <Form.Button color='green' fluid disabled={!this.validate()}>Sign In</Form.Button>
         <Divider horizontal>Or</Divider>
-        <Button as={NavLink} to={routes.SIGN_UP} fluid primary>Don't have an account? Sign Up</Button>
+        <NavLink to={ routes.SIGN_UP }>
+          <Button fluid primary>Don't have an account? Sign Up</Button>
+        </NavLink>
 
       </Form>
     );
   }
 }
 
-const SignInPage = () => 
+const SignInPage = () =>
   <Fragment>
     <SignInForm />
   </Fragment>
